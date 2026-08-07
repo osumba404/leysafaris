@@ -33,25 +33,34 @@ The platform is designed as a **modern web application** (responsive, mobile-fir
 
 | Layer | Status |
 |-------|--------|
-| MVP landing page (static) | Implemented |
-| Package detail pages | Planned |
-| Destinations hub | Planned |
-| Admin CMS / dashboard | Planned |
-| Customer accounts | Planned |
+| Laravel platform (`leysafaris/`) | Implemented |
+| Database migrations (16 total) | Run |
+| Platform seeder | Seeded |
+| Public website (Blade) | Live |
+| Admin CMS / dashboard | Live |
+| Customer accounts | Live (basic) |
 | Online payments | Planned |
 | Live availability | Planned |
 
-The landing page is **informational only** — no backend logic, no CMS, no live booking. It previews brand, trust signals, itinerary transparency, and enquiry UX ahead of full platform build-out.
+**XAMPP URL:** `http://localhost/leysafaris/leysafaris/public/`
 
-**Local preview:** `http://localhost/leysafaris/` (XAMPP)
+**Admin login:** `admin@leylasafaritours.com` / `password`
+
+The original static landing page remains at the repo root (`index.html`) as a reference preview.
+
+### Laravel app structure
 
 ```
-leysafaris/
-├── index.html          # MVP landing page
-├── css/style.css       # Design system + components
-├── js/main.js          # Nav, accordions, form validation
-├── images/             # Safari photography assets
-└── README.md
+leysafaris/leysafaris/
+├── app/
+│   ├── Http/Controllers/     # Public, Admin, Auth, Customer
+│   ├── Http/Middleware/      # EnsureAdmin
+│   └── Models/               # Package, Destination, Enquiry, etc.
+├── database/migrations/      # 13 platform migrations + 3 Laravel defaults
+├── database/seeders/         # PlatformSeeder
+├── resources/views/          # Public + admin Blade templates
+├── routes/web.php
+└── public/                   # css, js, images (safari assets)
 ```
 
 ---
