@@ -5,6 +5,7 @@ deployment:
     - export APPPATH=/home2/leylasaf/leysafaris/leysafaris
     # Copy Laravel public/ into document root (public/. includes .htaccess)
     - /bin/cp -R leysafaris/public/. $DEPLOYPATH/
+    - /bin/cp leysafaris/public/css/admin.css $DEPLOYPATH/css/admin.css
     # Backup: ensure .htaccess exists even if hidden-file copy fails on host
     - /bin/cp leysafaris/public/htaccess.txt $DEPLOYPATH/.htaccess
     # Sync application code (vendor + .env stay on server)
