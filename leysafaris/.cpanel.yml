@@ -2,4 +2,8 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home2/leylasaf/public_html
-    - /bin/cp -R public/* $DEPLOYPATH
+    - export APPPATH=/home2/leylasaf/leysafaris/leysafaris
+    # public/* skips dotfiles — use public/. to include .htaccess
+    - /bin/cp -R public/. $DEPLOYPATH/
+    - /bin/cp -R app bootstrap config database resources routes artisan composer.json composer.lock $APPPATH/
+    - cd $APPPATH && php artisan config:clear && php artisan route:clear && php artisan view:clear
