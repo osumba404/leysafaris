@@ -1,0 +1,12 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home2/leylasaf/public_html
+    - export APPPATH=/home2/leylasaf/leysafaris/leysafaris
+    # Copy Laravel public/ into document root (public/. includes .htaccess)
+    - /bin/cp -R leysafaris/public/. $DEPLOYPATH/
+    # Backup: ensure .htaccess exists even if hidden-file copy fails on host
+    - /bin/cp leysafaris/public/htaccess.txt $DEPLOYPATH/.htaccess
+    # Sync application code (vendor + .env stay on server)
+    - /bin/cp -R leysafaris/app leysafaris/bootstrap leysafaris/config leysafaris/database leysafaris/resources leysafaris/routes leysafaris/artisan leysafaris/composer.json leysafaris/composer.lock $APPPATH/
+    - cd $APPPATH && php artisan config:clear && php artisan route:clear && php artisan view:clear
