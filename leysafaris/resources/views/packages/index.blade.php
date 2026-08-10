@@ -8,7 +8,7 @@
 @push('structured_data')
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
+  "@@context": "https://schema.org",
   "@type": "CollectionPage",
   "name": "Safari Packages | Leyla Safari Tours",
   "description": "Curated Kenya safari packages and East Africa wildlife tours.",
