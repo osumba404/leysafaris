@@ -1,12 +1,54 @@
 @extends('layouts.public')
 
-@section('title', $package->seo_title ?? ($package->title . ' | Leyla Safari Tours'))
-@section('meta_description', $package->seo_description ?? Str::limit($package->short_description ?? $package->tagline, 160))
+@section('title', $package->seo_title ?? ($package->title . ' Safari | ' . $package->duration_days . ' Days | Leyla Safari Tours'))
+@section('meta_description', $package->seo_description ?? Str::limit(strip_tags($package->short_description ?? $package->tagline ?? ''), 155))
+@section('meta_keywords', implode(', ', array_filter([$package->title, 'Kenya safari', $package->destinations->pluck('name')->join(', '), 'wildlife tour'])))
+@section('canonical', route('packages.show', $package->slug))
+@section('og_type', 'product')
+@section('og_image', asset($package->hero_image ?? 'images/savannah_sunset_tree.jpg'))
+
+@push('structured_data')
+@php
+    $tripSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'TouristTrip',
+        'name' => $package->title,
+        'description' => Str::limit(strip_tags($package->short_description ?? ''), 300),
+        'url' => route('packages.show', $package->slug),
+        'image' => asset($package->hero_image ?? 'images/savannah_sunset_tree.jpg'),
+        'itinerary' => [
+            '@type' => 'ItemList',
+            'numberOfItems' => $package->packageDays->count(),
+            'itemListElement' => $package->packageDays->values()->map(fn ($day, $i) => [
+                '@type' => 'ListItem',
+                'position' => $i + 1,
+                'name' => 'Day '.$day->day_number.': '.$day->title,
+            ])->all(),
+        ],
+    ];
+    if ($package->starting_price) {
+        $tripSchema['offers'] = [
+            '@type' => 'Offer',
+            'price' => (string) $package->starting_price,
+            'priceCurrency' => $package->currency ?? 'USD',
+            'availability' => 'https://schema.org/InStock',
+            'url' => route('contact'),
+        ];
+    }
+@endphp
+<script type="application/ld+json">{!! json_encode($tripSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
+@endpush
 
 @section('content')
     <section class="hero hero--compact" aria-labelledby="package-heading">
         <div class="hero__media">
-            <img src="{{ asset($package->hero_image ?? 'images/savannah_sunset_tree.jpg') }}" alt="{{ $package->title }}" fetchpriority="high">
+            <x-optimized-img
+                :src="$package->hero_image ?? 'images/savannah_sunset_tree.jpg'"
+                :alt="$package->title . ' — Kenya safari tour by Leyla Safari Tours'"
+                :width="1920"
+                :height="810"
+                :priority="true"
+            />
             <div class="hero__overlay"></div>
         </div>
         <div class="container hero__content">
@@ -79,7 +121,13 @@
                                     </button>
                                     <div class="accordion__panel" id="day-{{ $day->id }}" hidden>
                                         @if ($day->image)
-                                            <img src="{{ asset($day->image) }}" alt="Day {{ $day->day_number }}" style="width:100%;max-height:240px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:1rem;">
+                                            <x-lazy-img
+                                                :src="$day->image"
+                                                :alt="'Day ' . $day->day_number"
+                                                :width="800"
+                                                :height="240"
+                                                style="width:100%;max-height:240px;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:1rem;"
+                                            />
                                         @endif
                                         @if ($day->narrative)
                                             <p>{{ $day->narrative }}</p>
@@ -156,7 +204,12 @@
                                 <article class="safari-card">
                                     <a href="{{ route('packages.show', $related->slug) }}" style="color:inherit;">
                                         <div class="safari-card__image">
-                                            <img src="{{ asset($related->hero_image ?? 'images/savannah_sunset_tree.jpg') }}" alt="{{ $related->title }}" loading="lazy">
+                                            <x-lazy-img
+                                                :src="$related->hero_image ?? 'images/savannah_sunset_tree.jpg'"
+                                                :alt="$related->title"
+                                                :width="400"
+                                                :height="267"
+                                            />
                                         </div>
                                         <div class="safari-card__body">
                                             <h3 class="safari-card__title">{{ $related->title }}</h3>
@@ -200,7 +253,7 @@
     .hero--compact .hero__title { font-size: clamp(2rem, 5vw, 3.5rem); }
     .package-layout { padding-bottom: var(--space-xl); }
     .package-layout__inner { display: grid; grid-template-columns: 1fr 320px; gap: 2.5rem; align-items: start; }
-    .package-sidebar { position: sticky; top: calc(var(--header-height) + var(--trust-bar-height) + 1.5rem); }
+    .package-sidebar { position: sticky; top: calc(var(--header-height) + 1.5rem); }
     .package-cta { background: var(--color-white); border-radius: var(--radius-md); padding: 1.5rem; box-shadow: var(--shadow-md); border: 1px solid var(--color-mist); }
     .package-cta__price { text-align: center; margin-bottom: 1rem; }
     .package-cta__price span { display: block; font-size: 0.85rem; color: var(--color-text-muted); }

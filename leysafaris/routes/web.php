@@ -25,6 +25,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+
 Route::get('/safaris', [PackageController::class, 'index'])->name('packages.index');
 Route::get('/safaris/{slug}', [PackageController::class, 'show'])->name('packages.show');
 

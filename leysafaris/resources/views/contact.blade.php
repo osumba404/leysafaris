@@ -1,6 +1,20 @@
 @extends('layouts.public')
 
-@section('title', 'Contact Us | Leyla Safari Tours')
+@section('title', 'Plan Your Safari | Contact Leyla Safari Tours | Request a Quote')
+@section('meta_description', 'Request a personalised Kenya safari quote from Leyla Safari Tours. Tell us your dates, group size and destinations — expert Nairobi team responds via email or WhatsApp.')
+@section('canonical', route('contact'))
+
+@push('structured_data')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact Leyla Safari Tours",
+  "url": "{{ route('contact') }}",
+  "description": "Request a safari quote or ask our Nairobi team about Kenya and East Africa tours."
+}
+</script>
+@endpush
 
 @section('content')
     @php
@@ -8,7 +22,7 @@
         $selectedPackage = $selectedPackageId ? \App\Models\Package::published()->find($selectedPackageId) : null;
     @endphp
 
-    <section class="section inquiry" style="padding-top: calc(var(--header-height) + var(--trust-bar-height) + 2rem);">
+    <section class="section inquiry page-top">
         <div class="container inquiry__inner">
             <div class="inquiry__intro">
                 <span class="section-header__label">Get in Touch</span>

@@ -16,16 +16,18 @@
     $address = is_string($settings['address'] ?? null) ? $settings['address'] : 'Westlands, Nairobi, Kenya';
 @endphp
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-KE">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="@yield('meta_description', 'Leyla Safari Tours — Authentic Kenyan safari experiences from Nairobi.')">
-    <title>@yield('title', $siteName)</title>
+    @include('partials.seo-head')
 
+    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="{{ asset('css/style.css') }}" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     @stack('styles')
@@ -63,32 +65,11 @@
         .nav__link.is-active { color: var(--color-savanna); }
     </style>
 
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
     <script src="{{ asset('js/main.js') }}" defer></script>
     @stack('scripts')
 </head>
 <body>
-
-    <div class="trust-bar" role="complementary" aria-label="Contact information">
-        <div class="container trust-bar__inner">
-            <a href="tel:{{ preg_replace('/\s+/', '', $phone) }}" class="trust-bar__item">
-                <i data-lucide="phone" aria-hidden="true"></i>
-                <span>{{ $phone }}</span>
-            </a>
-            <a href="https://wa.me/{{ $whatsappDigits }}" class="trust-bar__item" target="_blank" rel="noopener noreferrer">
-                <i data-lucide="message-circle" aria-hidden="true"></i>
-                <span>WhatsApp</span>
-            </a>
-            <a href="mailto:{{ $primaryEmail }}" class="trust-bar__item">
-                <i data-lucide="mail" aria-hidden="true"></i>
-                <span>{{ $primaryEmail }}</span>
-            </a>
-            <span class="trust-bar__item trust-bar__item--address">
-                <i data-lucide="map-pin" aria-hidden="true"></i>
-                <span>{{ $address }}</span>
-            </span>
-        </div>
-    </div>
 
     <header class="header" id="header">
         <div class="container header__inner">
@@ -126,7 +107,7 @@
 
     @include('partials.flash')
 
-    <main>
+    <main id="main-content">
         @yield('content')
     </main>
 
@@ -214,6 +195,7 @@
     <a href="https://wa.me/{{ $whatsappDigits }}" class="wa-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
         <i data-lucide="message-circle" aria-hidden="true"></i>
     </a>
+
 
 </body>
 </html>

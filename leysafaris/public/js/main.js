@@ -1,11 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-  lucide.createIcons();
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
 
   initMobileNav();
   initHeaderScroll();
   initAccordions();
   initInquiryForm();
   initSmoothScroll();
+  initLazySections();
 });
 
 function initMobileNav() {
@@ -19,7 +22,7 @@ function initMobileNav() {
     toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
 
     const icon = toggle.querySelector('[data-lucide]');
-    if (icon) {
+    if (icon && typeof lucide !== 'undefined') {
       icon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
       lucide.createIcons();
     }
@@ -31,7 +34,7 @@ function initMobileNav() {
       toggle.setAttribute('aria-expanded', 'false');
       toggle.setAttribute('aria-label', 'Open menu');
       const icon = toggle.querySelector('[data-lucide]');
-      if (icon) {
+      if (icon && typeof lucide !== 'undefined') {
         icon.setAttribute('data-lucide', 'menu');
         lucide.createIcons();
       }
@@ -43,8 +46,15 @@ function initHeaderScroll() {
   const header = document.getElementById('header');
   if (!header) return;
 
+  let ticking = false;
   const onScroll = () => {
-    header.classList.toggle('header--scrolled', window.scrollY > 20);
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        header.classList.toggle('header--scrolled', window.scrollY > 20);
+        ticking = false;
+      });
+      ticking = true;
+    }
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -117,4 +127,17 @@ function initSmoothScroll() {
       target.scrollIntoView({ behavior: 'smooth' });
     });
   });
+}
+
+function initLazySections() {
+  const gallery = document.querySelector('.gallery-strip');
+  if (gallery && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        gallery.classList.toggle('is-paused', !entry.isIntersecting);
+      },
+      { rootMargin: '100px' }
+    );
+    observer.observe(gallery);
+  }
 }

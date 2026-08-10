@@ -1,9 +1,12 @@
 @extends('layouts.public')
 
-@section('title', 'Safari Destinations | Leyla Safari Tours')
+@section('title', 'Safari Destinations in Kenya & East Africa | Leyla Safari Tours')
+@section('meta_description', 'Explore Kenya safari destinations — Maasai Mara, Amboseli, Samburu, Serengeti, Bwindi & Diani Beach. Best times to visit, wildlife highlights and linked safari packages.')
+@section('meta_keywords', 'Kenya safari destinations, Maasai Mara guide, Amboseli travel, Samburu safari, East Africa parks')
+@section('canonical', route('destinations.index'))
 
 @section('content')
-    <section class="section" style="padding-top: calc(var(--header-height) + var(--trust-bar-height) + 2rem);">
+    <section class="section page-top">
         <div class="container">
             <div class="section-header">
                 <span class="section-header__label">Explore Kenya</span>
@@ -15,7 +18,12 @@
                 @forelse ($destinations as $destination)
                     <a href="{{ route('destinations.show', $destination->slug) }}" class="destination-card">
                         <div class="destination-card__image">
-                            <img src="{{ asset($destination->hero_image ?? 'images/pond_view.jpg') }}" alt="{{ $destination->name }}" loading="lazy">
+                            <x-lazy-img
+                                :src="$destination->hero_image ?? 'images/pond_view.jpg'"
+                                :alt="$destination->name"
+                                :width="500"
+                                :height="333"
+                            />
                         </div>
                         <div class="destination-card__body">
                             <h2 class="destination-card__title">{{ $destination->name }}</h2>

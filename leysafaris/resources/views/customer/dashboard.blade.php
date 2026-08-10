@@ -1,9 +1,10 @@
 @extends('layouts.public')
 
 @section('title', 'My Account | Leyla Safari Tours')
+@section('meta_robots', 'noindex, nofollow')
 
 @section('content')
-    <section class="section" style="padding-top: calc(var(--header-height) + var(--trust-bar-height) + 2rem);">
+    <section class="section page-top">
         <div class="container">
             <div class="section-header" style="text-align: left; margin-bottom: 2rem;">
                 <span class="section-header__label">My Account</span>
@@ -38,7 +39,13 @@
                         @if ($item->package)
                             <div class="feature-card" style="margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center;">
                                 @if ($item->package->hero_image)
-                                    <img src="{{ asset($item->package->hero_image) }}" alt="" style="width: 80px; height: 60px; object-fit: cover; border-radius: var(--radius-sm);">
+                                    <x-lazy-img
+                                        :src="$item->package->hero_image"
+                                        alt=""
+                                        :width="80"
+                                        :height="60"
+                                        style="width: 80px; height: 60px; object-fit: cover; border-radius: var(--radius-sm);"
+                                    />
                                 @endif
                                 <div style="flex: 1;">
                                     <a href="{{ route('packages.show', $item->package->slug) }}" style="font-weight: 600;">{{ $item->package->title }}</a>

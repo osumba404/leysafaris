@@ -1,21 +1,59 @@
 @extends('layouts.public')
 
-@section('title', ($settings['site_name'] ?? 'Leyla Safari Tours') . ' | Authentic Kenyan Safari Experiences')
+@section('title', ($settings['site_name'] ?? 'Leyla Safari Tours') . ' | Premium Kenya Safari Tours & East Africa Travel')
+@section('meta_description', 'Book authentic Kenya safari tours with Leyla Safari Tours — Maasai Mara migration, Amboseli elephants, Samburu & custom East Africa itineraries. Nairobi-based experts. Request a quote.')
+@section('meta_keywords', 'Kenya safari tours, Maasai Mara safari, Amboseli tours, Nairobi safari company, East Africa travel, Leyla Safari Tours, wildlife safari Kenya, luxury safari packages')
+@section('canonical', route('home'))
+@section('og_type', 'website')
+@section('og_image', asset('images/savannah_sunset_tree.jpg'))
+
+@push('structured_data')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TravelAgency",
+      "@id": "{{ url('/') }}#organization",
+      "name": "Leyla Safari Tours",
+      "url": "{{ url('/') }}",
+      "logo": "{{ asset('images/savannah_sunset_tree.jpg') }}",
+      "image": "{{ asset('images/savannah_sunset_tree.jpg') }}",
+      "description": "Premium Kenya and East Africa safari tours from Nairobi — Maasai Mara, Amboseli, Samburu and tailor-made wildlife journeys.",
+      "telephone": "{{ $settings['phone'] ?? '+254712345678' }}",
+      "email": "info@leylasafaritours.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Nairobi",
+        "addressRegion": "Nairobi County",
+        "addressCountry": "KE"
+      },
+      "areaServed": ["Kenya", "Uganda", "Tanzania", "Rwanda"],
+      "priceRange": "$$$"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ url('/') }}#website",
+      "url": "{{ url('/') }}",
+      "name": "Leyla Safari Tours",
+      "publisher": { "@id": "{{ url('/') }}#organization" },
+      "inLanguage": "en-KE"
+    }
+  ]
+}
+</script>
+@endpush
 
 @section('content')
     <section class="hero" aria-labelledby="hero-heading">
         <div class="hero__media">
-            <picture>
-                <source srcset="{{ asset('images/savannah_sunset_tree.jpg') }}" type="image/jpeg">
-                <img
-                    src="{{ asset('images/savannah_sunset_tree.jpg') }}"
-                    alt="Golden sunset over the Kenyan savannah with acacia trees"
-                    width="1920"
-                    height="1080"
-                    fetchpriority="high"
-                    decoding="async"
-                >
-            </picture>
+            <x-optimized-img
+                src="images/savannah_sunset_tree.jpg"
+                alt="Golden sunset over the Kenyan savannah with acacia trees — Leyla Safari Tours"
+                :width="1920"
+                :height="1080"
+                :priority="true"
+            />
             <div class="hero__overlay"></div>
         </div>
         <div class="container hero__content">
@@ -85,11 +123,12 @@
                         <article class="safari-card">
                             <a href="{{ route('packages.show', $package->slug) }}" class="safari-card__link">
                                 <div class="safari-card__image">
-                                    @if ($package->hero_image)
-                                        <img src="{{ asset($package->hero_image) }}" alt="{{ $package->title }}" width="600" height="400" loading="lazy" decoding="async">
-                                    @else
-                                        <img src="{{ asset('images/savannah_sunset_tree.jpg') }}" alt="{{ $package->title }}" width="600" height="400" loading="lazy" decoding="async">
-                                    @endif
+                                    <x-lazy-img
+                                        :src="$package->hero_image ?? 'images/savannah_sunset_tree.jpg'"
+                                        :alt="$package->title . ' — Kenya safari tour'"
+                                        :width="600"
+                                        :height="400"
+                                    />
                                     @if ($package->is_featured)
                                         <span class="safari-card__badge">Signature</span>
                                     @endif
@@ -179,7 +218,12 @@
                     @foreach ($destinations as $destination)
                         <a href="{{ route('destinations.show', $destination->slug) }}" class="destination-card">
                             <div class="destination-card__image">
-                                <img src="{{ asset($destination->hero_image ?? 'images/pond_view.jpg') }}" alt="{{ $destination->name }}" loading="lazy">
+                                <x-lazy-img
+                                    :src="$destination->hero_image ?? 'images/pond_view.jpg'"
+                                    :alt="$destination->name . ' safari destination'"
+                                    :width="500"
+                                    :height="333"
+                                />
                             </div>
                             <div class="destination-card__body">
                                 <h3 class="destination-card__title">{{ $destination->name }}</h3>
@@ -208,7 +252,12 @@
                     @foreach ($annualEvents as $event)
                         <article class="safari-card">
                             <div class="safari-card__image">
-                                <img src="{{ asset($event->hero_image ?? 'images/hot_air_baloon_and_zebras.jpg') }}" alt="{{ $event->title }}" loading="lazy">
+                                <x-lazy-img
+                                    :src="$event->hero_image ?? 'images/hot_air_baloon_and_zebras.jpg'"
+                                    :alt="$event->title"
+                                    :width="600"
+                                    :height="400"
+                                />
                             </div>
                             <div class="safari-card__body">
                                 <h3 class="safari-card__title">{{ $event->title }}</h3>
@@ -351,13 +400,15 @@
 @endsection
 
 @push('styles')
+<link rel="preload" as="image" href="{{ asset('images/savannah_sunset_tree.webp') }}" type="image/webp">
 <style>
     .safari-card__link { display: block; color: inherit; }
     .safari-card__price { margin-top: 0.75rem; font-weight: 600; color: var(--color-savanna); }
     .destination-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
     .destination-card { display: block; background: var(--color-white); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform var(--transition), box-shadow var(--transition); }
     .destination-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-    .destination-card__image img { width: 100%; height: 180px; object-fit: cover; }
+    .destination-card__image img,
+    .destination-card__image picture img { width: 100%; height: 180px; object-fit: cover; }
     .destination-card__body { padding: 1.25rem; }
     .destination-card__title { font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 0.25rem; }
     .destination-card__region { font-size: 0.85rem; color: var(--color-savanna); margin-bottom: 0.5rem; }

@@ -1,12 +1,37 @@
 @extends('layouts.public')
 
-@section('title', ($destination->seo_title ?? $destination->name) . ' | Leyla Safari Tours')
-@section('meta_description', $destination->seo_description ?? Str::limit($destination->excerpt, 160))
+@section('title', ($destination->seo_title ?? $destination->name . ' Safari Guide') . ' | Leyla Safari Tours')
+@section('meta_description', $destination->seo_description ?? Str::limit(strip_tags($destination->excerpt ?? ''), 155))
+@section('meta_keywords', $destination->name . ', Kenya safari, ' . ($destination->region ?? $destination->country) . ', wildlife travel guide')
+@section('canonical', route('destinations.show', $destination->slug))
+@section('og_type', 'article')
+@section('og_image', asset($destination->hero_image ?? 'images/pond_view.jpg'))
+
+@push('structured_data')
+@php
+    $destSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'TouristDestination',
+        'name' => $destination->name,
+        'description' => Str::limit(strip_tags($destination->excerpt ?? ''), 300),
+        'url' => route('destinations.show', $destination->slug),
+        'image' => asset($destination->hero_image ?? 'images/pond_view.jpg'),
+        'containedInPlace' => ['@type' => 'Country', 'name' => $destination->country ?? 'Kenya'],
+    ];
+@endphp
+<script type="application/ld+json">{!! json_encode($destSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
+@endpush
 
 @section('content')
     <section class="hero hero--compact" aria-labelledby="dest-heading">
         <div class="hero__media">
-            <img src="{{ asset($destination->hero_image ?? 'images/pond_view.jpg') }}" alt="{{ $destination->name }}">
+            <x-optimized-img
+                :src="$destination->hero_image ?? 'images/pond_view.jpg'"
+                :alt="$destination->name . ' safari destination — Leyla Safari Tours'"
+                :width="1920"
+                :height="810"
+                :priority="true"
+            />
             <div class="hero__overlay"></div>
         </div>
         <div class="container hero__content">
@@ -34,7 +59,13 @@
                     @if (! empty($destination->gallery))
                         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
                             @foreach ($destination->gallery as $image)
-                                <img src="{{ asset($image) }}" alt="{{ $destination->name }}" style="border-radius: var(--radius-sm); height: 160px; object-fit: cover; width: 100%;">
+                                <x-lazy-img
+                                    :src="$image"
+                                    :alt="$destination->name"
+                                    :width="300"
+                                    :height="160"
+                                    style="border-radius: var(--radius-sm); height: 160px; object-fit: cover; width: 100%;"
+                                />
                             @endforeach
                         </div>
                     @endif
@@ -78,7 +109,12 @@
                         <article class="safari-card">
                             <a href="{{ route('packages.show', $package->slug) }}" style="color: inherit;">
                                 <div class="safari-card__image">
-                                    <img src="{{ asset($package->hero_image ?? 'images/savannah_sunset_tree.jpg') }}" alt="{{ $package->title }}" loading="lazy">
+                                    <x-lazy-img
+                                        :src="$package->hero_image ?? 'images/savannah_sunset_tree.jpg'"
+                                        :alt="$package->title"
+                                        :width="400"
+                                        :height="267"
+                                    />
                                 </div>
                                 <div class="safari-card__body">
                                     <h3 class="safari-card__title">{{ $package->title }}</h3>

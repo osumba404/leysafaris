@@ -1,9 +1,11 @@
 @extends('layouts.public')
 
-@section('title', 'Safari Journal | Leyla Safari Tours')
+@section('title', 'Safari Journal & Travel Guides | Leyla Safari Tours')
+@section('meta_description', 'Kenya safari travel guides, destination tips and inspiration from Leyla Safari Tours — plan your Maasai Mara, Amboseli and East Africa adventure.')
+@section('canonical', route('blog.index'))
 
 @section('content')
-    <section class="section" style="padding-top: calc(var(--header-height) + var(--trust-bar-height) + 2rem);">
+    <section class="section page-top">
         <div class="container">
             <div class="section-header">
                 <span class="section-header__label">Safari Journal</span>
@@ -17,7 +19,12 @@
                         <a href="{{ route('blog.show', $post->slug) }}" style="color: inherit; display: block;">
                             @if ($post->featured_image)
                                 <div class="blog-card__image">
-                                    <img src="{{ asset($post->featured_image) }}" alt="{{ $post->title }}" loading="lazy">
+                                    <x-lazy-img
+                                        :src="$post->featured_image"
+                                        :alt="$post->title"
+                                        :width="400"
+                                        :height="250"
+                                    />
                                 </div>
                             @endif
                             <div class="blog-card__body">
@@ -51,7 +58,9 @@
     .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
     .blog-card { background: var(--color-white); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform var(--transition), box-shadow var(--transition); }
     .blog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-    .blog-card__image img { width: 100%; height: 200px; object-fit: cover; }
+    .blog-card__image img,
+    .blog-card__image picture,
+    .blog-card__image picture img { width: 100%; height: 200px; object-fit: cover; }
     .blog-card__body { padding: 1.25rem; }
     .blog-card__title { font-family: var(--font-display); font-size: 1.35rem; margin: 0.5rem 0; line-height: 1.3; }
     .blog-card__excerpt { font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.6; }

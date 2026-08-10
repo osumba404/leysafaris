@@ -1,9 +1,25 @@
 @extends('layouts.public')
 
-@section('title', 'Safari Packages | Leyla Safari Tours')
+@section('title', 'Safari Packages & Tours | Kenya Wildlife Safaris | Leyla Safari Tours')
+@section('meta_description', 'Browse curated Kenya safari packages — Great Migration Mara tours, Amboseli elephant trails, northern frontier expeditions & bush-beach combos. Filter by destination, duration and budget.')
+@section('meta_keywords', 'Kenya safari packages, Maasai Mara tour prices, Amboseli safari, safari packages Kenya, wildlife tour deals')
+@section('canonical', route('packages.index'))
+
+@push('structured_data')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Safari Packages | Leyla Safari Tours",
+  "description": "Curated Kenya safari packages and East Africa wildlife tours.",
+  "url": "{{ route('packages.index') }}",
+  "isPartOf": { "@type": "WebSite", "name": "Leyla Safari Tours", "url": "{{ url('/') }}" }
+}
+</script>
+@endpush
 
 @section('content')
-    <section class="section" style="padding-top: calc(var(--header-height) + var(--trust-bar-height) + 2rem);">
+    <section class="section page-top">
         <div class="container">
             <div class="section-header">
                 <span class="section-header__label">Our Safaris</span>
@@ -69,7 +85,12 @@
                         <article class="safari-card">
                             <a href="{{ route('packages.show', $package->slug) }}" style="display: block; color: inherit;">
                                 <div class="safari-card__image">
-                                    <img src="{{ asset($package->hero_image ?? 'images/savannah_sunset_tree.jpg') }}" alt="{{ $package->title }}" loading="lazy">
+                                    <x-lazy-img
+                                        :src="$package->hero_image ?? 'images/savannah_sunset_tree.jpg'"
+                                        :alt="$package->title . ' safari package'"
+                                        :width="600"
+                                        :height="400"
+                                    />
                                     @if ($package->is_featured)
                                         <span class="safari-card__badge">Featured</span>
                                     @endif

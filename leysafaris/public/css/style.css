@@ -44,7 +44,6 @@
   /* Layout */
   --container-max: 1200px;
   --header-height: 72px;
-  --trust-bar-height: 40px;
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 20px;
@@ -69,7 +68,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--header-height) + var(--trust-bar-height) + 1rem);
+  scroll-padding-top: calc(var(--header-height) + 1rem);
 }
 
 body {
@@ -86,6 +85,14 @@ img {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+img[loading="lazy"] {
+  content-visibility: auto;
+}
+
+.page-top {
+  padding-top: calc(var(--header-height) + 2rem);
 }
 
 a {
@@ -114,59 +121,6 @@ address {
   max-width: var(--container-max);
   margin-inline: auto;
   padding-inline: var(--space-md);
-}
-
-/* ==========================================================================
-   Trust Bar
-   ========================================================================== */
-.trust-bar {
-  background: var(--color-forest);
-  color: var(--color-sand);
-  font-size: 0.8rem;
-  position: relative;
-  z-index: 110;
-}
-
-.trust-bar__inner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-sm) var(--space-md);
-  min-height: var(--trust-bar-height);
-  padding-block: var(--space-xs);
-}
-
-.trust-bar__item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  opacity: 0.9;
-  transition: opacity var(--transition);
-}
-
-.trust-bar__item:hover {
-  opacity: 1;
-}
-
-.trust-bar__item svg {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-}
-
-.trust-bar__item--address {
-  cursor: default;
-}
-
-@media (max-width: 640px) {
-  .trust-bar__item span {
-    font-size: 0.75rem;
-  }
-
-  .trust-bar__item--address {
-    display: none;
-  }
 }
 
 /* ==========================================================================
@@ -315,7 +269,7 @@ address {
 
   .nav {
     position: fixed;
-    top: calc(var(--header-height) + var(--trust-bar-height));
+    top: var(--header-height);
     left: 0;
     right: 0;
     background: var(--color-cream);
@@ -376,6 +330,14 @@ address {
   height: 100%;
   object-fit: cover;
   aspect-ratio: 16 / 9;
+}
+
+.hero--compact {
+  min-height: 45vh;
+}
+
+.hero--compact .hero__media img {
+  aspect-ratio: 21 / 9;
 }
 
 .hero__overlay {
@@ -454,6 +416,8 @@ address {
    ========================================================================== */
 .section {
   padding-block: var(--space-2xl);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
 }
 
 .section-header {
@@ -585,14 +549,21 @@ address {
   overflow: hidden;
 }
 
-.safari-card__image img {
+.safari-card__image img,
+.safari-card__image picture,
+.safari-card__image picture img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.safari-card__image img,
+.safari-card__image picture img {
   transition: transform 0.6s ease;
 }
 
-.safari-card:hover .safari-card__image img {
+.safari-card:hover .safari-card__image img,
+.safari-card:hover .safari-card__image picture img {
   transform: scale(1.05);
 }
 
@@ -864,6 +835,11 @@ address {
   gap: var(--space-sm);
   animation: scroll-gallery 40s linear infinite;
   width: max-content;
+  will-change: transform;
+}
+
+.gallery-strip.is-paused .gallery-strip__track {
+  animation-play-state: paused;
 }
 
 .gallery-strip__track picture {

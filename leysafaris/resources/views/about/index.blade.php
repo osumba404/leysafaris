@@ -1,11 +1,26 @@
 @extends('layouts.public')
 
-@section('title', 'About Us | Leyla Safari Tours')
+@section('title', 'About Leyla Safari Tours | Nairobi Safari Experts & Conservation Travel')
+@section('meta_description', 'Meet Leyla Safari Tours — Nairobi-born safari specialists offering authentic Kenya wildlife journeys, sustainable travel, transparent itineraries and luxury customization.')
+@section('canonical', route('about'))
+
+@push('structured_data')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About Leyla Safari Tours",
+  "url": "{{ route('about') }}",
+  "description": "Learn about Leyla Safari Tours — Kenya safari experts rooted in Nairobi with a conservation-minded approach.",
+  "mainEntity": { "@type": "TravelAgency", "name": "Leyla Safari Tours", "url": "{{ url('/') }}" }
+}
+</script>
+@endpush
 
 @section('content')
     <section class="hero hero--compact" aria-labelledby="about-heading">
         <div class="hero__media">
-            <img src="{{ asset('images/modern_grass_thatched_huts.jpg') }}" alt="Luxury safari lodge in Kenya">
+            <x-optimized-img src="images/modern_grass_thached_huts.jpg" alt="Luxury safari lodge in Kenya — Leyla Safari Tours" :width="1920" :height="810" :priority="true" />
             <div class="hero__overlay"></div>
         </div>
         <div class="container hero__content">

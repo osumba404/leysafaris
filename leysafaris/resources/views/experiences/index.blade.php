@@ -1,9 +1,11 @@
 @extends('layouts.public')
 
-@section('title', 'Safari Experiences | Leyla Safari Tours')
+@section('title', 'Safari Experiences & Activities | Balloon, Culture & Wildlife | Leyla Safari Tours')
+@section('meta_description', 'Discover Kenya safari experiences — game drives, hot air balloon flights, cultural visits, gorilla trekking and more. Add to your custom itinerary with Leyla Safari Tours.')
+@section('canonical', route('experiences.index'))
 
 @section('content')
-    <section class="section" style="padding-top: calc(var(--header-height) + var(--trust-bar-height) + 2rem);">
+    <section class="section page-top">
         <div class="container">
             <div class="section-header">
                 <span class="section-header__label">Beyond Game Drives</span>
@@ -15,7 +17,7 @@
                 @forelse ($experiences as $experience)
                     <article class="feature-card" style="padding: 0; overflow: hidden;">
                         @if ($experience->image)
-                            <img src="{{ asset($experience->image) }}" alt="{{ $experience->name }}" style="width: 100%; height: 180px; object-fit: cover;">
+                            <x-lazy-img :src="$experience->image" :alt="$experience->name" :width="600" :height="360" style="width:100%;height:180px;object-fit:cover;" />
                         @endif
                         <div style="padding: 1.25rem;">
                             @if ($experience->type)

@@ -1,9 +1,10 @@
 @extends('layouts.public')
 
 @section('title', 'Register | Leyla Safari Tours')
+@section('meta_robots', 'noindex, nofollow')
 
 @section('content')
-    <section class="section" style="padding-top: calc(var(--header-height) + var(--trust-bar-height) + 3rem); min-height: 60vh;">
+    <section class="section page-top" style="min-height: 60vh;">
         <div class="container" style="max-width: 440px;">
             <div class="section-header" style="margin-bottom: 2rem;">
                 <h1 class="section-header__title">Create Account</h1>
