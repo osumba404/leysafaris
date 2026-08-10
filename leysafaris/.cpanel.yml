@@ -1,0 +1,4 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home2/leylasaf/public_html
+    - /bin/cp -R public/* $DEPLOYPATH
