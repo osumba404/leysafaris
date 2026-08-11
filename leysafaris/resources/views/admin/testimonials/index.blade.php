@@ -13,7 +13,7 @@
                 @forelse ($testimonials as $testimonial)
                 <tr>
                     <td><strong>{{ $testimonial->author_name }}</strong>@if($testimonial->author_location)<br><small>{{ $testimonial->author_location }}</small>@endif</td>
-                    <td>{{ $testimonial->package?->title ?? '—' }}</td>
+                    <td>{{ $testimonial->package?->title ?? '-' }}</td>
                     <td>{{ $testimonial->rating }}/5</td>
                     <td>{{ $testimonial->is_approved ? 'Yes' : 'No' }}</td>
                     <td>{{ $testimonial->is_featured ? 'Yes' : 'No' }}</td>

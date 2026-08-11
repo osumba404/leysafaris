@@ -3,16 +3,16 @@
 @section('content')
 <div class="admin-card">
     <div class="admin-card__header">
-        <h2 class="admin-card__title">{{ $quote->reference }} — {{ $quote->title }}</h2>
+        <h2 class="admin-card__title">{{ $quote->reference }} - {{ $quote->title }}</h2>
         <a href="{{ route('admin.quotes.edit', $quote) }}" class="admin-btn admin-btn--primary admin-btn--sm">Edit</a>
     </div>
     <dl class="admin-detail-grid">
         <div class="admin-detail-item"><dt>Enquiry</dt><dd><a href="{{ route('admin.enquiries.show', $quote->enquiry) }}">{{ $quote->enquiry?->name }}</a></dd></div>
-        <div class="admin-detail-item"><dt>Package</dt><dd>{{ $quote->package?->title ?? '—' }}</dd></div>
+        <div class="admin-detail-item"><dt>Package</dt><dd>{{ $quote->package?->title ?? '-' }}</dd></div>
         <div class="admin-detail-item"><dt>Total</dt><dd><strong>{{ $quote->currency }} {{ number_format($quote->total_amount, 2) }}</strong></dd></div>
         <div class="admin-detail-item"><dt>Status</dt><dd><span class="admin-badge admin-badge--{{ $quote->status }}">{{ $quote->status }}</span></dd></div>
-        <div class="admin-detail-item"><dt>Valid Until</dt><dd>{{ $quote->valid_until?->format('M j, Y') ?? '—' }}</dd></div>
-        <div class="admin-detail-item"><dt>Created By</dt><dd>{{ $quote->createdBy?->name ?? '—' }}</dd></div>
+        <div class="admin-detail-item"><dt>Valid Until</dt><dd>{{ $quote->valid_until?->format('M j, Y') ?? '-' }}</dd></div>
+        <div class="admin-detail-item"><dt>Created By</dt><dd>{{ $quote->createdBy?->name ?? '-' }}</dd></div>
         @if($quote->notes)<div class="admin-detail-item admin-form__group--full"><dt>Notes</dt><dd>{!! nl2br(e($quote->notes)) !!}</dd></div>@endif
     </dl>
     @if(!empty($quote->line_items))

@@ -27,7 +27,7 @@
         <div class="hero__media">
             <x-optimized-img
                 :src="$destination->hero_image ?? 'images/pond_view.jpg'"
-                :alt="$destination->name . ' safari destination — Leyla Safari Tours'"
+                :alt="$destination->name . ' safari destination - Leyla Safari Tours'"
                 :width="1920"
                 :height="810"
                 :priority="true"

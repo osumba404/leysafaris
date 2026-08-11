@@ -13,8 +13,8 @@
                 @forelse ($quotes as $quote)
                 <tr>
                     <td><strong>{{ $quote->reference }}</strong></td>
-                    <td>{{ $quote->enquiry?->name ?? '—' }}</td>
-                    <td>{{ $quote->package?->title ?? '—' }}</td>
+                    <td>{{ $quote->enquiry?->name ?? '-' }}</td>
+                    <td>{{ $quote->package?->title ?? '-' }}</td>
                     <td>{{ $quote->currency }} {{ number_format($quote->total_amount, 2) }}</td>
                     <td><span class="admin-badge admin-badge--{{ $quote->status }}">{{ $quote->status }}</span></td>
                     <td>{{ $quote->created_at->format('M j, Y') }}</td>

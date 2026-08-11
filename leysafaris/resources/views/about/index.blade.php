@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'About Leyla Safari Tours | Nairobi Safari Experts & Conservation Travel')
-@section('meta_description', 'Meet Leyla Safari Tours — Nairobi-born safari specialists offering authentic Kenya wildlife journeys, sustainable travel, transparent itineraries and luxury customization.')
+@section('meta_description', 'Meet Leyla Safari Tours - Nairobi-born safari specialists offering authentic Kenya wildlife journeys, sustainable travel, transparent itineraries and luxury customization.')
 @section('canonical', route('about'))
 
 @push('structured_data')
@@ -11,7 +11,7 @@
   "@type": "AboutPage",
   "name": "About Leyla Safari Tours",
   "url": "{{ route('about') }}",
-  "description": "Learn about Leyla Safari Tours — Kenya safari experts rooted in Nairobi with a conservation-minded approach.",
+  "description": "Learn about Leyla Safari Tours - Kenya safari experts rooted in Nairobi with a conservation-minded approach.",
   "mainEntity": { "@type": "TravelAgency", "name": "Leyla Safari Tours", "url": "{{ url('/') }}" }
 }
 </script>
@@ -20,7 +20,7 @@
 @section('content')
     <section class="hero hero--compact" aria-labelledby="about-heading">
         <div class="hero__media">
-            <x-optimized-img src="images/modern_grass_thached_huts.jpg" alt="Luxury safari lodge in Kenya — Leyla Safari Tours" :width="1920" :height="810" :priority="true" />
+            <x-optimized-img src="images/modern_grass_thached_huts.jpg" alt="Luxury safari lodge in Kenya - Leyla Safari Tours" :width="1920" :height="810" :priority="true" />
             <div class="hero__overlay"></div>
         </div>
         <div class="container hero__content">
@@ -36,7 +36,7 @@
                 <h2 class="section-header__title">Your Local Safari Partner</h2>
                 <p class="section-header__desc">
                     {{ $settings['site_name'] ?? 'Leyla Safari Tours' }} is a Nairobi-based safari company founded by Kenyan guides who grew up
-                    on the edge of the wild. We believe the best safaris are personal — built on local knowledge, honest pricing,
+                    on the edge of the wild. We believe the best safaris are personal - built on local knowledge, honest pricing,
                     and a deep respect for the land and communities we work with.
                 </p>
             </div>
@@ -45,7 +45,7 @@
                 <article class="feature-card">
                     <div class="feature-card__icon"><i data-lucide="heart"></i></div>
                     <h3 class="feature-card__title">Our Mission</h3>
-                    <p class="feature-card__text">To share Kenya's extraordinary wildlife and landscapes with travellers who seek authentic, responsibly crafted adventures — while ensuring tourism benefits local communities and conservation.</p>
+                    <p class="feature-card__text">To share Kenya's extraordinary wildlife and landscapes with travellers who seek authentic, responsibly crafted adventures - while ensuring tourism benefits local communities and conservation.</p>
                 </article>
                 <article class="feature-card">
                     <div class="feature-card__icon"><i data-lucide="users"></i></div>

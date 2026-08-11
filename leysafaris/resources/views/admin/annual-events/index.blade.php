@@ -14,7 +14,7 @@
                 <tr>
                     <td><strong>{{ $event->title }}</strong></td>
                     <td>{{ $event->event_date->format('M j, Y') }}</td>
-                    <td>{{ $event->package?->title ?? '—' }}</td>
+                    <td>{{ $event->package?->title ?? '-' }}</td>
                     <td>{{ $event->is_published ? 'Yes' : 'No' }}</td>
                     <td>
                         <a href="{{ route('admin.annual-events.show', $event) }}" class="admin-btn admin-btn--secondary admin-btn--sm">View</a>

@@ -10,13 +10,13 @@
         <div class="admin-form__group"><label for="phone">Phone</label><input type="text" id="phone" name="phone" value="{{ old('phone', $enquiry->phone ?? '') }}"></div>
         <div class="admin-form__group"><label for="whatsapp">WhatsApp</label><input type="text" id="whatsapp" name="whatsapp" value="{{ old('whatsapp', $enquiry->whatsapp ?? '') }}"></div>
         <div class="admin-form__group"><label for="package_id">Package</label>
-            <select id="package_id" name="package_id"><option value="">—</option>@foreach($packages as $p)<option value="{{ $p->id }}" @selected(old('package_id', $enquiry->package_id ?? '')==$p->id)>{{ $p->title }}</option>@endforeach</select>
+            <select id="package_id" name="package_id"><option value="">-</option>@foreach($packages as $p)<option value="{{ $p->id }}" @selected(old('package_id', $enquiry->package_id ?? '')==$p->id)>{{ $p->title }}</option>@endforeach</select>
         </div>
         <div class="admin-form__group"><label for="status">Status</label>
             <select id="status" name="status">@foreach(['new','contacted','quote_sent','negotiation','confirmed','lost'] as $s)<option value="{{ $s }}" @selected(old('status', $enquiry->status ?? 'new')===$s)>{{ ucfirst(str_replace('_',' ',$s)) }}</option>@endforeach</select>
         </div>
         <div class="admin-form__group"><label for="assigned_to">Assigned To</label>
-            <select id="assigned_to" name="assigned_to"><option value="">—</option>@foreach($admins as $admin)<option value="{{ $admin->id }}" @selected(old('assigned_to', $enquiry->assigned_to ?? '')==$admin->id)>{{ $admin->name }}</option>@endforeach</select>
+            <select id="assigned_to" name="assigned_to"><option value="">-</option>@foreach($admins as $admin)<option value="{{ $admin->id }}" @selected(old('assigned_to', $enquiry->assigned_to ?? '')==$admin->id)>{{ $admin->name }}</option>@endforeach</select>
         </div>
         <div class="admin-form__group"><label for="travel_dates">Travel Dates</label><input type="text" id="travel_dates" name="travel_dates" value="{{ old('travel_dates', $enquiry->travel_dates ?? '') }}"></div>
         <div class="admin-form__group"><label for="group_size">Group Size</label><input type="number" id="group_size" name="group_size" min="1" value="{{ old('group_size', $enquiry->group_size ?? '') }}"></div>

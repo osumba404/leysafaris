@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Safari Destinations in Kenya & East Africa | Leyla Safari Tours')
-@section('meta_description', 'Explore Kenya safari destinations — Maasai Mara, Amboseli, Samburu, Serengeti, Bwindi & Diani Beach. Best times to visit, wildlife highlights and linked safari packages.')
+@section('meta_description', 'Explore Kenya safari destinations - Maasai Mara, Amboseli, Samburu, Serengeti, Bwindi & Diani Beach. Best times to visit, wildlife highlights and linked safari packages.')
 @section('meta_keywords', 'Kenya safari destinations, Maasai Mara guide, Amboseli travel, Samburu safari, East Africa parks')
 @section('canonical', route('destinations.index'))
 
@@ -11,7 +11,7 @@
             <div class="section-header">
                 <span class="section-header__label">Explore Kenya</span>
                 <h1 class="section-header__title">Safari Destinations</h1>
-                <p class="section-header__desc">From the Maasai Mara to the northern frontier — discover the parks and reserves that define Kenya's wild heart.</p>
+                <p class="section-header__desc">From the Maasai Mara to the northern frontier - discover the parks and reserves that define Kenya's wild heart.</p>
             </div>
 
             <div class="destination-grid">

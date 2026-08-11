@@ -13,9 +13,9 @@
                 @forelse ($experiences as $experience)
                 <tr>
                     <td><strong>{{ $experience->name }}</strong></td>
-                    <td>{{ $experience->type ?? '—' }}</td>
-                    <td>{{ $experience->duration_hours ? $experience->duration_hours.'h' : '—' }}</td>
-                    <td>{{ $experience->starting_price ? number_format($experience->starting_price, 0) : '—' }}</td>
+                    <td>{{ $experience->type ?? '-' }}</td>
+                    <td>{{ $experience->duration_hours ? $experience->duration_hours.'h' : '-' }}</td>
+                    <td>{{ $experience->starting_price ? number_format($experience->starting_price, 0) : '-' }}</td>
                     <td>{{ $experience->is_published ? 'Yes' : 'No' }}</td>
                     <td>
                         <a href="{{ route('admin.experiences.show', $experience) }}" class="admin-btn admin-btn--secondary admin-btn--sm">View</a>

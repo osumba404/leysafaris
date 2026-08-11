@@ -12,8 +12,8 @@
     @if($destination->hero_image)<img src="{{ asset($destination->hero_image) }}" alt="" style="max-width:300px;border-radius:8px;margin-bottom:1rem;">@endif
     <dl class="admin-detail-grid">
         <div class="admin-detail-item"><dt>Slug</dt><dd>{{ $destination->slug }}</dd></div>
-        <div class="admin-detail-item"><dt>Region</dt><dd>{{ $destination->region ?? '—' }}</dd></div>
-        <div class="admin-detail-item"><dt>Best Time</dt><dd>{{ $destination->best_time ?? '—' }}</dd></div>
+        <div class="admin-detail-item"><dt>Region</dt><dd>{{ $destination->region ?? '-' }}</dd></div>
+        <div class="admin-detail-item"><dt>Best Time</dt><dd>{{ $destination->best_time ?? '-' }}</dd></div>
         <div class="admin-detail-item"><dt>Published</dt><dd>{{ $destination->is_published ? 'Yes' : 'No' }}</dd></div>
         <div class="admin-detail-item admin-form__group--full"><dt>Excerpt</dt><dd>{{ $destination->excerpt }}</dd></div>
         <div class="admin-detail-item admin-form__group--full"><dt>Description</dt><dd>{!! nl2br(e($destination->description)) !!}</dd></div>

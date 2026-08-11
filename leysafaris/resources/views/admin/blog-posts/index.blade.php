@@ -13,9 +13,9 @@
                 @forelse ($posts as $post)
                 <tr>
                     <td><strong>{{ $post->title }}</strong></td>
-                    <td>{{ $post->author?->name ?? '—' }}</td>
+                    <td>{{ $post->author?->name ?? '-' }}</td>
                     <td><span class="admin-badge admin-badge--{{ $post->status }}">{{ $post->status }}</span></td>
-                    <td>{{ $post->published_at?->format('M j, Y') ?? '—' }}</td>
+                    <td>{{ $post->published_at?->format('M j, Y') ?? '-' }}</td>
                     <td>
                         <a href="{{ route('admin.blog-posts.show', $post) }}" class="admin-btn admin-btn--secondary admin-btn--sm">View</a>
                         <a href="{{ route('admin.blog-posts.edit', $post) }}" class="admin-btn admin-btn--secondary admin-btn--sm">Edit</a>

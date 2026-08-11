@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Plan Your Safari | Contact Leyla Safari Tours | Request a Quote')
-@section('meta_description', 'Request a personalised Kenya safari quote from Leyla Safari Tours. Tell us your dates, group size and destinations — expert Nairobi team responds via email or WhatsApp.')
+@section('meta_description', 'Request a personalised Kenya safari quote from Leyla Safari Tours. Tell us your dates, group size and destinations - expert Nairobi team responds via email or WhatsApp.')
 @section('canonical', route('contact'))
 
 @push('structured_data')
@@ -28,7 +28,7 @@
                 <span class="section-header__label">Get in Touch</span>
                 <h1 class="section-header__title">Start Your Journey</h1>
                 <p class="section-header__desc">
-                    Tell us your dream safari and we will craft a personalised proposal —
+                    Tell us your dream safari and we will craft a personalised proposal -
                     no obligation, no pressure, just expert guidance.
                 </p>
 

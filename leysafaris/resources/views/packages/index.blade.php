@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Safari Packages & Tours | Kenya Wildlife Safaris | Leyla Safari Tours')
-@section('meta_description', 'Browse curated Kenya safari packages — Great Migration Mara tours, Amboseli elephant trails, northern frontier expeditions & bush-beach combos. Filter by destination, duration and budget.')
+@section('meta_description', 'Browse curated Kenya safari packages - Great Migration Mara tours, Amboseli elephant trails, northern frontier expeditions & bush-beach combos. Filter by destination, duration and budget.')
 @section('meta_keywords', 'Kenya safari packages, Maasai Mara tour prices, Amboseli safari, safari packages Kenya, wildlife tour deals')
 @section('canonical', route('packages.index'))
 

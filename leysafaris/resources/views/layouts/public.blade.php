@@ -73,7 +73,7 @@
 
     <header class="header" id="header">
         <div class="container header__inner">
-            <a href="{{ route('home') }}" class="logo" aria-label="{{ $siteName }} — Home">
+            <a href="{{ route('home') }}" class="logo" aria-label="{{ $siteName }} - Home">
                 <span class="logo__mark" aria-hidden="true">
                     <i data-lucide="compass"></i>
                 </span>

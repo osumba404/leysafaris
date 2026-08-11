@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', ($settings['site_name'] ?? 'Leyla Safari Tours') . ' | Premium Kenya Safari Tours & East Africa Travel')
-@section('meta_description', 'Book authentic Kenya safari tours with Leyla Safari Tours — Maasai Mara migration, Amboseli elephants, Samburu & custom East Africa itineraries. Nairobi-based experts. Request a quote.')
+@section('meta_description', 'Book authentic Kenya safari tours with Leyla Safari Tours - Maasai Mara migration, Amboseli elephants, Samburu & custom East Africa itineraries. Nairobi-based experts. Request a quote.')
 @section('meta_keywords', 'Kenya safari tours, Maasai Mara safari, Amboseli tours, Nairobi safari company, East Africa travel, Leyla Safari Tours, wildlife safari Kenya, luxury safari packages')
 @section('canonical', route('home'))
 @section('og_type', 'website')
@@ -19,7 +19,7 @@
       "url": "{{ url('/') }}",
       "logo": "{{ asset('images/savannah_sunset_tree.jpg') }}",
       "image": "{{ asset('images/savannah_sunset_tree.jpg') }}",
-      "description": "Premium Kenya and East Africa safari tours from Nairobi — Maasai Mara, Amboseli, Samburu and tailor-made wildlife journeys.",
+      "description": "Premium Kenya and East Africa safari tours from Nairobi - Maasai Mara, Amboseli, Samburu and tailor-made wildlife journeys.",
       "telephone": "{{ $settings['phone'] ?? '+254712345678' }}",
       "email": "info@leylasafaritours.com",
       "address": {
@@ -49,7 +49,7 @@
         <div class="hero__media">
             <x-optimized-img
                 src="images/savannah_sunset_tree.jpg"
-                alt="Golden sunset over the Kenyan savannah with acacia trees — Leyla Safari Tours"
+                alt="Golden sunset over the Kenyan savannah with acacia trees - Leyla Safari Tours"
                 :width="1920"
                 :height="1080"
                 :priority="true"
@@ -79,7 +79,7 @@
                 <span class="section-header__label">Why Leyla Safari</span>
                 <h2 id="why-us-heading" class="section-header__title">Rooted in Kenya. Built on Trust.</h2>
                 <p class="section-header__desc">
-                    We are not a booking aggregator — we are safari specialists who know every track,
+                    We are not a booking aggregator - we are safari specialists who know every track,
                     every season, and every camp that earns its place on our itineraries.
                 </p>
             </div>
@@ -98,7 +98,7 @@
                 <article class="feature-card">
                     <div class="feature-card__icon"><i data-lucide="sparkles"></i></div>
                     <h3 class="feature-card__title">Luxury Customization</h3>
-                    <p class="feature-card__text">Every itinerary is tailored — from intimate honeymoon escapes to multi-generational family safaris with private vehicles and handpicked accommodations.</p>
+                    <p class="feature-card__text">Every itinerary is tailored - from intimate honeymoon escapes to multi-generational family safaris with private vehicles and handpicked accommodations.</p>
                 </article>
                 <article class="feature-card">
                     <div class="feature-card__icon"><i data-lucide="shield-check"></i></div>
@@ -125,7 +125,7 @@
                                 <div class="safari-card__image">
                                     <x-lazy-img
                                         :src="$package->hero_image ?? 'images/savannah_sunset_tree.jpg'"
-                                        :alt="$package->title . ' — Kenya safari tour'"
+                                        :alt="$package->title . ' - Kenya safari tour'"
                                         :width="600"
                                         :height="400"
                                     />
@@ -164,7 +164,7 @@
                 <div class="section-header">
                     <span class="section-header__label">Day by Day</span>
                     <h2 id="itineraries-heading" class="section-header__title">Itinerary Transparency</h2>
-                    <p class="section-header__desc">Know exactly what each day holds — clear, honest breakdowns of where you will be, what you will see, and where you will rest.</p>
+                    <p class="section-header__desc">Know exactly what each day holds - clear, honest breakdowns of where you will be, what you will see, and where you will rest.</p>
                 </div>
 
                 <div class="accordion" role="region" aria-label="Safari itineraries">
@@ -348,7 +348,7 @@
             <div class="inquiry__intro">
                 <span class="section-header__label">Get in Touch</span>
                 <h2 id="inquiry-heading" class="section-header__title">Start Your Journey</h2>
-                <p class="section-header__desc">Tell us your dream safari and we will craft a personalised proposal — no obligation, no pressure, just expert guidance.</p>
+                <p class="section-header__desc">Tell us your dream safari and we will craft a personalised proposal - no obligation, no pressure, just expert guidance.</p>
                 <div class="inquiry__contacts">
                     <a href="tel:{{ preg_replace('/\s+/', '', $settings['phone'] ?? '+254712345678') }}" class="inquiry__contact">
                         <i data-lucide="phone" aria-hidden="true"></i>

@@ -39,7 +39,7 @@
         <div class="admin-form__group">
             <label for="departure_style">Departure Style</label>
             <select id="departure_style" name="departure_style">
-                <option value="">—</option>
+                <option value="">-</option>
                 @foreach (['private', 'fixed', 'custom', 'group'] as $style)
                     <option value="{{ $style }}" @selected(old('departure_style', $package->departure_style ?? '') === $style)>{{ ucfirst($style) }}</option>
                 @endforeach

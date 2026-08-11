@@ -12,9 +12,9 @@
     @if($blogPost->featured_image)<img src="{{ asset($blogPost->featured_image) }}" alt="" style="max-width:400px;border-radius:8px;margin-bottom:1rem;">@endif
     <dl class="admin-detail-grid">
         <div class="admin-detail-item"><dt>Status</dt><dd><span class="admin-badge admin-badge--{{ $blogPost->status }}">{{ $blogPost->status }}</span></dd></div>
-        <div class="admin-detail-item"><dt>Author</dt><dd>{{ $blogPost->author?->name ?? '—' }}</dd></div>
-        <div class="admin-detail-item"><dt>Published</dt><dd>{{ $blogPost->published_at?->format('M j, Y g:i A') ?? '—' }}</dd></div>
-        <div class="admin-detail-item admin-form__group--full"><dt>Excerpt</dt><dd>{{ $blogPost->excerpt ?? '—' }}</dd></div>
+        <div class="admin-detail-item"><dt>Author</dt><dd>{{ $blogPost->author?->name ?? '-' }}</dd></div>
+        <div class="admin-detail-item"><dt>Published</dt><dd>{{ $blogPost->published_at?->format('M j, Y g:i A') ?? '-' }}</dd></div>
+        <div class="admin-detail-item admin-form__group--full"><dt>Excerpt</dt><dd>{{ $blogPost->excerpt ?? '-' }}</dd></div>
         <div class="admin-detail-item admin-form__group--full"><dt>Content</dt><dd>{!! nl2br(e($blogPost->content)) !!}</dd></div>
     </dl>
 </div>

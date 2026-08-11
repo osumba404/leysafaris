@@ -9,8 +9,8 @@
     <p style="color:var(--admin-accent);margin-bottom:1rem;">@for($i=0;$i<$testimonial->rating;$i++)★@endfor</p>
     <blockquote style="font-style:italic;margin-bottom:1rem;">"{{ $testimonial->content }}"</blockquote>
     <dl class="admin-detail-grid">
-        <div class="admin-detail-item"><dt>Location</dt><dd>{{ $testimonial->author_location ?? '—' }}</dd></div>
-        <div class="admin-detail-item"><dt>Package</dt><dd>{{ $testimonial->package?->title ?? '—' }}</dd></div>
+        <div class="admin-detail-item"><dt>Location</dt><dd>{{ $testimonial->author_location ?? '-' }}</dd></div>
+        <div class="admin-detail-item"><dt>Package</dt><dd>{{ $testimonial->package?->title ?? '-' }}</dd></div>
         <div class="admin-detail-item"><dt>Approved</dt><dd>{{ $testimonial->is_approved ? 'Yes' : 'No' }}</dd></div>
         <div class="admin-detail-item"><dt>Featured</dt><dd>{{ $testimonial->is_featured ? 'Yes' : 'No' }}</dd></div>
     </dl>

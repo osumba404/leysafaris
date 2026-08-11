@@ -44,7 +44,7 @@
         <div class="hero__media">
             <x-optimized-img
                 :src="$package->hero_image ?? 'images/savannah_sunset_tree.jpg'"
-                :alt="$package->title . ' — Kenya safari tour by Leyla Safari Tours'"
+                :alt="$package->title . ' - Kenya safari tour by Leyla Safari Tours'"
                 :width="1920"
                 :height="810"
                 :priority="true"
@@ -114,7 +114,7 @@
                                             <i data-lucide="sun" aria-hidden="true"></i>
                                             Day {{ $day->day_number }}: {{ $day->title }}
                                             @if ($day->location)
-                                                <small style="opacity:0.7;font-weight:400;"> — {{ $day->location }}</small>
+                                                <small style="opacity:0.7;font-weight:400;"> - {{ $day->location }}</small>
                                             @endif
                                         </span>
                                         <i data-lucide="chevron-down" class="accordion__icon" aria-hidden="true"></i>
@@ -190,7 +190,7 @@
                         @foreach ($package->testimonials as $testimonial)
                             <blockquote class="feature-card" style="margin-bottom: 1rem;">
                                 <p class="feature-card__text">"{{ $testimonial->content }}"</p>
-                                <footer style="margin-top: 0.75rem; font-size: 0.85rem;">— {{ $testimonial->author_name }}</footer>
+                                <footer style="margin-top: 0.75rem; font-size: 0.85rem;">- {{ $testimonial->author_name }}</footer>
                             </blockquote>
                         @endforeach
                     </section>

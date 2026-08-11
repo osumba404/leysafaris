@@ -28,9 +28,9 @@
                 <tr>
                     <td><a href="{{ route('admin.enquiries.show', $enquiry) }}"><strong>{{ $enquiry->name }}</strong></a></td>
                     <td>{{ $enquiry->email }}</td>
-                    <td>{{ $enquiry->package?->title ?? '—' }}</td>
+                    <td>{{ $enquiry->package?->title ?? '-' }}</td>
                     <td><span class="admin-badge admin-badge--{{ $enquiry->status === 'new' ? 'new' : 'published' }}">{{ $enquiry->status }}</span></td>
-                    <td>{{ $enquiry->assignedTo?->name ?? '—' }}</td>
+                    <td>{{ $enquiry->assignedTo?->name ?? '-' }}</td>
                     <td>{{ $enquiry->created_at->format('M j, Y') }}</td>
                     <td>
                         <a href="{{ route('admin.enquiries.edit', $enquiry) }}" class="admin-btn admin-btn--secondary admin-btn--sm">Edit</a>

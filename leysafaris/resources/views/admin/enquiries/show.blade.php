@@ -11,13 +11,13 @@
     </div>
     <dl class="admin-detail-grid">
         <div class="admin-detail-item"><dt>Email</dt><dd><a href="mailto:{{ $enquiry->email }}">{{ $enquiry->email }}</a></dd></div>
-        <div class="admin-detail-item"><dt>Phone</dt><dd>{{ $enquiry->phone ?? '—' }}</dd></div>
+        <div class="admin-detail-item"><dt>Phone</dt><dd>{{ $enquiry->phone ?? '-' }}</dd></div>
         <div class="admin-detail-item"><dt>Status</dt><dd><span class="admin-badge admin-badge--{{ $enquiry->status === 'new' ? 'new' : 'published' }}">{{ $enquiry->status }}</span></dd></div>
         <div class="admin-detail-item"><dt>Package</dt><dd>{{ $enquiry->package?->title ?? 'Custom' }}</dd></div>
-        <div class="admin-detail-item"><dt>Travel Dates</dt><dd>{{ $enquiry->travel_dates ?? '—' }}</dd></div>
-        <div class="admin-detail-item"><dt>Group Size</dt><dd>{{ $enquiry->group_size ?? '—' }}</dd></div>
-        <div class="admin-detail-item"><dt>Budget</dt><dd>{{ $enquiry->budget_range ?? '—' }}</dd></div>
-        <div class="admin-detail-item"><dt>Assigned To</dt><dd>{{ $enquiry->assignedTo?->name ?? '—' }}</dd></div>
+        <div class="admin-detail-item"><dt>Travel Dates</dt><dd>{{ $enquiry->travel_dates ?? '-' }}</dd></div>
+        <div class="admin-detail-item"><dt>Group Size</dt><dd>{{ $enquiry->group_size ?? '-' }}</dd></div>
+        <div class="admin-detail-item"><dt>Budget</dt><dd>{{ $enquiry->budget_range ?? '-' }}</dd></div>
+        <div class="admin-detail-item"><dt>Assigned To</dt><dd>{{ $enquiry->assignedTo?->name ?? '-' }}</dd></div>
         <div class="admin-detail-item admin-form__group--full"><dt>Message</dt><dd>{!! nl2br(e($enquiry->message)) !!}</dd></div>
         @if($enquiry->admin_notes)<div class="admin-detail-item admin-form__group--full"><dt>Admin Notes</dt><dd>{!! nl2br(e($enquiry->admin_notes)) !!}</dd></div>@endif
     </dl>

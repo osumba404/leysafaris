@@ -60,7 +60,7 @@
                         @forelse ($recentEnquiries as $enquiry)
                             <tr>
                                 <td><a href="{{ route('admin.enquiries.show', $enquiry) }}">{{ $enquiry->name }}</a></td>
-                                <td>{{ $enquiry->package?->title ?? '—' }}</td>
+                                <td>{{ $enquiry->package?->title ?? '-' }}</td>
                                 <td><span class="admin-badge admin-badge--{{ $enquiry->status === 'new' ? 'new' : 'published' }}">{{ $enquiry->status }}</span></td>
                                 <td>{{ $enquiry->created_at->format('M j') }}</td>
                             </tr>

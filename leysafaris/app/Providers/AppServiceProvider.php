@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
             $expire = config('auth.passwords.'.config('auth.defaults.passwords').'.expire');
 
             return (new MailMessage)
-                ->subject('Reset Your Password — Leyla Safari Tours')
+                ->subject('Reset Your Password - Leyla Safari Tours')
                 ->greeting('Hello!')
                 ->line('We received a request to reset the password for your Leyla Safari Tours account.')
                 ->action('Reset Password', $url)

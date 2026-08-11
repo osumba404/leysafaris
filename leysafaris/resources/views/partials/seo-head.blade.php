@@ -1,6 +1,6 @@
 @php
     $seoTitle = trim($__env->yieldContent('title')) ?: ($siteName ?? 'Leyla Safari Tours');
-    $seoDescription = trim($__env->yieldContent('meta_description')) ?: 'Leyla Safari Tours — premium Kenya safaris, Maasai Mara migration tours, Amboseli, Samburu & East Africa journeys. Request a quote from Nairobi experts.';
+    $seoDescription = trim($__env->yieldContent('meta_description')) ?: 'Leyla Safari Tours - premium Kenya safaris, Maasai Mara migration tours, Amboseli, Samburu & East Africa journeys. Request a quote from Nairobi experts.';
     $seoKeywords = trim($__env->yieldContent('meta_keywords')) ?: 'Kenya safari, Maasai Mara tours, safari packages Kenya, Leyla Safari Tours, East Africa travel, Nairobi safari company, wildlife tours';
     $seoRobots = trim($__env->yieldContent('meta_robots')) ?: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
     $seoCanonical = trim($__env->yieldContent('canonical')) ?: url()->current();

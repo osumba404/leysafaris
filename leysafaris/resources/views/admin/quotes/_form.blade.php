@@ -9,7 +9,7 @@
             <select id="enquiry_id" name="enquiry_id" required><option value="">Select enquiry</option>@foreach($enquiries as $e)<option value="{{ $e->id }}" @selected(old('enquiry_id', $quote->enquiry_id ?? $enquiry?->id ?? '')==$e->id)>{{ $e->name }} ({{ $e->email }})</option>@endforeach</select>
         </div>
         <div class="admin-form__group"><label for="package_id">Package</label>
-            <select id="package_id" name="package_id"><option value="">—</option>@foreach($packages as $p)<option value="{{ $p->id }}" @selected(old('package_id', $quote->package_id ?? $enquiry?->package_id ?? '')==$p->id)>{{ $p->title }}</option>@endforeach</select>
+            <select id="package_id" name="package_id"><option value="">-</option>@foreach($packages as $p)<option value="{{ $p->id }}" @selected(old('package_id', $quote->package_id ?? $enquiry?->package_id ?? '')==$p->id)>{{ $p->title }}</option>@endforeach</select>
         </div>
         <div class="admin-form__group"><label for="title">Title *</label><input type="text" id="title" name="title" value="{{ old('title', $quote->title ?? ($enquiry?->package?->title ? 'Quote: '.$enquiry->package->title : '')) }}" required></div>
         <div class="admin-form__group"><label for="total_amount">Total Amount *</label><input type="number" id="total_amount" name="total_amount" step="0.01" min="0" value="{{ old('total_amount', $quote->total_amount ?? '') }}" required></div>

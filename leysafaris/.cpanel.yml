@@ -1,2 +1,2 @@
 # Deployment is configured in the repository root .cpanel.yml (one level up).
-# cPanel Git only runs /.cpanel.yml — not this file.
+# cPanel Git only runs /.cpanel.yml - not this file.

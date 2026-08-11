@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Safari Experiences & Activities | Balloon, Culture & Wildlife | Leyla Safari Tours')
-@section('meta_description', 'Discover Kenya safari experiences — game drives, hot air balloon flights, cultural visits, gorilla trekking and more. Add to your custom itinerary with Leyla Safari Tours.')
+@section('meta_description', 'Discover Kenya safari experiences - game drives, hot air balloon flights, cultural visits, gorilla trekking and more. Add to your custom itinerary with Leyla Safari Tours.')
 @section('canonical', route('experiences.index'))
 
 @section('content')
@@ -10,7 +10,7 @@
             <div class="section-header">
                 <span class="section-header__label">Beyond Game Drives</span>
                 <h1 class="section-header__title">Safari Experiences</h1>
-                <p class="section-header__desc">Hot air balloons, bush walks, cultural visits, and more — elevate your safari with curated experiences.</p>
+                <p class="section-header__desc">Hot air balloons, bush walks, cultural visits, and more - elevate your safari with curated experiences.</p>
             </div>
 
             <div class="experience-grid">

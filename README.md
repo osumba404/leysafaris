@@ -8,7 +8,7 @@
 
 ## Overview
 
-This document is the comprehensive product, UX, and system design for a premium East African safari platform tailored to **Leyla Safari Tours** — Kenya-focused with Uganda, Tanzania, Rwanda, and custom destinations.
+This document is the comprehensive product, UX, and system design for a premium East African safari platform tailored to **Leyla Safari Tours** - Kenya-focused with Uganda, Tanzania, Rwanda, and custom destinations.
 
 It draws directly from the client questionnaire:
 
@@ -69,7 +69,7 @@ leysafaris/leysafaris/
 
 ### Vibe
 
-Professional yet warm and approachable, adventurous, conservation-minded. Feels curated and trustworthy — not generic or overly corporate. Sells the dream of authentic East African wilderness while remaining easy to navigate and convert.
+Professional yet warm and approachable, adventurous, conservation-minded. Feels curated and trustworthy - not generic or overly corporate. Sells the dream of authentic East African wilderness while remaining easy to navigate and convert.
 
 ### Color Palette (earthy + bronze safari)
 
@@ -135,11 +135,11 @@ Clean, short:
 4. **Post-enquiry:** Quote review → (future) Book & Pay → Trip portal with digital itinerary, documents, support
 5. **Admin:** Content creation → Publishing → Inquiry management → Reporting
 
-**Primary conversion (early stage):** Request a Quote — matches client preference. Layer real-time availability and online booking later.
+**Primary conversion (early stage):** Request a Quote - matches client preference. Layer real-time availability and online booking later.
 
 ---
 
-## 3. Public Website — Key Pages & Features
+## 3. Public Website - Key Pages & Features
 
 ### Homepage
 
@@ -193,7 +193,7 @@ Optional later: map view toggle. Sort by popularity, price, duration, newest.
 - **Highlights** (bullet or icon list)
 - **Day-by-day Itinerary** (see Section 4)
 - Interactive or static route map
-- **Inclusions / Exclusions** — transport, accommodation, meals, park fees, guide included; flights & visas excluded but assistance offered
+- **Inclusions / Exclusions** - transport, accommodation, meals, park fees, guide included; flights & visas excluded but assistance offered
 - Accommodation overview (with photos / links if available)
 - Optional activities / add-ons
 - Pricing notes / seasonal variations / group discounts
@@ -209,7 +209,7 @@ Standalone or filterable short experiences (game drives, cultural visits, balloo
 
 ### About / Story
 
-Founder story, team, conservation commitments, “why choose us over the big companies” — personal, flexible, authentic, starting slow and building toward luxury.
+Founder story, team, conservation commitments, “why choose us over the big companies” - personal, flexible, authentic, starting slow and building toward luxury.
 
 ### Contact / Plan Your Trip
 
@@ -312,15 +312,15 @@ Clean, modern back-office with role-based access: **Super Admin**, **Content Edi
 
 | Phase | Deliverables |
 |-------|--------------|
-| **1 — MVP** | Beautiful site + package pages with rich itineraries + enquiry form + basic admin content management + WhatsApp |
-| **2 — Growth** | Customer accounts, quote generation, better CRM, annual events calendar, more content |
-| **3 — Scale** | Live availability calendar, online payments, advanced customization tools, multi-language, deeper integrations, mobile app if needed |
+| **1 - MVP** | Beautiful site + package pages with rich itineraries + enquiry form + basic admin content management + WhatsApp |
+| **2 - Growth** | Customer accounts, quote generation, better CRM, annual events calendar, more content |
+| **3 - Scale** | Live availability calendar, online payments, advanced customization tools, multi-language, deeper integrations, mobile app if needed |
 
 ---
 
 ## 7. Additional Features (Client-Aligned)
 
-- **Annual scheduled events** that customers can “save up for” — clear calendar + early-bird messaging
+- **Annual scheduled events** that customers can “save up for” - clear calendar + early-bird messaging
 - **Strong social proof** section and easy way for admin to add testimonials (including from friends / family initially)
 - **Itinerary research help:** admin tools include internal notes and cost worksheets
 - **Conservation storytelling** woven throughout (not heavy-handed)
@@ -357,7 +357,7 @@ These trust signals should be visible across the public site:
 
 ## Design Priority
 
-This design prioritizes **visual storytelling + clear, detailed itineraries + low-friction enquiry** — exactly what converts high-intent safari travelers while matching Leyla’s early-stage operational reality and long-term premium ambitions.
+This design prioritizes **visual storytelling + clear, detailed itineraries + low-friction enquiry** - exactly what converts high-intent safari travelers while matching Leyla’s early-stage operational reality and long-term premium ambitions.
 
 It is flexible enough to grow from a “request a quote” startup into a full booking platform without a complete rebuild.
 

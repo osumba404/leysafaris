@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Safari Journal & Travel Guides | Leyla Safari Tours')
-@section('meta_description', 'Kenya safari travel guides, destination tips and inspiration from Leyla Safari Tours — plan your Maasai Mara, Amboseli and East Africa adventure.')
+@section('meta_description', 'Kenya safari travel guides, destination tips and inspiration from Leyla Safari Tours - plan your Maasai Mara, Amboseli and East Africa adventure.')
 @section('canonical', route('blog.index'))
 
 @section('content')

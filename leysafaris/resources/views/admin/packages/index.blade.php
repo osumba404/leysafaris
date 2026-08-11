@@ -33,7 +33,7 @@
                                 @endif
                             </td>
                             <td>{{ $package->duration_days }} days</td>
-                            <td>{{ $package->starting_price ? ($package->currency ?? 'USD') . ' ' . number_format($package->starting_price, 0) : '—' }}</td>
+                            <td>{{ $package->starting_price ? ($package->currency ?? 'USD') . ' ' . number_format($package->starting_price, 0) : '-' }}</td>
                             <td><span class="admin-badge admin-badge--{{ $package->status }}">{{ $package->status }}</span></td>
                             <td>{{ $package->is_featured ? 'Yes' : 'No' }}</td>
                             <td>
