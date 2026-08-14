@@ -13,3 +13,4 @@ deployment:
     - cd $APPPATH && php artisan config:clear && php artisan route:clear && php artisan view:clear
     - cd $APPPATH && php artisan migrate --force
     - cd $APPPATH && php artisan db:seed --class=ContentEnhancementSeeder --force
+    - cd $APPPATH && php artisan db:seed --class=SiteContentSeeder --force

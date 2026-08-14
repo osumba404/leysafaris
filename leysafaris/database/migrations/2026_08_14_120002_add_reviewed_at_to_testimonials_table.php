@@ -8,6 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (Schema::hasColumn('testimonials', 'reviewed_at')) {
+            return;
+        }
+
         Schema::table('testimonials', function (Blueprint $table) {
             $table->date('reviewed_at')->nullable()->after('source_url');
         });

@@ -1,9 +1,19 @@
+@php
+    use App\Support\SiteSettings;
+
+    $settings = $settings ?? [];
+    $adminSiteName = SiteSettings::string($settings, 'site_name', 'Leyla Safari Tours');
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin') - Leyla Safari Tours</title>
+    <title>@yield('title', 'Admin') - {{ $adminSiteName }}</title>
+
+    @if ($favicon = SiteSettings::faviconUrl($settings))
+        <link rel="icon" href="{{ $favicon }}" sizes="any">
+    @endif
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,8 +28,12 @@
         <aside class="admin-sidebar">
             <div class="admin-sidebar__brand">
                 <a href="{{ route('admin.dashboard') }}">
-                    <i data-lucide="compass"></i>
-                    Leyla Safari <span>Admin</span>
+                    @if ($logoUrl = SiteSettings::logoUrl($settings))
+                        <img src="{{ $logoUrl }}" alt="" class="admin-sidebar__logo" width="28" height="28">
+                    @else
+                        <i data-lucide="compass"></i>
+                    @endif
+                    {{ SiteSettings::string($settings, 'logo_name', 'Leyla Safari') }} <span>Admin</span>
                 </a>
             </div>
 
@@ -47,6 +61,15 @@
                 </a>
                 <a href="{{ route('admin.annual-events.index') }}" class="admin-nav__link @if(request()->routeIs('admin.annual-events.*')) is-active @endif">
                     <i data-lucide="calendar"></i> Annual Events
+                </a>
+                <a href="{{ route('admin.hero-slides.index') }}" class="admin-nav__link @if(request()->routeIs('admin.hero-slides.*')) is-active @endif">
+                    <i data-lucide="images"></i> Hero Slides
+                </a>
+                <a href="{{ route('admin.nav-items.index') }}" class="admin-nav__link @if(request()->routeIs('admin.nav-items.*')) is-active @endif">
+                    <i data-lucide="menu"></i> Navigation
+                </a>
+                <a href="{{ route('admin.footer-links.index') }}" class="admin-nav__link @if(request()->routeIs('admin.footer-links.*')) is-active @endif">
+                    <i data-lucide="link"></i> Footer Links
                 </a>
 
                 <div class="admin-nav__section">Sales</div>

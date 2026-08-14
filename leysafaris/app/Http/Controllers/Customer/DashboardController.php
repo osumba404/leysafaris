@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -12,9 +13,13 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): View
+    public function index(): RedirectResponse|View
     {
         $user = auth()->user();
+
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
 
         $enquiries = $user->enquiries()
             ->with(['package', 'quotes'])

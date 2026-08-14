@@ -1,19 +1,22 @@
 @php
+    use App\Support\SiteSettings;
+
     $settings = $settings ?? [];
-    $siteName = is_string($settings['site_name'] ?? null) ? $settings['site_name'] : 'Leyla Safari Tours';
-    $phone = is_string($settings['phone'] ?? null) ? $settings['phone'] : '+254712345678';
-    $whatsapp = is_string($settings['whatsapp'] ?? null) ? $settings['whatsapp'] : preg_replace('/\D/', '', $phone);
+    $siteName = SiteSettings::string($settings, 'site_name', 'Leyla Safari Tours');
+    $phone = SiteSettings::string($settings, 'phone', '+254712345678');
+    $whatsapp = SiteSettings::string($settings, 'whatsapp', preg_replace('/\D/', '', $phone));
     $whatsappDigits = preg_replace('/\D/', '', $whatsapp);
-    $emails = $settings['emails'] ?? ['info@leylasafaritours.com'];
-    if (is_string($emails)) {
-        $decoded = json_decode($emails, true);
-        $emails = is_array($decoded) ? $decoded : [$emails];
-    }
-    if (! is_array($emails)) {
-        $emails = ['info@leylasafaritours.com'];
-    }
+    $emails = SiteSettings::list($settings, 'emails', ['info@leylasafaritours.com']);
     $primaryEmail = $emails[0] ?? 'info@leylasafaritours.com';
-    $address = is_string($settings['address'] ?? null) ? $settings['address'] : 'Westlands, Nairobi, Kenya';
+    $address = SiteSettings::string($settings, 'address', 'Westlands, Nairobi, Kenya');
+    $footerTagline = SiteSettings::string($settings, 'footer_tagline', 'Authentic Kenyan safaris, crafted with care from the heart of Nairobi.');
+    $websiteUrl = SiteSettings::string($settings, 'website_url', parse_url(config('app.url'), PHP_URL_HOST) ?: 'leylasafaritours.com');
+    $newsletterHeading = SiteSettings::string($settings, 'newsletter_heading', 'Newsletter');
+    $newsletterText = SiteSettings::string($settings, 'newsletter_text', 'Safari inspiration in your inbox.');
+    $paymentMethods = SiteSettings::list($settings, 'payment_methods', ['Visa', 'MC', 'M-Pesa', 'PayPal']);
+    $faviconUrl = SiteSettings::faviconUrl($settings);
+    $navItems = $navItems ?? collect();
+    $footerLinks = $footerLinks ?? collect();
 @endphp
 <!DOCTYPE html>
 <html lang="en-KE">
@@ -22,7 +25,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @include('partials.seo-head')
 
-    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
+    <link rel="icon" href="{{ $faviconUrl }}" sizes="any">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="{{ asset('css/style.css') }}" as="style">
@@ -73,28 +76,28 @@
 
     <header class="header" id="header">
         <div class="container header__inner">
-            <a href="{{ route('home') }}" class="logo" aria-label="{{ $siteName }} - Home">
-                <span class="logo__mark" aria-hidden="true">
-                    <i data-lucide="compass"></i>
-                </span>
-                <span class="logo__text">
-                    <span class="logo__name">Leyla Safari</span>
-                    <span class="logo__tag">Tours</span>
-                </span>
-            </a>
+            @include('partials.site-logo')
 
             <nav class="nav" id="nav" aria-label="Main navigation">
                 <ul class="nav__list">
-                    <li><a href="{{ route('packages.index') }}" class="nav__link @if(request()->routeIs('packages.*')) is-active @endif">Safaris</a></li>
-                    <li><a href="{{ route('destinations.index') }}" class="nav__link @if(request()->routeIs('destinations.*')) is-active @endif">Destinations</a></li>
-                    <li><a href="{{ route('experiences.index') }}" class="nav__link @if(request()->routeIs('experiences.*')) is-active @endif">Experiences</a></li>
-                    <li><a href="{{ route('about') }}" class="nav__link @if(request()->routeIs('about')) is-active @endif">About</a></li>
-                    <li><a href="{{ route('blog.index') }}" class="nav__link @if(request()->routeIs('blog.*')) is-active @endif">Journal</a></li>
-                    <li><a href="{{ route('faq.index') }}" class="nav__link @if(request()->routeIs('faq.*')) is-active @endif">FAQ</a></li>
-                    <li><a href="{{ route('travel-quiz.show') }}" class="nav__link @if(request()->routeIs('travel-quiz.*')) is-active @endif">Travel Quiz</a></li>
-                    <li><a href="{{ route('contact') }}" class="nav__link nav__link--accent @if(request()->routeIs('contact')) is-active @endif">Contact</a></li>
+                    @forelse ($navItems as $item)
+                        <li>
+                            <a href="{{ $item->href() }}"
+                               class="nav__link @if($item->isCurrent()) is-active @endif @if($item->is_highlight) nav__link--accent @endif">
+                                {{ $item->label }}
+                            </a>
+                        </li>
+                    @empty
+                        <li><a href="{{ route('packages.index') }}" class="nav__link @if(request()->routeIs('packages.*')) is-active @endif">Safaris</a></li>
+                        <li><a href="{{ route('destinations.index') }}" class="nav__link @if(request()->routeIs('destinations.*')) is-active @endif">Destinations</a></li>
+                        <li><a href="{{ route('contact') }}" class="nav__link nav__link--accent @if(request()->routeIs('contact')) is-active @endif">Contact</a></li>
+                    @endforelse
                     @auth
-                        <li><a href="{{ route('account.dashboard') }}" class="nav__link">My Account</a></li>
+                        @if (auth()->user()->isAdmin())
+                            <li><a href="{{ route('admin.dashboard') }}" class="nav__link">Admin</a></li>
+                        @else
+                            <li><a href="{{ route('account.dashboard') }}" class="nav__link">My Account</a></li>
+                        @endif
                     @else
                         <li><a href="{{ route('login') }}" class="nav__link">Login</a></li>
                     @endauth
@@ -117,18 +120,9 @@
         <div class="container">
             <div class="footer__grid">
                 <div class="footer__brand">
-                    <a href="{{ route('home') }}" class="logo logo--footer">
-                        <span class="logo__mark" aria-hidden="true">
-                            <i data-lucide="compass"></i>
-                        </span>
-                        <span class="logo__text">
-                            <span class="logo__name">Leyla Safari</span>
-                            <span class="logo__tag">Tours</span>
-                        </span>
-                    </a>
-                    <p class="footer__tagline">
-                        Authentic Kenyan safaris, crafted with care from the heart of Nairobi.
-                    </p>
+                    @include('partials.site-logo', ['variant' => 'footer'])
+                    <p class="footer__tagline">{{ $footerTagline }}</p>
+                    @include('partials.social-links')
                 </div>
 
                 <div class="footer__col">
@@ -155,30 +149,22 @@
                     </address>
                 </div>
 
-                <div class="footer__col">
-                    <h4 class="footer__heading">Explore</h4>
-                    <ul class="footer__links">
-                        <li><a href="{{ route('packages.index') }}">Our Safaris</a></li>
-                        <li><a href="{{ route('destinations.index') }}">Destinations</a></li>
-                        <li><a href="{{ route('experiences.index') }}">Experiences</a></li>
-                        <li><a href="{{ route('about') }}">About Us</a></li>
-                        <li><a href="{{ route('blog.index') }}">Journal</a></li>
-                        <li><a href="{{ route('contact') }}">Inquire</a></li>
-                    </ul>
-                </div>
+                @foreach (['explore', 'travel_info'] as $group)
+                    @if ($footerLinks->has($group) && $footerLinks[$group]->isNotEmpty())
+                        <div class="footer__col">
+                            <h4 class="footer__heading">{{ \App\Models\FooterLink::groupLabel($group) }}</h4>
+                            <ul class="footer__links">
+                                @foreach ($footerLinks[$group] as $link)
+                                    <li><a href="{{ $link->href() }}">{{ $link->label }}</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                @endforeach
 
                 <div class="footer__col">
-                    <h4 class="footer__heading">Travel Info</h4>
-                    <ul class="footer__links">
-                        <li><a href="{{ route('practical.index') }}">Practical Information</a></li>
-                        <li><a href="{{ route('faq.index') }}">FAQ</a></li>
-                        <li><a href="{{ route('travel-quiz.show') }}">Travel Quiz</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer__col">
-                    <h4 class="footer__heading">Newsletter</h4>
-                    <p style="font-size: 0.85rem; color: var(--color-sage); margin-bottom: 0.75rem;">Safari inspiration in your inbox.</p>
+                    <h4 class="footer__heading">{{ $newsletterHeading }}</h4>
+                    <p style="font-size: 0.85rem; color: var(--color-sage); margin-bottom: 0.75rem;">{{ $newsletterText }}</p>
                     <form action="{{ route('newsletter.store') }}" method="POST" class="newsletter-form">
                         @csrf
                         <input type="text" name="name" placeholder="Your name" aria-label="Name">
@@ -187,28 +173,29 @@
                     </form>
                 </div>
 
-                <div class="footer__col">
-                    <h4 class="footer__heading">Security</h4>
-                    <div class="footer__security">
-                        <div class="security-badge">
-                            <i data-lucide="lock" aria-hidden="true"></i>
-                            <span>HTTPS Secured</span>
-                        </div>
-                        <div class="payment-icons" aria-label="Accepted payment methods">
-                            <span class="payment-icon" title="Visa">Visa</span>
-                            <span class="payment-icon" title="Mastercard">MC</span>
-                            <span class="payment-icon" title="M-Pesa">M-Pesa</span>
-                            <span class="payment-icon" title="PayPal">PayPal</span>
+                @if (count($paymentMethods) > 0)
+                    <div class="footer__col">
+                        <h4 class="footer__heading">Security</h4>
+                        <div class="footer__security">
+                            <div class="security-badge">
+                                <i data-lucide="lock" aria-hidden="true"></i>
+                                <span>HTTPS Secured</span>
+                            </div>
+                            <div class="payment-icons" aria-label="Accepted payment methods">
+                                @foreach ($paymentMethods as $method)
+                                    <span class="payment-icon" title="{{ $method }}">{{ $method }}</span>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
 
             <div class="footer__bottom">
                 <p>&copy; {{ date('Y') }} {{ $siteName }}. All rights reserved.</p>
                 <p class="footer__domain">
                     <i data-lucide="globe" aria-hidden="true"></i>
-                    leylasafaritours.com
+                    {{ $websiteUrl }}
                 </p>
             </div>
         </div>

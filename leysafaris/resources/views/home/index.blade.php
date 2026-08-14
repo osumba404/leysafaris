@@ -15,13 +15,13 @@
     {
       "@type": "TravelAgency",
       "@id": "{{ url('/') }}#organization",
-      "name": "Leyla Safari Tours",
+      "name": "{{ $settings['site_name'] ?? 'Leyla Safari Tours' }}",
       "url": "{{ url('/') }}",
-      "logo": "{{ asset('images/savannah_sunset_tree.jpg') }}",
-      "image": "{{ asset('images/savannah_sunset_tree.jpg') }}",
+      "logo": "{{ \App\Support\SiteSettings::logoUrl($settings) ?? asset('images/savannah_sunset_tree.jpg') }}",
+      "image": "{{ asset($settings['site_logo'] ?? 'images/savannah_sunset_tree.jpg') }}",
       "description": "Premium Kenya and East Africa safari tours from Nairobi - Maasai Mara, Amboseli, Samburu and tailor-made wildlife journeys.",
       "telephone": "{{ $settings['phone'] ?? '+254712345678' }}",
-      "email": "info@leylasafaritours.com",
+      "email": "{{ \App\Support\SiteSettings::list($settings, 'emails')[0] ?? 'info@leylasafaritours.com' }}",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Nairobi",
@@ -45,28 +45,51 @@
 @endpush
 
 @section('content')
-    <section class="hero hero--artistic" aria-labelledby="hero-heading">
-        <div class="hero__media">
-            <x-optimized-img
-                src="images/savannah_sunset_tree.jpg"
-                alt="Golden sunset over the Kenyan savannah with acacia trees - Leyla Safari Tours"
-                :width="1920"
-                :height="1080"
-                :priority="true"
-            />
+    @php
+        $slides = ($heroSlides ?? collect())->isNotEmpty()
+            ? $heroSlides
+            : collect([(object) [
+                'image' => 'images/savannah_sunset_tree.jpg',
+                'eyebrow' => 'Tailor-made safaris · Nairobi experts',
+                'title' => "Let's plan your dream trip together",
+                'subtitle' => 'Private jeeps, world-class guides, and itineraries crafted around your dates, budget, and sense of adventure.',
+            ]]);
+        $firstSlide = $slides->first();
+    @endphp
+
+    <section class="hero hero--artistic" aria-labelledby="hero-heading" data-hero-slider>
+        <div class="hero__media hero-slider">
+            @foreach ($slides as $index => $slide)
+                <div class="hero-slider__slide @if($index === 0) is-active @endif" data-hero-slide
+                     data-eyebrow="{{ $slide->eyebrow }}"
+                     data-title="{{ $slide->title }}"
+                     data-subtitle="{{ $slide->subtitle }}">
+                    <x-optimized-img
+                        src="{{ $slide->image }}"
+                        alt="{{ $slide->title }} - {{ $settings['site_name'] ?? 'Leyla Safari Tours' }}"
+                        :width="1920"
+                        :height="1080"
+                        :priority="$index === 0"
+                    />
+                </div>
+            @endforeach
             <div class="hero__overlay hero__overlay--artistic"></div>
             <div class="hero__grain" aria-hidden="true"></div>
+            @if ($slides->count() > 1)
+                <div class="hero-slider__dots" aria-hidden="true">
+                    @foreach ($slides as $index => $slide)
+                        <button type="button" class="hero-slider__dot @if($index === 0) is-active @endif" data-hero-dot aria-label="Slide {{ $index + 1 }}"></button>
+                    @endforeach
+                </div>
+            @endif
         </div>
         <div class="container hero__layout">
             <div class="hero__content">
-                <p class="hero__eyebrow">Tailor-made safaris · Nairobi experts</p>
-                <h1 id="hero-heading" class="hero__title">
-                    Let's plan your<br>
-                    <em>dream trip together</em>
+                <p class="hero__eyebrow" data-hero-eyebrow>{{ $firstSlide->eyebrow }}</p>
+                <h1 id="hero-heading" class="hero__title" data-hero-title>
+                    {!! nl2br(e($firstSlide->title)) !!}
                 </h1>
-                <p class="hero__subtitle">
-                    Private jeeps, world-class guides, and itineraries crafted around your dates, budget, and sense of adventure.
-                </p>
+                <p class="hero__subtitle" data-hero-subtitle>{{ $firstSlide->subtitle }}</p>
                 <ul class="value-pills" aria-label="Why travellers choose us">
                     <li><i data-lucide="check-circle"></i> 100% custom itineraries</li>
                     <li><i data-lucide="star"></i> {{ $settings['google_rating'] ?? '4.9' }}/5 guest reviews</li>

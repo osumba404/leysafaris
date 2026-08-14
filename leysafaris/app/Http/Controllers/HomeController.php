@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AnnualEvent;
 use App\Models\Destination;
+use App\Models\HeroSlide;
 use App\Models\Package;
 use App\Models\Setting;
 use App\Models\Testimonial;
@@ -46,13 +47,18 @@ class HomeController extends Controller
 
         $settings = Setting::allGrouped();
 
+        $heroSlides = HeroSlide::active()
+            ->orderBy('sort_order')
+            ->get();
+
         return view('home.index', compact(
             'featuredPackages',
             'destinations',
             'allDestinations',
             'testimonials',
             'annualEvents',
-            'settings'
+            'settings',
+            'heroSlides'
         ));
     }
 }

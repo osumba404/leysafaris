@@ -7,6 +7,9 @@ use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DestinationController as AdminDestinationController;
 use App\Http\Controllers\Admin\EnquiryController as AdminEnquiryController;
+use App\Http\Controllers\Admin\FooterLinkController as AdminFooterLinkController;
+use App\Http\Controllers\Admin\HeroSlideController as AdminHeroSlideController;
+use App\Http\Controllers\Admin\NavItemController as AdminNavItemController;
 use App\Http\Controllers\Admin\ExperienceController as AdminExperienceController;
 use App\Http\Controllers\Admin\PackageController as AdminPackageController;
 use App\Http\Controllers\Admin\QuoteController as AdminQuoteController;
@@ -89,6 +92,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('testimonials', AdminTestimonialController::class);
     Route::resource('blog-posts', AdminBlogPostController::class);
     Route::resource('annual-events', AdminAnnualEventController::class);
+
+    Route::resource('hero-slides', AdminHeroSlideController::class)->except(['show']);
+    Route::resource('nav-items', AdminNavItemController::class)->except(['show']);
+    Route::resource('footer-links', AdminFooterLinkController::class)->except(['show']);
 
     Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
     Route::put('settings', [AdminSettingController::class, 'update'])->name('settings.update');

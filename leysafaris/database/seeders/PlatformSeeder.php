@@ -42,6 +42,7 @@ class PlatformSeeder extends Seeder
         $this->seedAnnualEvent($packages['migration']);
         $this->seedFaqs();
         $this->seedSettings();
+        $this->call(SiteContentSeeder::class);
     }
 
     /**
@@ -920,6 +921,20 @@ class PlatformSeeder extends Seeder
     private function seedSettings(): void
     {
         Setting::set('site_name', 'Leyla Safari Tours', 'general');
+        Setting::set('logo_name', 'Leyla Safari', 'general');
+        Setting::set('logo_tag', 'Tours', 'general');
+        Setting::set('site_logo', '', 'general');
+        Setting::set('site_favicon', '', 'general');
+        Setting::set('footer_tagline', 'Authentic Kenyan safaris, crafted with care from the heart of Nairobi.', 'general');
+        Setting::set('website_url', 'leylasafaritours.com', 'general');
+        Setting::set('newsletter_heading', 'Newsletter', 'general');
+        Setting::set('newsletter_text', 'Safari inspiration in your inbox.', 'general');
+        Setting::set('payment_methods', ['Visa', 'MC', 'M-Pesa', 'PayPal'], 'general');
+        Setting::set('social_links', [
+            ['platform' => 'facebook', 'url' => 'https://www.facebook.com/'],
+            ['platform' => 'instagram', 'url' => 'https://www.instagram.com/'],
+            ['platform' => 'tripadvisor', 'url' => 'https://www.tripadvisor.com/'],
+        ], 'general');
         Setting::set('phone', '+254 712 345 678', 'contact');
         Setting::set('whatsapp', '+254712345678', 'contact');
         Setting::set('emails', [

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\FooterLink;
+use App\Models\NavItem;
 use App\Models\Setting;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -40,7 +42,24 @@ class AppServiceProvider extends ServiceProvider
                 ->line('If you did not request a password reset, you can safely ignore this email.');
         });
 
-        View::composer(['layouts.public', 'contact', 'about.index'], function ($view) {
+        View::composer(['layouts.public'], function ($view) {
+            if (! array_key_exists('settings', $view->getData())) {
+                $view->with('settings', Setting::allGrouped());
+            }
+
+            if (! array_key_exists('navItems', $view->getData())) {
+                $view->with('navItems', NavItem::active()->orderBy('sort_order')->get());
+            }
+
+            if (! array_key_exists('footerLinks', $view->getData())) {
+                $view->with(
+                    'footerLinks',
+                    FooterLink::active()->orderBy('group')->orderBy('sort_order')->get()->groupBy('group')
+                );
+            }
+        });
+
+        View::composer(['layouts.admin'], function ($view) {
             if (! array_key_exists('settings', $view->getData())) {
                 $view->with('settings', Setting::allGrouped());
             }

@@ -15,7 +15,7 @@ class Setting extends Model
     protected function casts(): array
     {
         return [
-            'value' => 'array',
+            'value' => 'json',
         ];
     }
 

@@ -18,11 +18,27 @@ class ContentEnhancementSeeder extends Seeder
         $this->seedSettings();
         $this->seedFaqs();
         $this->seedTestimonials();
+        $this->call(SiteContentSeeder::class);
     }
 
     private function seedSettings(): void
     {
         $settings = [
+            ['site_name', 'Leyla Safari Tours', 'general'],
+            ['logo_name', 'Leyla Safari', 'general'],
+            ['logo_tag', 'Tours', 'general'],
+            ['site_logo', '', 'general'],
+            ['site_favicon', '', 'general'],
+            ['footer_tagline', 'Authentic Kenyan safaris, crafted with care from the heart of Nairobi.', 'general'],
+            ['website_url', 'leylasafaritours.com', 'general'],
+            ['newsletter_heading', 'Newsletter', 'general'],
+            ['newsletter_text', 'Safari inspiration in your inbox.', 'general'],
+            ['payment_methods', ['Visa', 'MC', 'M-Pesa', 'PayPal'], 'general'],
+            ['social_links', [
+                ['platform' => 'facebook', 'url' => 'https://www.facebook.com/'],
+                ['platform' => 'instagram', 'url' => 'https://www.instagram.com/'],
+                ['platform' => 'tripadvisor', 'url' => 'https://www.tripadvisor.com/'],
+            ], 'general'],
             ['google_rating', '4.9', 'reviews'],
             ['google_review_count', '127', 'reviews'],
             ['tripadvisor_rating', '4.8', 'reviews'],
@@ -33,7 +49,9 @@ class ContentEnhancementSeeder extends Seeder
         ];
 
         foreach ($settings as [$key, $value, $group]) {
-            Setting::set($key, $value, $group);
+            if (! Setting::query()->where('key', $key)->exists()) {
+                Setting::set($key, $value, $group);
+            }
         }
     }
 

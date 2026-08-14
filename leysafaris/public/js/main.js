@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSmoothScroll();
   initLazySections();
   initReviewCarousel();
+  initHeroSlider();
 });
 
 function initMobileNav() {
@@ -161,4 +162,45 @@ function initReviewCarousel() {
   next.addEventListener('click', () => {
     track.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
   });
+}
+
+function initHeroSlider() {
+  const hero = document.querySelector('[data-hero-slider]');
+  if (!hero) return;
+
+  const slides = [...hero.querySelectorAll('[data-hero-slide]')];
+  const dots = [...hero.querySelectorAll('[data-hero-dot]')];
+  if (slides.length <= 1) return;
+
+  const eyebrow = document.querySelector('[data-hero-eyebrow]');
+  const title = document.querySelector('[data-hero-title]');
+  const subtitle = document.querySelector('[data-hero-subtitle]');
+  let current = 0;
+  let timer;
+
+  function show(index) {
+    current = (index + slides.length) % slides.length;
+    slides.forEach((slide, i) => slide.classList.toggle('is-active', i === current));
+    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === current));
+
+    const active = slides[current];
+    if (eyebrow) eyebrow.textContent = active.dataset.eyebrow || '';
+    if (title) title.innerHTML = (active.dataset.title || '').replace(/\n/g, '<br>');
+    if (subtitle) subtitle.textContent = active.dataset.subtitle || '';
+  }
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      show(index);
+      resetTimer();
+    });
+  });
+
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => show(current + 1), 7000);
+  }
+
+  show(0);
+  resetTimer();
 }
