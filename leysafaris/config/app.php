@@ -29,6 +29,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Static asset cache busting (production)
+    |--------------------------------------------------------------------------
+    |
+    | Optional override for ?v= on css/js URLs. When empty, file modification
+    | time from public/ is used automatically.
+    |
+    */
+
+    'asset_version' => env('ASSET_VERSION'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

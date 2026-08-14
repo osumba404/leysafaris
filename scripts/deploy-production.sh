@@ -6,16 +6,18 @@ set -euo pipefail
 APPPATH="${APPPATH:-/home2/leylasaf/leysafaris/leysafaris}"
 DEPLOYPATH="${DEPLOYPATH:-/home2/leylasaf/public_html}"
 REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
+PUBLIC="$REPO_ROOT/leysafaris/public"
 
 echo "==> App path: $APPPATH"
 echo "==> Doc root: $DEPLOYPATH"
 
-mkdir -p "$APPPATH" "$DEPLOYPATH/css" "$DEPLOYPATH/js"
+mkdir -p "$DEPLOYPATH/images"
 
-echo "==> Sync public assets"
-cp -R "$REPO_ROOT/leysafaris/public/." "$DEPLOYPATH/"
-cp "$REPO_ROOT/leysafaris/public/css/admin.css" "$DEPLOYPATH/css/admin.css"
-cp "$REPO_ROOT/leysafaris/public/htaccess.txt" "$DEPLOYPATH/.htaccess"
+echo "==> Sync docroot entry files + images (css/js served by Laravel from git public/)"
+cp "$PUBLIC/index.php" "$DEPLOYPATH/"
+cp "$PUBLIC/htaccess.txt" "$DEPLOYPATH/.htaccess"
+cp -R "$PUBLIC/images/." "$DEPLOYPATH/images/"
+rm -rf "$DEPLOYPATH/css" "$DEPLOYPATH/js"
 
 echo "==> Sync application code"
 cp -R \

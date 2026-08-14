@@ -1,4 +1,5 @@
 @php
+    use App\Support\AssetUrl;
     use App\Support\SiteSettings;
 
     $settings = $settings ?? [];
@@ -24,17 +25,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light dark">
-    <script src="{{ asset('js/theme.js') }}"></script>
+    <script src="{{ AssetUrl::versionedRoute('assets.theme', 'js/theme.js') }}"></script>
     @include('partials.seo-head')
 
     <link rel="icon" href="{{ $faviconUrl }}" sizes="any">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="{{ asset('css/style.css') }}" as="style">
+    <link rel="preload" href="{{ AssetUrl::versionedRoute('assets.style', 'css/style.css') }}" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ AssetUrl::versionedRoute('assets.style', 'css/style.css') }}">
     @stack('styles')
 
     <style>
@@ -71,7 +72,7 @@
     </style>
 
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
-    <script src="{{ asset('js/main.js') }}" defer></script>
+    <script src="{{ AssetUrl::versionedRoute('assets.main', 'js/main.js') }}" defer></script>
     @stack('scripts')
 </head>
 <body>

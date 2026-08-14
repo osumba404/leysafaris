@@ -1,15 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class AssetController extends Controller
 {
-    public function adminCss(): BinaryFileResponse
+    public function styleCss(): BinaryFileResponse
     {
-        return $this->serve('css/admin.css', 'text/css');
+        return $this->serve('css/style.css', 'text/css');
+    }
+
+    public function themeJs(): BinaryFileResponse
+    {
+        return $this->serve('js/theme.js', 'application/javascript');
+    }
+
+    public function mainJs(): BinaryFileResponse
+    {
+        return $this->serve('js/main.js', 'application/javascript');
+    }
+
+    public function adminJs(): BinaryFileResponse
+    {
+        return $this->serve('js/admin.js', 'application/javascript');
     }
 
     private function serve(string $relativePath, string $contentType): BinaryFileResponse

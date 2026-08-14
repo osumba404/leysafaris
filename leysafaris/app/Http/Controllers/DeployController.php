@@ -24,12 +24,12 @@ class DeployController extends Controller
         $lines = ['Leyla Safari Tours — deploy tasks', str_repeat('-', 40)];
 
         $tasks = [
-            'migrate --force --no-interaction' => fn () => Artisan::call('migrate', ['--force' => true, '--no-interaction' => true]),
-            'db:seed ContentEnhancementSeeder' => fn () => Artisan::call('db:seed', ['--class' => 'ContentEnhancementSeeder', '--force' => true]),
-            'db:seed SiteContentSeeder' => fn () => Artisan::call('db:seed', ['--class' => 'SiteContentSeeder', '--force' => true]),
             'config:clear' => fn () => Artisan::call('config:clear'),
             'route:clear' => fn () => Artisan::call('route:clear'),
             'view:clear' => fn () => Artisan::call('view:clear'),
+            'migrate --force --no-interaction' => fn () => Artisan::call('migrate', ['--force' => true, '--no-interaction' => true]),
+            'db:seed ContentEnhancementSeeder' => fn () => Artisan::call('db:seed', ['--class' => 'ContentEnhancementSeeder', '--force' => true]),
+            'db:seed SiteContentSeeder' => fn () => Artisan::call('db:seed', ['--class' => 'SiteContentSeeder', '--force' => true]),
         ];
 
         foreach ($tasks as $label => $task) {

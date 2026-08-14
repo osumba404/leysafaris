@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\AnnualEventController as AdminAnnualEventController;
 use App\Http\Controllers\Admin\AssetController as AdminAssetController;
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DestinationController as AdminDestinationController;
@@ -42,7 +43,11 @@ Route::get('/deploy/run', [DeployController::class, 'run'])
     ->middleware('throttle:5,1')
     ->name('deploy.run');
 
-Route::get('/css/admin.css', [AdminAssetController::class, 'adminCss'])->name('admin.css');
+Route::get('/assets/css/style.css', [AssetController::class, 'styleCss'])->name('assets.style');
+Route::get('/assets/js/theme.js', [AssetController::class, 'themeJs'])->name('assets.theme');
+Route::get('/assets/js/main.js', [AssetController::class, 'mainJs'])->name('assets.main');
+Route::get('/assets/js/admin.js', [AssetController::class, 'adminJs'])->name('assets.admin');
+Route::get('/assets/css/admin.css', [AdminAssetController::class, 'adminCss'])->name('admin.css');
 
 Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
 
