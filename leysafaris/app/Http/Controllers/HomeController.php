@@ -8,6 +8,7 @@ use App\Models\HeroSlide;
 use App\Models\Package;
 use App\Models\Setting;
 use App\Models\Testimonial;
+use App\Support\DbSchema;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -47,9 +48,9 @@ class HomeController extends Controller
 
         $settings = Setting::allGrouped();
 
-        $heroSlides = HeroSlide::active()
-            ->orderBy('sort_order')
-            ->get();
+        $heroSlides = DbSchema::hasTable('hero_slides')
+            ? HeroSlide::active()->orderBy('sort_order')->get()
+            : collect();
 
         return view('home.index', compact(
             'featuredPackages',

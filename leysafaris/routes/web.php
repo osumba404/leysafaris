@@ -22,6 +22,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\DeployController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\Customer\WishlistController;
 use App\Http\Controllers\DestinationController;
@@ -36,6 +37,10 @@ use App\Http\Controllers\PackageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/deploy/run', [DeployController::class, 'run'])
+    ->middleware('throttle:5,1')
+    ->name('deploy.run');
 
 Route::get('/css/admin.css', [AdminAssetController::class, 'adminCss'])->name('admin.css');
 

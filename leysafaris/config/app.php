@@ -17,6 +17,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | One-time deploy token (production, no SSH)
+    |--------------------------------------------------------------------------
+    |
+    | Set DEPLOY_RUN_TOKEN in .env, visit /deploy/run?token=... once, then
+    | remove the variable. Leave empty to disable the route entirely.
+    |
+    */
+
+    'deploy_run_token' => env('DEPLOY_RUN_TOKEN'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

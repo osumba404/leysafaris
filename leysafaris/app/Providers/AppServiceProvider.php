@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\FooterLink;
 use App\Models\NavItem;
 use App\Models\Setting;
+use App\Support\DbSchema;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\View;
@@ -48,13 +49,20 @@ class AppServiceProvider extends ServiceProvider
             }
 
             if (! array_key_exists('navItems', $view->getData())) {
-                $view->with('navItems', NavItem::active()->orderBy('sort_order')->get());
+                $view->with(
+                    'navItems',
+                    DbSchema::hasTable('nav_items')
+                        ? NavItem::active()->orderBy('sort_order')->get()
+                        : collect()
+                );
             }
 
             if (! array_key_exists('footerLinks', $view->getData())) {
                 $view->with(
                     'footerLinks',
-                    FooterLink::active()->orderBy('group')->orderBy('sort_order')->get()->groupBy('group')
+                    DbSchema::hasTable('footer_links')
+                        ? FooterLink::active()->orderBy('group')->orderBy('sort_order')->get()->groupBy('group')
+                        : collect()
                 );
             }
         });
