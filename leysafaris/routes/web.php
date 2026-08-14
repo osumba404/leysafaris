@@ -22,6 +22,10 @@ use App\Http\Controllers\Customer\WishlistController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\EnquiryController;
 use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\PracticalInfoController;
+use App\Http\Controllers\TravelQuizController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PackageController;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +51,12 @@ Route::get('/journal/{slug}', [BlogController::class, 'show'])->name('blog.show'
 
 Route::get('/contact', [EnquiryController::class, 'contact'])->name('contact');
 Route::post('/enquiries', [EnquiryController::class, 'store'])->name('enquiries.store');
+
+Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+Route::get('/practical-information', [PracticalInfoController::class, 'index'])->name('practical.index');
+Route::get('/travel-quiz', [TravelQuizController::class, 'show'])->name('travel-quiz.show');
+Route::post('/travel-quiz', [TravelQuizController::class, 'submit'])->name('travel-quiz.submit');
+Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

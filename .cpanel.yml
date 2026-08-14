@@ -11,3 +11,5 @@ deployment:
     # Sync application code (vendor + .env stay on server)
     - /bin/cp -R leysafaris/app leysafaris/bootstrap leysafaris/config leysafaris/database leysafaris/resources leysafaris/routes leysafaris/artisan leysafaris/composer.json leysafaris/composer.lock $APPPATH/
     - cd $APPPATH && php artisan config:clear && php artisan route:clear && php artisan view:clear
+    - cd $APPPATH && php artisan migrate --force
+    - cd $APPPATH && php artisan db:seed --class=ContentEnhancementSeeder --force

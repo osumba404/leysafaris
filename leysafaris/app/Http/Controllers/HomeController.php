@@ -27,10 +27,14 @@ class HomeController extends Controller
             ->get();
 
         $testimonials = Testimonial::approved()
-            ->featured()
             ->with('package')
             ->orderBy('sort_order')
-            ->limit(6)
+            ->limit(8)
+            ->get();
+
+        $allDestinations = Destination::published()
+            ->orderBy('sort_order')
+            ->limit(12)
             ->get();
 
         $annualEvents = AnnualEvent::published()
@@ -45,6 +49,7 @@ class HomeController extends Controller
         return view('home.index', compact(
             'featuredPackages',
             'destinations',
+            'allDestinations',
             'testimonials',
             'annualEvents',
             'settings'

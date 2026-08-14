@@ -90,6 +90,8 @@
                     <li><a href="{{ route('experiences.index') }}" class="nav__link @if(request()->routeIs('experiences.*')) is-active @endif">Experiences</a></li>
                     <li><a href="{{ route('about') }}" class="nav__link @if(request()->routeIs('about')) is-active @endif">About</a></li>
                     <li><a href="{{ route('blog.index') }}" class="nav__link @if(request()->routeIs('blog.*')) is-active @endif">Journal</a></li>
+                    <li><a href="{{ route('faq.index') }}" class="nav__link @if(request()->routeIs('faq.*')) is-active @endif">FAQ</a></li>
+                    <li><a href="{{ route('travel-quiz.show') }}" class="nav__link @if(request()->routeIs('travel-quiz.*')) is-active @endif">Travel Quiz</a></li>
                     <li><a href="{{ route('contact') }}" class="nav__link nav__link--accent @if(request()->routeIs('contact')) is-active @endif">Contact</a></li>
                     @auth
                         <li><a href="{{ route('account.dashboard') }}" class="nav__link">My Account</a></li>
@@ -163,6 +165,26 @@
                         <li><a href="{{ route('blog.index') }}">Journal</a></li>
                         <li><a href="{{ route('contact') }}">Inquire</a></li>
                     </ul>
+                </div>
+
+                <div class="footer__col">
+                    <h4 class="footer__heading">Travel Info</h4>
+                    <ul class="footer__links">
+                        <li><a href="{{ route('practical.index') }}">Practical Information</a></li>
+                        <li><a href="{{ route('faq.index') }}">FAQ</a></li>
+                        <li><a href="{{ route('travel-quiz.show') }}">Travel Quiz</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__col">
+                    <h4 class="footer__heading">Newsletter</h4>
+                    <p style="font-size: 0.85rem; color: var(--color-sage); margin-bottom: 0.75rem;">Safari inspiration in your inbox.</p>
+                    <form action="{{ route('newsletter.store') }}" method="POST" class="newsletter-form">
+                        @csrf
+                        <input type="text" name="name" placeholder="Your name" aria-label="Name">
+                        <input type="email" name="email" placeholder="Email address" required aria-label="Email">
+                        <button type="submit" class="btn btn--primary btn--sm">Subscribe</button>
+                    </form>
                 </div>
 
                 <div class="footer__col">

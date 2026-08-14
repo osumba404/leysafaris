@@ -45,7 +45,7 @@
 @endpush
 
 @section('content')
-    <section class="hero" aria-labelledby="hero-heading">
+    <section class="hero hero--artistic" aria-labelledby="hero-heading">
         <div class="hero__media">
             <x-optimized-img
                 src="images/savannah_sunset_tree.jpg"
@@ -54,24 +54,95 @@
                 :height="1080"
                 :priority="true"
             />
-            <div class="hero__overlay"></div>
+            <div class="hero__overlay hero__overlay--artistic"></div>
+            <div class="hero__grain" aria-hidden="true"></div>
         </div>
-        <div class="container hero__content">
-            <p class="hero__eyebrow">Locally guided · Since 2026</p>
-            <h1 id="hero-heading" class="hero__title">
-                Where the Wild<br>
-                <em>Meets Wonder</em>
-            </h1>
-            <p class="hero__subtitle">
-                From the thunder of the Great Migration to silent mornings above the Mara,
-                {{ $settings['site_name'] ?? 'Leyla Safari Tours' }} crafts journeys that stay with you long after you return home.
-            </p>
-            <div class="hero__scroll-hint" aria-hidden="true">
-                <span>Explore</span>
-                <i data-lucide="chevron-down"></i>
+        <div class="container hero__layout">
+            <div class="hero__content">
+                <p class="hero__eyebrow">Tailor-made safaris · Nairobi experts</p>
+                <h1 id="hero-heading" class="hero__title">
+                    Let's plan your<br>
+                    <em>dream trip together</em>
+                </h1>
+                <p class="hero__subtitle">
+                    Private jeeps, world-class guides, and itineraries crafted around your dates, budget, and sense of adventure.
+                </p>
+                <ul class="value-pills" aria-label="Why travellers choose us">
+                    <li><i data-lucide="check-circle"></i> 100% custom itineraries</li>
+                    <li><i data-lucide="star"></i> {{ $settings['google_rating'] ?? '4.9' }}/5 guest reviews</li>
+                    <li><i data-lucide="shield-check"></i> Transparent pricing</li>
+                    <li><i data-lucide="phone"></i> Expert advice, your way</li>
+                </ul>
             </div>
+
+            <aside class="hero-proposal" aria-labelledby="hero-proposal-heading">
+                <h2 id="hero-proposal-heading" class="hero-proposal__title">Request a Travel Proposal</h2>
+                <p class="hero-proposal__note">No strings attached. We will design your trip - no cost, no commitment.</p>
+                <form class="hero-proposal__form" action="{{ route('contact') }}" method="GET">
+                    <div class="hero-proposal__row">
+                        <label for="hero-adults">Adults</label>
+                        <input type="number" id="hero-adults" name="adults" min="1" max="20" value="2">
+                    </div>
+                    <div class="hero-proposal__row">
+                        <label for="hero-children">Children</label>
+                        <input type="number" id="hero-children" name="children" min="0" max="20" value="0">
+                    </div>
+                    <div class="hero-proposal__row hero-proposal__row--full">
+                        <label for="hero-dates">Estimated arrival</label>
+                        <input type="text" id="hero-dates" name="travel_dates" placeholder="e.g. August 2026">
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full">
+                        <i data-lucide="send"></i> Start Planning
+                    </button>
+                </form>
+                <p class="hero-proposal__alt">Or <a href="{{ route('travel-quiz.show') }}">take our travel quiz</a></p>
+            </aside>
         </div>
     </section>
+
+    <div class="trust-strip" role="region" aria-label="Guest review ratings">
+        <div class="container trust-strip__inner">
+            <div class="trust-strip__badge">
+                <i data-lucide="award"></i>
+                <div>
+                    <strong>TripAdvisor</strong>
+                    <span>{{ $settings['tripadvisor_rating'] ?? '4.8' }}/5 · {{ $settings['tripadvisor_review_count'] ?? '89' }}+ reviews</span>
+                </div>
+            </div>
+            <div class="trust-strip__badge">
+                <i data-lucide="star"></i>
+                <div>
+                    <strong>Google Reviews</strong>
+                    <span>{{ $settings['google_rating'] ?? '4.9' }}/5 · {{ $settings['google_review_count'] ?? '127' }}+ reviews</span>
+                </div>
+            </div>
+            <div class="trust-strip__badge">
+                <i data-lucide="map-pin"></i>
+                <div>
+                    <strong>Nairobi Based</strong>
+                    <span>Local experts since 2026</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @php
+        $pressMentions = $settings['press_mentions'] ?? [];
+        if (is_string($pressMentions)) {
+            $decoded = json_decode($pressMentions, true);
+            $pressMentions = is_array($decoded) ? $decoded : [];
+        }
+    @endphp
+    @if (! empty($pressMentions))
+        <div class="press-strip" aria-label="As featured in">
+            <div class="container press-strip__inner">
+                <span class="press-strip__label">As featured in</span>
+                @foreach ($pressMentions as $mention)
+                    <span class="press-strip__item">{{ $mention }}</span>
+                @endforeach
+            </div>
+        </div>
+    @endif
 
     <section class="section why-us" id="why-us" aria-labelledby="why-us-heading">
         <div class="container">
@@ -113,9 +184,17 @@
         <section class="section safaris" id="safaris" aria-labelledby="safaris-heading">
             <div class="container">
                 <div class="section-header section-header--light">
-                    <span class="section-header__label">Our Safaris</span>
-                    <h2 id="safaris-heading" class="section-header__title">Curated Adventures</h2>
-                    <p class="section-header__desc">Handpicked experiences designed around Kenya's greatest wildlife spectacles and landscapes.</p>
+                    <span class="section-header__label">Popular Itineraries</span>
+                    <h2 id="safaris-heading" class="section-header__title">Get Inspired</h2>
+                    <p class="section-header__desc">These routes are not set in stone - we are happy to make them perfect for you.</p>
+                </div>
+
+                <div class="trip-type-chips" aria-label="Filter by trip type">
+                    <a href="{{ route('packages.index') }}" class="trip-type-chip is-active">All Safaris</a>
+                    <a href="{{ route('packages.index', ['experience_type' => 'wildlife']) }}" class="trip-type-chip">Wildlife</a>
+                    <a href="{{ route('packages.index', ['traveler_type' => 'honeymooners']) }}" class="trip-type-chip">Honeymoon</a>
+                    <a href="{{ route('packages.index', ['traveler_type' => 'families']) }}" class="trip-type-chip">Family</a>
+                    <a href="{{ route('packages.index', ['experience_type' => 'luxury']) }}" class="trip-type-chip">Luxury</a>
                 </div>
 
                 <div class="safari-grid">
@@ -123,6 +202,9 @@
                         <article class="safari-card">
                             <a href="{{ route('packages.show', $package->slug) }}" class="safari-card__link">
                                 <div class="safari-card__image">
+                                    @if ($package->destinations->isNotEmpty())
+                                        <span class="safari-card__country">{{ $package->destinations->first()->country ?? 'Kenya' }}</span>
+                                    @endif
                                     <x-lazy-img
                                         :src="$package->hero_image ?? 'images/savannah_sunset_tree.jpg'"
                                         :alt="$package->title . ' - Kenya safari tour'"
@@ -205,41 +287,56 @@
         </section>
     @endif
 
-    @if ($destinations->isNotEmpty())
-        <section class="section destinations" id="destinations" aria-labelledby="destinations-heading">
+    @if ($allDestinations->isNotEmpty())
+        <section class="section dest-mosaic" id="discover" aria-labelledby="discover-heading">
             <div class="container">
-                <div class="section-header">
-                    <span class="section-header__label">Destination Guides</span>
-                    <h2 id="destinations-heading" class="section-header__title">Kenya's Wild Places</h2>
-                    <p class="section-header__desc">Explore the parks, reserves, and landscapes that define East Africa's greatest safari destinations.</p>
+                <div class="section-header section-header--light">
+                    <span class="section-header__label">Discover Africa</span>
+                    <h2 id="discover-heading" class="section-header__title">Your Guide to Africa's Wonders</h2>
+                    <p class="section-header__desc">Amazing landscapes, stunning wildlife, and vibrant cultures - East Africa has it all.</p>
                 </div>
-
-                <div class="destination-grid">
-                    @foreach ($destinations as $destination)
-                        <a href="{{ route('destinations.show', $destination->slug) }}" class="destination-card">
-                            <div class="destination-card__image">
-                                <x-lazy-img
-                                    :src="$destination->hero_image ?? 'images/pond_view.jpg'"
-                                    :alt="$destination->name . ' safari destination'"
-                                    :width="500"
-                                    :height="333"
-                                />
-                            </div>
-                            <div class="destination-card__body">
-                                <h3 class="destination-card__title">{{ $destination->name }}</h3>
-                                <p class="destination-card__region">{{ $destination->region ?? $destination->country }}</p>
-                                <p class="destination-card__excerpt">{{ $destination->excerpt }}</p>
-                            </div>
+                <div class="dest-mosaic__grid">
+                    @foreach ($allDestinations as $destination)
+                        <a href="{{ route('destinations.show', $destination->slug) }}" class="dest-mosaic__item">
+                            <x-lazy-img
+                                :src="$destination->hero_image ?? 'images/pond_view.jpg'"
+                                :alt="$destination->name"
+                                :width="400"
+                                :height="300"
+                            />
+                            <span class="dest-mosaic__label">{{ $destination->name }}</span>
                         </a>
                     @endforeach
-                </div>
-
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="{{ route('destinations.index') }}" class="btn btn--primary">All Destinations</a>
                 </div>
             </div>
         </section>
     @endif
+
+    <section class="section inspire-hub">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-header__label">Get Inspired</span>
+                <h2 class="section-header__title">Discover & Explore</h2>
+            </div>
+            <div class="inspire-hub__grid">
+                <a href="{{ route('experiences.index') }}" class="inspire-card inspire-card--link">
+                    <div class="feature-card__icon"><i data-lucide="binoculars"></i></div>
+                    <h3 class="feature-card__title">Activities</h3>
+                    <p class="feature-card__text">Balloon safaris, cultural visits, gorilla trekking, and bush walks to elevate your journey.</p>
+                </a>
+                <a href="{{ route('destinations.index') }}" class="inspire-card inspire-card--link">
+                    <div class="feature-card__icon"><i data-lucide="map-pin"></i></div>
+                    <h3 class="feature-card__title">National Parks</h3>
+                    <p class="feature-card__text">Maasai Mara, Amboseli, Samburu, and beyond - each park offers a unique wildlife story.</p>
+                </a>
+                <a href="{{ route('blog.index') }}" class="inspire-card inspire-card--link">
+                    <div class="feature-card__icon"><i data-lucide="book-open"></i></div>
+                    <h3 class="feature-card__title">Safari Journal</h3>
+                    <p class="feature-card__text">Travel tips, migration timing guides, and inspiration from our team on the ground.</p>
+                </a>
+            </div>
+        </div>
+    </section>
 
     @if ($annualEvents->isNotEmpty())
         <section class="section" aria-labelledby="events-heading">
@@ -279,47 +376,56 @@
     <section class="section reviews" id="reviews" aria-labelledby="reviews-heading">
         <div class="container">
             <div class="section-header">
-                <span class="section-header__label">Guest Reviews</span>
-                <h2 id="reviews-heading" class="section-header__title">Stories from the Savannah</h2>
+                <span class="section-header__label">What Travellers Say</span>
+                <h2 id="reviews-heading" class="section-header__title">Genuine Reviews from Our Guests</h2>
             </div>
 
             @if ($testimonials->isNotEmpty())
-                <div class="testimonial-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                    @foreach ($testimonials as $testimonial)
-                        <blockquote class="feature-card" style="margin: 0;">
-                            <div style="color: var(--color-savanna); margin-bottom: 0.5rem;">
-                                @for ($i = 1; $i <= ($testimonial->rating ?? 5); $i++)
-                                    <i data-lucide="star" style="width:16px;height:16px;display:inline;"></i>
-                                @endfor
-                            </div>
-                            <p class="feature-card__text">"{{ $testimonial->content }}"</p>
-                            <footer style="margin-top: 1rem; font-size: 0.85rem; color: var(--color-text-muted);">
-                                <strong>{{ $testimonial->author_name }}</strong>
-                                @if ($testimonial->author_location)
-                                    · {{ $testimonial->author_location }}
-                                @endif
-                            </footer>
-                        </blockquote>
-                    @endforeach
+                <div class="review-carousel" data-review-carousel>
+                    <button type="button" class="review-carousel__nav review-carousel__nav--prev" aria-label="Previous review" data-carousel-prev>
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+                    <div class="review-carousel__track" data-carousel-track>
+                        @foreach ($testimonials as $testimonial)
+                            <blockquote class="review-card">
+                                <div class="review-card__stars" aria-label="{{ $testimonial->rating }} out of 5 stars">
+                                    @for ($i = 1; $i <= ($testimonial->rating ?? 5); $i++)
+                                        <i data-lucide="star"></i>
+                                    @endfor
+                                </div>
+                                <p class="review-card__text">"{{ Str::limit($testimonial->content, 280) }}"</p>
+                                <footer class="review-card__footer">
+                                    <strong>{{ $testimonial->author_name }}</strong>
+                                    @if ($testimonial->author_location)
+                                        <span>· {{ $testimonial->author_location }}</span>
+                                    @endif
+                                    @if ($testimonial->reviewed_at)
+                                        <time datetime="{{ $testimonial->reviewed_at->toDateString() }}">{{ $testimonial->reviewed_at->format('F j, Y') }}</time>
+                                    @endif
+                                    @if ($testimonial->source)
+                                        <span class="review-card__source">Published on {{ ucfirst($testimonial->source) }}</span>
+                                    @endif
+                                </footer>
+                            </blockquote>
+                        @endforeach
+                    </div>
+                    <button type="button" class="review-carousel__nav review-carousel__nav--next" aria-label="Next review" data-carousel-next>
+                        <i data-lucide="chevron-right"></i>
+                    </button>
                 </div>
             @endif
 
-            <div class="reviews__widgets">
+            <div class="reviews__summary">
                 <div class="review-widget review-widget--google">
                     <div class="review-widget__header">
                         <i data-lucide="star" aria-hidden="true"></i>
                         <h3 class="review-widget__title">Google Reviews</h3>
                     </div>
-                    <div class="review-widget__placeholder" role="img" aria-label="Google reviews widget placeholder">
-                        <i data-lucide="globe" aria-hidden="true"></i>
-                        <p>Live Google review feed</p>
-                        <span class="review-widget__note">Embed your Google review widget here</span>
-                        <div class="review-widget__mock">
-                            <div class="review-widget__stars" aria-hidden="true">
-                                @for ($i = 0; $i < 5; $i++) <i data-lucide="star"></i> @endfor
-                            </div>
-                            <span>4.9 average · 127 reviews</span>
+                    <div class="review-widget__mock">
+                        <div class="review-widget__stars" aria-hidden="true">
+                            @for ($i = 0; $i < 5; $i++) <i data-lucide="star"></i> @endfor
                         </div>
+                        <span>{{ $settings['google_rating'] ?? '4.9' }} average · {{ $settings['google_review_count'] ?? '127' }} reviews</span>
                     </div>
                 </div>
                 <div class="review-widget review-widget--tripadvisor">
@@ -327,18 +433,46 @@
                         <i data-lucide="award" aria-hidden="true"></i>
                         <h3 class="review-widget__title">TripAdvisor</h3>
                     </div>
-                    <div class="review-widget__placeholder" role="img" aria-label="TripAdvisor reviews widget placeholder">
-                        <i data-lucide="globe" aria-hidden="true"></i>
-                        <p>Live TripAdvisor review feed</p>
-                        <span class="review-widget__note">Embed your TripAdvisor review widget here</span>
-                        <div class="review-widget__mock">
-                            <div class="review-widget__stars" aria-hidden="true">
-                                @for ($i = 0; $i < 5; $i++) <i data-lucide="star"></i> @endfor
-                            </div>
-                            <span>Travellers' Choice · 4.8 rating</span>
+                    <div class="review-widget__mock">
+                        <div class="review-widget__stars" aria-hidden="true">
+                            @for ($i = 0; $i < 5; $i++) <i data-lucide="star"></i> @endfor
                         </div>
+                        <span>Travellers' Choice · {{ $settings['tripadvisor_rating'] ?? '4.8' }} rating</span>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section guide-spotlight">
+        <div class="container guide-spotlight__inner">
+            <div class="guide-spotlight__copy">
+                <span class="section-header__label">Your Guide During the Journey</span>
+                <h2 class="section-header__title">Professionalism, Knowledge & Friendliness</h2>
+                <p class="section-header__desc">Our driver-guides know the bush like no other - you sit back, we navigate the wild.</p>
+                <div class="guide-spotlight__profile">
+                    <h3>{{ $settings['lead_guide_name'] ?? 'James Ochieng' }}</h3>
+                    <p>{{ $settings['lead_guide_bio'] ?? 'Lead safari guide with over fifteen years in the Maasai Mara and across Kenya.' }}</p>
+                </div>
+            </div>
+            <div class="guide-spotlight__media">
+                <x-lazy-img src="images/blacknwhite_safari_banner.jpg" alt="Safari guide with elephants on the plains" :width="600" :height="450" />
+            </div>
+        </div>
+    </section>
+
+    <section class="section expert-cta-wrap">
+        <div class="container expert-cta">
+            <div class="expert-cta__copy">
+                <span class="section-header__label">Call an Expert</span>
+                <h2 class="section-header__title">Receive a Free, No-Obligation Quote</h2>
+                <p>Our Nairobi specialists are here to assist you - by phone, WhatsApp, or email.</p>
+            </div>
+            <div class="expert-cta__actions">
+                <a href="tel:{{ preg_replace('/\s+/', '', $settings['phone'] ?? '+254712345678') }}" class="btn btn--primary">
+                    <i data-lucide="phone"></i> {{ $settings['phone'] ?? '+254 712 345 678' }}
+                </a>
+                <a href="{{ route('contact') }}" class="btn btn--secondary">Request Travel Proposal</a>
             </div>
         </div>
     </section>

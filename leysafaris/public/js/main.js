@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initInquiryForm();
   initSmoothScroll();
   initLazySections();
+  initReviewCarousel();
 });
 
 function initMobileNav() {
@@ -140,4 +141,24 @@ function initLazySections() {
     );
     observer.observe(gallery);
   }
+}
+
+function initReviewCarousel() {
+  const carousel = document.querySelector('[data-review-carousel]');
+  if (!carousel) return;
+
+  const track = carousel.querySelector('[data-carousel-track]');
+  const prev = carousel.querySelector('[data-carousel-prev]');
+  const next = carousel.querySelector('[data-carousel-next]');
+  if (!track || !prev || !next) return;
+
+  const scrollAmount = () => Math.min(track.clientWidth * 0.85, 520);
+
+  prev.addEventListener('click', () => {
+    track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+  });
+
+  next.addEventListener('click', () => {
+    track.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+  });
 }

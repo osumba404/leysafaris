@@ -20,6 +20,9 @@ class SitemapController extends Controller
             ['loc' => route('about'), 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['loc' => route('blog.index'), 'priority' => '0.8', 'changefreq' => 'weekly'],
             ['loc' => route('contact'), 'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['loc' => route('faq.index'), 'priority' => '0.75', 'changefreq' => 'monthly'],
+            ['loc' => route('practical.index'), 'priority' => '0.75', 'changefreq' => 'monthly'],
+            ['loc' => route('travel-quiz.show'), 'priority' => '0.7', 'changefreq' => 'monthly'],
         ]);
 
         Package::published()->select('slug', 'updated_at')->each(function ($package) use ($urls) {

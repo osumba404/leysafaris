@@ -16,6 +16,7 @@ class Testimonial extends Model
         'rating',
         'source',
         'source_url',
+        'reviewed_at',
         'is_approved',
         'is_featured',
         'sort_order',
@@ -28,6 +29,7 @@ class Testimonial extends Model
             'is_approved' => 'boolean',
             'is_featured' => 'boolean',
             'sort_order' => 'integer',
+            'reviewed_at' => 'date',
         ];
     }
 

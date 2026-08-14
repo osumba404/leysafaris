@@ -107,12 +107,12 @@
 
                 <div class="form-group">
                     <label for="travel_dates">Travel Dates</label>
-                    <input type="text" id="travel_dates" name="travel_dates" value="{{ old('travel_dates') }}" placeholder="e.g. July 15–22, 2026">
+                    <input type="text" id="travel_dates" name="travel_dates" value="{{ old('travel_dates', request('travel_dates')) }}" placeholder="e.g. July 15–22, 2026">
                 </div>
 
                 <div class="form-group">
                     <label for="group_size">Group Size</label>
-                    <input type="number" id="group_size" name="group_size" min="1" max="100" value="{{ old('group_size') }}" placeholder="2">
+                    <input type="number" id="group_size" name="group_size" min="1" max="100" value="{{ old('group_size', request('group_size') ?: ((int) request('adults', 0) + (int) request('children', 0)) ?: '') }}" placeholder="2">
                 </div>
 
                 <div class="form-group">
@@ -134,7 +134,7 @@
 
                 <div class="form-group form-group--full">
                     <label for="message">Tell us about your trip</label>
-                    <textarea id="message" name="message" rows="4" placeholder="Dates, group size, special requests, dietary needs...">{{ old('message') }}</textarea>
+                    <textarea id="message" name="message" rows="4" placeholder="Dates, group size, special requests, dietary needs...">{{ old('message', request('message')) }}</textarea>
                 </div>
 
                 <button type="submit" class="btn btn--primary btn--full">

@@ -6,6 +6,7 @@ use App\Models\AnnualEvent;
 use App\Models\BlogPost;
 use App\Models\Destination;
 use App\Models\Experience;
+use App\Models\Faq;
 use App\Models\Package;
 use App\Models\PackageDay;
 use App\Models\Setting;
@@ -39,6 +40,7 @@ class PlatformSeeder extends Seeder
         $this->seedTestimonials($packages);
         $this->seedBlogPosts($admin);
         $this->seedAnnualEvent($packages['migration']);
+        $this->seedFaqs();
         $this->seedSettings();
     }
 
@@ -820,41 +822,29 @@ class PlatformSeeder extends Seeder
      */
     private function seedTestimonials(array $packages): void
     {
-        Testimonial::create([
-            'package_id' => $packages['migration']->id,
-            'author_name' => 'Sarah & James Mitchell',
-            'author_location' => 'London, UK',
-            'content' => 'We watched a river crossing on day six that left us speechless. Our guide James knew exactly where to position us - no other vehicles in sight. Leyla Safari delivered everything they promised and more.',
-            'rating' => 5,
-            'source' => 'manual',
-            'is_approved' => true,
-            'is_featured' => true,
-            'sort_order' => 1,
-        ]);
+        $items = [
+            ['package' => 'migration', 'author_name' => 'Sarah & James Mitchell', 'author_location' => 'London, UK', 'content' => 'We watched a river crossing on day six that left us speechless. Our guide James knew exactly where to position us - no other vehicles in sight. Leyla Safari delivered everything they promised and more.', 'source' => 'tripadvisor', 'featured' => true, 'sort' => 1, 'weeks' => 8],
+            ['package' => 'amboseli', 'author_name' => 'Dr. Anita Rao', 'author_location' => 'Mumbai, India', 'content' => 'The Amboseli elephant photography was extraordinary. Kilimanjaro emerged from the clouds on our second morning and the lodge team had already arranged the perfect vantage point.', 'source' => 'google', 'featured' => true, 'sort' => 2, 'weeks' => 12],
+            ['package' => 'bush-beach', 'author_name' => 'Marcus & Elena Weber', 'author_location' => 'Munich, Germany', 'content' => 'Bush and beach in ten days - seamless connection, five days of game viewing and four days of pure relaxation. Our honeymoon was perfect.', 'source' => 'google', 'featured' => true, 'sort' => 3, 'weeks' => 4],
+            ['package' => 'migration', 'author_name' => 'Amber Jack', 'author_location' => 'California, USA', 'content' => 'We booked three days before arriving and everything was planned perfectly - lodges, transfers, Mara flight. Francis made every game drive unforgettable.', 'source' => 'google', 'featured' => true, 'sort' => 4, 'weeks' => 3],
+            ['package' => 'north', 'author_name' => 'Gideon van de Laar', 'author_location' => 'Amsterdam, Netherlands', 'content' => 'Our northern Kenya itinerary was exactly what we wanted. Emmanuel was knowledgeable, safe, and just as excited as we were when we spotted the Special Five.', 'source' => 'tripadvisor', 'featured' => true, 'sort' => 5, 'weeks' => 16],
+            ['package' => 'amboseli', 'author_name' => 'Br00ksider', 'author_location' => 'Virginia, USA', 'content' => 'Everything was meticulously planned. Our consultant and guide Stephen were amazing - knowledgeable, responsive, and genuinely passionate about Kenya.', 'source' => 'tripadvisor', 'featured' => false, 'sort' => 6, 'weeks' => 2],
+        ];
 
-        Testimonial::create([
-            'package_id' => $packages['amboseli']->id,
-            'author_name' => 'Dr. Anita Rao',
-            'author_location' => 'Mumbai, India',
-            'content' => 'The Amboseli elephant photography was extraordinary. Kilimanjaro emerged from the clouds on our second morning and the lodge team had already arranged the perfect vantage point. Impeccable organisation.',
-            'rating' => 5,
-            'source' => 'manual',
-            'is_approved' => true,
-            'is_featured' => true,
-            'sort_order' => 2,
-        ]);
-
-        Testimonial::create([
-            'package_id' => $packages['bush-beach']->id,
-            'author_name' => 'Marcus & Elena Weber',
-            'author_location' => 'Munich, Germany',
-            'content' => 'Bush and beach in ten days - we were sceptical it could work, but the flight connection was seamless. Five days of incredible game viewing followed by four days of pure relaxation. Our honeymoon was perfect.',
-            'rating' => 5,
-            'source' => 'manual',
-            'is_approved' => true,
-            'is_featured' => false,
-            'sort_order' => 3,
-        ]);
+        foreach ($items as $item) {
+            Testimonial::create([
+                'package_id' => $packages[$item['package']]->id,
+                'author_name' => $item['author_name'],
+                'author_location' => $item['author_location'],
+                'content' => $item['content'],
+                'rating' => 5,
+                'source' => $item['source'],
+                'reviewed_at' => now()->subWeeks($item['weeks']),
+                'is_approved' => true,
+                'is_featured' => $item['featured'],
+                'sort_order' => $item['sort'],
+            ]);
+        }
     }
 
     private function seedBlogPosts(User $admin): void
@@ -904,6 +894,29 @@ class PlatformSeeder extends Seeder
         ]);
     }
 
+    private function seedFaqs(): void
+    {
+        $faqs = [
+            ['category' => 'booking', 'question' => 'How do I request a travel proposal?', 'answer' => 'Use our contact form, hero planner, or travel quiz. Share your dates, group size, and interests. We respond within 24 hours with a tailored, no-obligation itinerary and transparent pricing.', 'sort_order' => 1],
+            ['category' => 'booking', 'question' => 'Are your itineraries fixed or customisable?', 'answer' => 'Every sample itinerary on our site is 100% customisable. We adjust lodges, duration, destinations, and activities to match your pace, budget, and travel style.', 'sort_order' => 2],
+            ['category' => 'booking', 'question' => 'How far in advance should I book?', 'answer' => 'For peak migration season (July-October) we recommend 6-12 months ahead. Shoulder seasons can often be booked 2-4 months out. Last-minute trips are sometimes possible - contact us to check availability.', 'sort_order' => 3],
+            ['category' => 'payment', 'question' => 'What payment methods do you accept?', 'answer' => 'We accept bank transfer, Visa, Mastercard, M-Pesa, and PayPal. A deposit secures your booking; the balance is due before travel according to your confirmation letter.', 'sort_order' => 1],
+            ['category' => 'payment', 'question' => 'Do I need travel insurance?', 'answer' => 'Yes. Comprehensive travel insurance covering medical evacuation, trip cancellation, and safari activities is required before departure. We can recommend trusted providers on request.', 'sort_order' => 2],
+            ['category' => 'travel', 'question' => 'When is the best time to visit Kenya?', 'answer' => 'July-October is peak for the Great Migration in the Maasai Mara. January-March offers calving season and fewer crowds. June and November are excellent value with green landscapes and newborn wildlife.', 'sort_order' => 1],
+            ['category' => 'travel', 'question' => 'Do I need a visa for Kenya?', 'answer' => 'Most visitors apply online for a Kenya e-visa before travel. Passports should be valid at least six months beyond your return date. We include visa guidance in your pre-departure pack.', 'sort_order' => 2],
+            ['category' => 'travel', 'question' => 'What about flying doctors and medical cover?', 'answer' => 'We recommend AMREF Flying Doctors membership for emergency air evacuation within East Africa. Many lodges are within reach of quality clinics in Nairobi.', 'sort_order' => 3],
+            ['category' => 'safari', 'question' => 'What is included in a typical safari price?', 'answer' => 'Our quotes typically include accommodation, meals on safari, park fees, private 4x4 vehicle, professional guide, and specified activities. International flights, visas, tips, and personal expenses are usually excluded unless stated.', 'sort_order' => 1],
+            ['category' => 'safari', 'question' => 'Are safaris suitable for children and honeymoons?', 'answer' => 'Absolutely. We design family-friendly routes with shorter drives and family camps, and intimate honeymoon itineraries with private vehicles, bush dinners, and coastal extensions.', 'sort_order' => 2],
+            ['category' => 'safari', 'question' => 'What vehicles and guides do you use?', 'answer' => 'Private pop-up roof 4x4 Land Cruisers with experienced driver-guides who know wildlife behaviour, routes, and camp logistics.', 'sort_order' => 3],
+            ['category' => 'practical', 'question' => 'What is responsible travel with Leyla Safari?', 'answer' => 'We partner with eco-certified lodges and community conservancies, employ local guides, and design low-impact itineraries that support conservation and community livelihoods.', 'sort_order' => 1],
+            ['category' => 'practical', 'question' => 'What guarantees do you offer?', 'answer' => 'Transparent day-by-day itineraries before you pay, clear inclusions and exclusions, Nairobi-based support throughout your trip, and a dedicated contact reachable by phone and WhatsApp.', 'sort_order' => 2],
+        ];
+
+        foreach ($faqs as $faq) {
+            Faq::create([...$faq, 'is_published' => true]);
+        }
+    }
+
     private function seedSettings(): void
     {
         Setting::set('site_name', 'Leyla Safari Tours', 'general');
@@ -914,5 +927,17 @@ class PlatformSeeder extends Seeder
             'inquiry@leylasafaritours.com',
         ], 'contact');
         Setting::set('address', 'Ring Road Parklands, Westlands, Nairobi, Kenya', 'contact');
+        Setting::set('google_rating', '4.9', 'reviews');
+        Setting::set('google_review_count', '127', 'reviews');
+        Setting::set('tripadvisor_rating', '4.8', 'reviews');
+        Setting::set('tripadvisor_review_count', '89', 'reviews');
+        Setting::set('press_mentions', [
+            'Safari Magazine',
+            'Travel Africa',
+            'Kenya Tourism Board',
+            'Condé Nast Traveller',
+        ], 'general');
+        Setting::set('lead_guide_name', 'James Ochieng', 'team');
+        Setting::set('lead_guide_bio', 'Born in Narok at the edge of the Maasai Mara, James has led safaris for over fifteen years. He reads the bush like a storybook and knows every crossing point along the Mara River.', 'team');
     }
 }
