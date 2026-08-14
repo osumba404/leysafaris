@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Support\PublicImage;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -13,20 +14,16 @@ class PublicImagePath implements ValidationRule
             return;
         }
 
-        if (str_starts_with($value, 'http://') || str_starts_with($value, 'https://')) {
-            $fail('External image URLs are not allowed. Please upload a file.');
+        $normalized = PublicImage::normalizeStoredPath($value);
 
-            return;
-        }
-
-        if (! str_starts_with($value, 'images/')) {
+        if ($normalized === null) {
             $fail('Invalid image path. Please upload using the file picker.');
 
             return;
         }
 
-        if (! is_file(public_path($value))) {
-            $fail('Image file not found. Please upload again.');
+        if (! PublicImage::exists($normalized)) {
+            $fail('Image file not found at '.$normalized.'. Please upload again.');
         }
     }
 }

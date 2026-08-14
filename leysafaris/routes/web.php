@@ -48,6 +48,7 @@ Route::get('/assets/js/theme.js', [AssetController::class, 'themeJs'])->name('as
 Route::get('/assets/js/main.js', [AssetController::class, 'mainJs'])->name('assets.main');
 Route::get('/assets/js/admin.js', [AssetController::class, 'adminJs'])->name('assets.admin');
 Route::get('/assets/css/admin.css', [AdminAssetController::class, 'adminCss'])->name('admin.css');
+Route::get('/images/{path}', [AssetController::class, 'image'])->where('path', '.*')->name('assets.image');
 
 Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
 

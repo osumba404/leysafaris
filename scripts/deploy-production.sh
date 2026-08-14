@@ -11,13 +11,14 @@ PUBLIC="$REPO_ROOT/leysafaris/public"
 echo "==> App path: $APPPATH"
 echo "==> Doc root: $DEPLOYPATH"
 
-mkdir -p "$DEPLOYPATH/images"
+mkdir -p "$DEPLOYPATH"
 
-echo "==> Sync docroot entry files + images (css/js served by Laravel from git public/)"
+echo "==> Sync docroot entry files (images/css/js served by Laravel from git public/)"
 cp "$PUBLIC/index.php" "$DEPLOYPATH/"
 cp "$PUBLIC/htaccess.txt" "$DEPLOYPATH/.htaccess"
-cp -R "$PUBLIC/images/." "$DEPLOYPATH/images/"
-rm -rf "$DEPLOYPATH/css" "$DEPLOYPATH/js"
+cp "$PUBLIC/favicon.ico" "$DEPLOYPATH/" 2>/dev/null || true
+cp "$PUBLIC/robots.txt" "$DEPLOYPATH/" 2>/dev/null || true
+rm -rf "$DEPLOYPATH/css" "$DEPLOYPATH/js" "$DEPLOYPATH/images"
 
 echo "==> Sync application code"
 cp -R \

@@ -4,24 +4,26 @@ namespace App\Support;
 
 class WebpImage
 {
-    public static function resolve(string $path): string
+    public static function resolve(?string $path, ?string $fallback = null): string
     {
-        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
-            return $path;
-        }
+        $normalized = PublicImage::normalizeStoredPath($path);
 
-        $normalized = ltrim($path, '/');
+        if ($normalized === null) {
+            $fallback = PublicImage::normalizeStoredPath($fallback) ?? 'images/savannah_sunset_tree.jpg';
+
+            return asset($fallback);
+        }
 
         return asset($normalized);
     }
 
-    public static function webpPath(string $path): ?string
+    public static function webpPath(?string $path): ?string
     {
-        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+        $normalized = PublicImage::normalizeStoredPath($path);
+
+        if ($normalized === null) {
             return null;
         }
-
-        $normalized = ltrim($path, '/');
 
         if (! preg_match('/\.(jpe?g|png)$/i', $normalized)) {
             return null;
@@ -30,15 +32,15 @@ class WebpImage
         return preg_replace('/\.(jpe?g|png)$/i', '.webp', $normalized);
     }
 
-    public static function hasWebp(string $path): bool
+    public static function hasWebp(?string $path): bool
     {
         $webp = self::webpPath($path);
 
-        return $webp !== null && is_file(public_path($webp));
+        return $webp !== null && PublicImage::exists($webp);
     }
 
-    public static function webpUrl(string $path): ?string
+    public static function webpUrl(?string $path): ?string
     {
-        return self::hasWebp($path) ? asset(self::webpPath($path)) : null;
+        return self::hasWebp($path) ? asset((string) self::webpPath($path)) : null;
     }
 }

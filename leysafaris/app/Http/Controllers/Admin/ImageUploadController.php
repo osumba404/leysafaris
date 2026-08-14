@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Support\PublicImage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -36,7 +37,7 @@ class ImageUploadController extends Controller
 
         return response()->json([
             'path' => $path,
-            'url' => asset($path),
+            'url' => PublicImage::url($path),
         ]);
     }
 }

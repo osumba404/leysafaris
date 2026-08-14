@@ -112,16 +112,13 @@ class SiteSettings
     {
         $logo = self::string($settings, 'site_logo');
 
-        return $logo !== '' ? asset($logo) : null;
+        return PublicImage::url($logo !== '' ? $logo : null);
     }
 
     public static function faviconUrl(mixed $settings): string
     {
         $logo = self::string($settings, 'site_logo');
-        if ($logo !== '') {
-            return asset($logo);
-        }
 
-        return asset('favicon.ico');
+        return PublicImage::url($logo !== '' ? $logo : null) ?? asset('favicon.ico');
     }
 }

@@ -16,7 +16,6 @@
     $newsletterText = SiteSettings::string($settings, 'newsletter_text', 'Safari inspiration in your inbox.');
     $paymentMethods = SiteSettings::list($settings, 'payment_methods', ['Visa', 'MC', 'M-Pesa', 'PayPal']);
     $faviconUrl = SiteSettings::faviconUrl($settings);
-    $navItems = $navItems ?? collect();
     $footerLinks = $footerLinks ?? collect();
 @endphp
 <!DOCTYPE html>
@@ -83,29 +82,15 @@
 
             <nav class="nav" id="nav" aria-label="Main navigation">
                 <ul class="nav__list">
-                    @php $themeToggleInserted = false; @endphp
-                    @forelse ($navItems as $item)
-                        @if (! $themeToggleInserted && $item->route_name === 'contact')
-                            <li class="nav__item--theme">@include('partials.theme-toggle')</li>
-                            @php $themeToggleInserted = true; @endphp
-                        @endif
-                        <li>
-                            <a href="{{ $item->href() }}"
-                               class="nav__link @if($item->isCurrent()) is-active @endif @if($item->is_highlight) nav__link--accent @endif">
-                                {{ $item->label }}
-                            </a>
-                        </li>
-                    @empty
-                        <li><a href="{{ route('packages.index') }}" class="nav__link @if(request()->routeIs('packages.*')) is-active @endif">Safaris</a></li>
-                        <li><a href="{{ route('destinations.index') }}" class="nav__link @if(request()->routeIs('destinations.*')) is-active @endif">Destinations</a></li>
-                        <li><a href="{{ route('travel-quiz.show') }}" class="nav__link @if(request()->routeIs('travel-quiz.*')) is-active @endif">Travel Quiz</a></li>
-                        <li class="nav__item--theme">@include('partials.theme-toggle')</li>
-                        <li><a href="{{ route('contact') }}" class="nav__link nav__link--accent @if(request()->routeIs('contact')) is-active @endif">Contact</a></li>
-                        @php $themeToggleInserted = true; @endphp
-                    @endforelse
-                    @if (! $themeToggleInserted)
-                        <li class="nav__item--theme">@include('partials.theme-toggle')</li>
-                    @endif
+                    <li><a href="{{ route('packages.index') }}" class="nav__link @if(request()->routeIs('packages.*')) is-active @endif">Safaris</a></li>
+                    <li><a href="{{ route('destinations.index') }}" class="nav__link @if(request()->routeIs('destinations.*')) is-active @endif">Destinations</a></li>
+                    <li><a href="{{ route('experiences.index') }}" class="nav__link @if(request()->routeIs('experiences.*')) is-active @endif">Experiences</a></li>
+                    <li><a href="{{ route('about') }}" class="nav__link @if(request()->routeIs('about')) is-active @endif">About</a></li>
+                    <li><a href="{{ route('blog.index') }}" class="nav__link @if(request()->routeIs('blog.*')) is-active @endif">Journal</a></li>
+                    <li><a href="{{ route('faq.index') }}" class="nav__link @if(request()->routeIs('faq.*')) is-active @endif">FAQ</a></li>
+                    <li><a href="{{ route('travel-quiz.show') }}" class="nav__link @if(request()->routeIs('travel-quiz.*')) is-active @endif">Travel Quiz</a></li>
+                    <li class="nav__item--theme">@include('partials.theme-toggle')</li>
+                    <li><a href="{{ route('contact') }}" class="nav__link nav__link--accent @if(request()->routeIs('contact')) is-active @endif">Contact</a></li>
                     @auth
                         @if (auth()->user()->isAdmin())
                             <li><a href="{{ route('admin.dashboard') }}" class="nav__link">Admin</a></li>

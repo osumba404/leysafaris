@@ -3,11 +3,14 @@
 namespace App\Providers;
 
 use App\Models\FooterLink;
-use App\Models\NavItem;
 use App\Models\Setting;
 use App\Support\DbSchema;
+use App\Support\SchemaSqlExporter;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Database\Events\MigrationsEnded;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +29,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Event::listen(MigrationsEnded::class, function (): void {
+            if (! app()->runningInConsole() || SchemaSqlExporter::$running || app()->runningUnitTests()) {
+                return;
+            }
+
+            Artisan::call('schema:export-sql');
+        });
+
         ResetPassword::toMailUsing(function (object $notifiable, string $token) {
             $url = url(route('password.reset', [
                 'token' => $token,
@@ -46,15 +57,6 @@ class AppServiceProvider extends ServiceProvider
         View::composer(['layouts.public'], function ($view) {
             if (! array_key_exists('settings', $view->getData())) {
                 $view->with('settings', Setting::allGrouped());
-            }
-
-            if (! array_key_exists('navItems', $view->getData())) {
-                $view->with(
-                    'navItems',
-                    DbSchema::hasTable('nav_items')
-                        ? NavItem::active()->orderBy('sort_order')->get()
-                        : collect()
-                );
             }
 
             if (! array_key_exists('footerLinks', $view->getData())) {

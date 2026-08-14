@@ -7,9 +7,11 @@
 ])
 
 @php
+    use App\Support\PublicImage;
+
     $oldKey = str_replace(['[', ']'], ['.', ''], $name);
     $oldKey = preg_replace('/\.+/', '.', trim($oldKey, '.'));
-    $current = old($oldKey, $value);
+    $current = PublicImage::normalizeStoredPath(old($oldKey, $value)) ?? '';
     $fieldId = 'image-field-'.preg_replace('/[^a-z0-9_-]/i', '-', $name);
 @endphp
 
@@ -20,7 +22,7 @@
 
     <div class="admin-image-field__preview" data-image-preview @if(! $current) hidden @endif>
         @if ($current)
-            <img src="{{ asset($current) }}" alt="Preview" data-image-preview-img>
+            <img src="{{ PublicImage::url($current) }}" alt="Preview" data-image-preview-img>
         @else
             <img src="" alt="Preview" data-image-preview-img hidden>
         @endif
