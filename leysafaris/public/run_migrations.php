@@ -2,7 +2,7 @@
 
 /**
  * One-off migration runner for cPanel (no SSH).
- * Upload to public_html, visit once, then DELETE this file.
+ * Visit once, then DELETE this file from public_html.
  */
 
 ini_set('display_errors', '1');
@@ -10,7 +10,6 @@ error_reporting(E_ALL);
 
 $laravelRoot = null;
 
-// Same discovery logic as public/index.php — works from public_html or public/
 foreach ([__DIR__, __DIR__.'/..', __DIR__.'/../leysafaris/leysafaris'] as $base) {
     if (is_file($base.'/vendor/autoload.php')) {
         $laravelRoot = $base;
