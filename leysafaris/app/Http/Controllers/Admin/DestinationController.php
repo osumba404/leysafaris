@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Rules\PublicImagePath;
 use App\Http\Controllers\Controller;
 use App\Models\Destination;
 use Illuminate\Http\RedirectResponse;
@@ -21,7 +22,7 @@ class DestinationController extends Controller
         $destinations = Destination::withCount('packages')
             ->orderBy('sort_order')
             ->orderBy('name')
-            ->paginate(20);
+            ->get();
 
         return view('admin.destinations.index', compact('destinations'));
     }
@@ -36,7 +37,9 @@ class DestinationController extends Controller
         $validated = $this->validateDestination($request);
         $validated['slug'] = $this->resolveSlug($validated['name'], $validated['slug'] ?? null);
 
-        Destination::create($validated);
+        Destination::create($validated + [
+            'sort_order' => (Destination::max('sort_order') ?? -1) + 1,
+        ]);
 
         return redirect()->route('admin.destinations.index')
             ->with('success', 'Destination created successfully.');
@@ -96,7 +99,7 @@ class DestinationController extends Controller
             'description' => ['nullable', 'string'],
             'best_time' => ['nullable', 'string', 'max:255'],
             'signature_wildlife' => ['nullable', 'string'],
-            'hero_image' => ['nullable', 'string', 'max:500'],
+            'hero_image' => ['nullable', new PublicImagePath],
             'gallery' => ['nullable', 'array'],
             'gallery.*' => ['string', 'max:500'],
             'facts' => ['nullable', 'array'],
@@ -106,7 +109,6 @@ class DestinationController extends Controller
             'seo_description' => ['nullable', 'string'],
             'is_featured' => ['boolean'],
             'is_published' => ['boolean'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
     }
 

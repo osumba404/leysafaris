@@ -4,7 +4,7 @@
 <div class="admin-card">
     <div class="admin-card__header">
         <h2 class="admin-card__title">{{ $quote->reference }} - {{ $quote->title }}</h2>
-        <a href="{{ route('admin.quotes.edit', $quote) }}" class="admin-btn admin-btn--primary admin-btn--sm">Edit</a>
+        <a href="{{ route('admin.quotes.edit', $quote) }}" class="admin-btn admin-btn--icon" title="Edit" aria-label="Edit"><i data-lucide="pencil"></i></a>
     </div>
     <dl class="admin-detail-grid">
         <div class="admin-detail-item"><dt>Enquiry</dt><dd><a href="{{ route('admin.enquiries.show', $quote->enquiry) }}">{{ $quote->enquiry?->name }}</a></dd></div>
@@ -21,5 +21,5 @@
     <tbody>@foreach($quote->line_items as $item)<tr><td>{{ $item['description'] ?? '' }}</td><td>{{ number_format($item['amount'] ?? 0, 2) }}</td></tr>@endforeach</tbody></table>
     @endif
 </div>
-<form action="{{ route('admin.quotes.destroy', $quote) }}" method="POST" onsubmit="return confirm('Delete?')">@csrf @method('DELETE')<button type="submit" class="admin-btn admin-btn--danger">Delete</button></form>
+<form action="{{ route('admin.quotes.destroy', $quote) }}" method="POST" class="admin-inline-form" onsubmit="return confirm('Delete?')">@csrf @method('DELETE')<button type="submit" class="admin-btn admin-btn--icon admin-btn--icon-danger" title="Delete" aria-label="Delete"><i data-lucide="trash-2"></i></button></form>
 @endsection

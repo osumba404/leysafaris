@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Rules\PublicImagePath;
 use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
 use Illuminate\Http\RedirectResponse;
@@ -100,7 +101,7 @@ class BlogPostController extends Controller
             'slug' => $slugRule,
             'excerpt' => ['nullable', 'string'],
             'content' => ['nullable', 'string'],
-            'featured_image' => ['nullable', 'string', 'max:500'],
+            'featured_image' => ['nullable', new PublicImagePath],
             'status' => ['required', 'string', 'in:draft,published,archived'],
             'published_at' => ['nullable', 'date'],
             'seo_title' => ['nullable', 'string', 'max:255'],

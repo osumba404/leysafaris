@@ -33,9 +33,5 @@
             <label>Evening</label>
             <textarea name="days[{{ $index }}][evening]" rows="2">{{ old("days.{$index}.evening", $day['evening'] ?? '') }}</textarea>
         </div>
-        <div class="admin-form__group">
-            <label>Sort Order</label>
-            <input type="number" name="days[{{ $index }}][sort_order]" min="0" value="{{ old("days.{$index}.sort_order", $day['sort_order'] ?? $index) }}">
-        </div>
     </div>
 </div>

@@ -28,7 +28,6 @@ class ContentEnhancementSeeder extends Seeder
             ['logo_name', 'Leyla Safari', 'general'],
             ['logo_tag', 'Tours', 'general'],
             ['site_logo', '', 'general'],
-            ['site_favicon', '', 'general'],
             ['footer_tagline', 'Authentic Kenyan safaris, crafted with care from the heart of Nairobi.', 'general'],
             ['website_url', 'leylasafaritours.com', 'general'],
             ['newsletter_heading', 'Newsletter', 'general'],

@@ -4,7 +4,7 @@
 <div class="admin-card">
     <div class="admin-card__header">
         <h2 class="admin-card__title">{{ $testimonial->author_name }}</h2>
-        <a href="{{ route('admin.testimonials.edit', $testimonial) }}" class="admin-btn admin-btn--primary admin-btn--sm">Edit</a>
+        <a href="{{ route('admin.testimonials.edit', $testimonial) }}" class="admin-btn admin-btn--icon" title="Edit" aria-label="Edit"><i data-lucide="pencil"></i></a>
     </div>
     <p style="color:var(--admin-accent);margin-bottom:1rem;">@for($i=0;$i<$testimonial->rating;$i++)★@endfor</p>
     <blockquote style="font-style:italic;margin-bottom:1rem;">"{{ $testimonial->content }}"</blockquote>
@@ -15,5 +15,5 @@
         <div class="admin-detail-item"><dt>Featured</dt><dd>{{ $testimonial->is_featured ? 'Yes' : 'No' }}</dd></div>
     </dl>
 </div>
-<form action="{{ route('admin.testimonials.destroy', $testimonial) }}" method="POST" onsubmit="return confirm('Delete?')">@csrf @method('DELETE')<button type="submit" class="admin-btn admin-btn--danger">Delete</button></form>
+<form action="{{ route('admin.testimonials.destroy', $testimonial) }}" method="POST" class="admin-inline-form" onsubmit="return confirm('Delete?')">@csrf @method('DELETE')<button type="submit" class="admin-btn admin-btn--icon admin-btn--icon-danger" title="Delete" aria-label="Delete"><i data-lucide="trash-2"></i></button></form>
 @endsection

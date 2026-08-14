@@ -9,7 +9,15 @@
         <div class="admin-form__group"><label for="slug">Slug</label><input type="text" id="slug" name="slug" value="{{ old('slug', $blogPost->slug ?? '') }}"></div>
         <div class="admin-form__group"><label for="status">Status *</label><select id="status" name="status" required>@foreach(['draft','published','archived'] as $s)<option value="{{ $s }}" @selected(old('status', $blogPost->status ?? 'draft')===$s)>{{ ucfirst($s) }}</option>@endforeach</select></div>
         <div class="admin-form__group"><label for="published_at">Published At</label><input type="datetime-local" id="published_at" name="published_at" value="{{ old('published_at', isset($blogPost) && $blogPost->published_at ? $blogPost->published_at->format('Y-m-d\TH:i') : '') }}"></div>
-        <div class="admin-form__group admin-form__group--full"><label for="featured_image">Featured Image</label><input type="text" id="featured_image" name="featured_image" value="{{ old('featured_image', $blogPost->featured_image ?? '') }}" placeholder="images/savannah_sunset_tree.jpg"></div>
+        <div class="admin-form__group admin-form__group--full">
+            @include('admin.partials.image-field', [
+                'name' => 'featured_image',
+                'label' => 'Featured image',
+                'value' => old('featured_image', $blogPost->featured_image ?? ''),
+                'folder' => 'blog',
+                'required' => false,
+            ])
+        </div>
         <div class="admin-form__group admin-form__group--full"><label for="excerpt">Excerpt</label><textarea id="excerpt" name="excerpt">{{ old('excerpt', $blogPost->excerpt ?? '') }}</textarea></div>
         <div class="admin-form__group admin-form__group--full"><label for="content">Content</label><textarea id="content" name="content" rows="12">{{ old('content', $blogPost->content ?? '') }}</textarea></div>
         <div class="admin-form__group"><label for="seo_title">SEO Title</label><input type="text" id="seo_title" name="seo_title" value="{{ old('seo_title', $blogPost->seo_title ?? '') }}"></div>

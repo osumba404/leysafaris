@@ -19,8 +19,10 @@
                     <td><span class="admin-badge admin-badge--{{ $quote->status }}">{{ $quote->status }}</span></td>
                     <td>{{ $quote->created_at->format('M j, Y') }}</td>
                     <td>
-                        <a href="{{ route('admin.quotes.show', $quote) }}" class="admin-btn admin-btn--secondary admin-btn--sm">View</a>
-                        <a href="{{ route('admin.quotes.edit', $quote) }}" class="admin-btn admin-btn--secondary admin-btn--sm">Edit</a>
+                        @include('admin.partials.table-actions', [
+                            'viewUrl' => route('admin.quotes.show', $quote),
+                            'editUrl' => route('admin.quotes.edit', $quote),
+                        ])
                     </td>
                 </tr>
                 @empty<tr><td colspan="7">No quotes.</td></tr>@endforelse

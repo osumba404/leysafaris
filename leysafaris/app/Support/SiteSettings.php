@@ -117,11 +117,6 @@ class SiteSettings
 
     public static function faviconUrl(mixed $settings): string
     {
-        $favicon = self::string($settings, 'site_favicon');
-        if ($favicon !== '') {
-            return asset($favicon);
-        }
-
         $logo = self::string($settings, 'site_logo');
         if ($logo !== '') {
             return asset($logo);

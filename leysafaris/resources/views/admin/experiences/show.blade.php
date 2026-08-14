@@ -4,7 +4,7 @@
 <div class="admin-card">
     <div class="admin-card__header">
         <h2 class="admin-card__title">{{ $experience->name }}</h2>
-        <a href="{{ route('admin.experiences.edit', $experience) }}" class="admin-btn admin-btn--primary admin-btn--sm">Edit</a>
+        <a href="{{ route('admin.experiences.edit', $experience) }}" class="admin-btn admin-btn--icon" title="Edit" aria-label="Edit"><i data-lucide="pencil"></i></a>
     </div>
     <dl class="admin-detail-grid">
         <div class="admin-detail-item"><dt>Type</dt><dd>{{ $experience->type ?? '-' }}</dd></div>
@@ -13,5 +13,5 @@
         <div class="admin-detail-item admin-form__group--full"><dt>Description</dt><dd>{!! nl2br(e($experience->description)) !!}</dd></div>
     </dl>
 </div>
-<form action="{{ route('admin.experiences.destroy', $experience) }}" method="POST" onsubmit="return confirm('Delete?')">@csrf @method('DELETE')<button type="submit" class="admin-btn admin-btn--danger">Delete</button></form>
+<form action="{{ route('admin.experiences.destroy', $experience) }}" method="POST" class="admin-inline-form" onsubmit="return confirm('Delete?')">@csrf @method('DELETE')<button type="submit" class="admin-btn admin-btn--icon admin-btn--icon-danger" title="Delete" aria-label="Delete"><i data-lucide="trash-2"></i></button></form>
 @endsection

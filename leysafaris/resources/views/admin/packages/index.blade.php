@@ -6,15 +6,17 @@
     <div class="admin-card">
         <div class="admin-card__header">
             <h2 class="admin-card__title">Safari Packages</h2>
-            <a href="{{ route('admin.packages.create') }}" class="admin-btn admin-btn--primary">
-                <i data-lucide="plus"></i> New Package
+            <a href="{{ route('admin.packages.create') }}" class="admin-btn admin-btn--primary admin-btn--sm">
+                <i data-lucide="plus"></i> Add new
             </a>
         </div>
+        <p class="admin-sort-status" data-sort-status></p>
 
         <div class="admin-table-wrap">
             <table class="admin-table">
                 <thead>
                     <tr>
+                        <th aria-label="Reorder"></th>
                         <th>Title</th>
                         <th>Duration</th>
                         <th>Price</th>
@@ -23,9 +25,10 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody data-sortable="{{ route('admin.reorder', 'packages') }}">
                     @forelse ($packages as $package)
-                        <tr>
+                        <tr data-sort-id="{{ $package->id }}">
+                            @include('admin.partials.sort-handle')
                             <td>
                                 <strong>{{ $package->title }}</strong>
                                 @if ($package->destinations->isNotEmpty())
@@ -37,21 +40,19 @@
                             <td><span class="admin-badge admin-badge--{{ $package->status }}">{{ $package->status }}</span></td>
                             <td>{{ $package->is_featured ? 'Yes' : 'No' }}</td>
                             <td>
-                                <a href="{{ route('admin.packages.show', $package) }}" class="admin-btn admin-btn--secondary admin-btn--sm">View</a>
-                                <a href="{{ route('admin.packages.edit', $package) }}" class="admin-btn admin-btn--secondary admin-btn--sm">Edit</a>
-                                <form action="{{ route('admin.packages.destroy', $package) }}" method="POST" style="display:inline;" onsubmit="return confirm('Delete this package?')">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="admin-btn admin-btn--danger admin-btn--sm">Delete</button>
-                                </form>
+                                @include('admin.partials.table-actions', [
+                                    'viewUrl' => route('admin.packages.show', $package),
+                                    'editUrl' => route('admin.packages.edit', $package),
+                                    'deleteUrl' => route('admin.packages.destroy', $package),
+                                    'deleteConfirm' => 'Delete this package?',
+                                ])
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="6">No packages yet.</td></tr>
+                        <tr><td colspan="7">No packages yet. Click <strong>Add new</strong> to create one.</td></tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-
-        <div class="admin-pagination">{{ $packages->links() }}</div>
     </div>
 @endsection

@@ -22,22 +22,15 @@ class NavItemController extends Controller
         return view('admin.nav-items.index', compact('items'));
     }
 
-    public function create(): View
-    {
-        return view('admin.nav-items.create');
-    }
-
     public function store(Request $request): RedirectResponse
     {
-        NavItem::create($this->validated($request));
+        $data = $this->validated($request);
+        $data['sort_order'] = (NavItem::max('sort_order') ?? -1) + 1;
+
+        NavItem::create($data);
 
         return redirect()->route('admin.nav-items.index')
             ->with('success', 'Navigation item created.');
-    }
-
-    public function edit(NavItem $navItem): View
-    {
-        return view('admin.nav-items.edit', compact('navItem'));
     }
 
     public function update(Request $request, NavItem $navItem): RedirectResponse
@@ -65,14 +58,12 @@ class NavItemController extends Controller
             'label' => ['required', 'string', 'max:120'],
             'route_name' => ['nullable', 'string', 'max:120'],
             'url' => ['nullable', 'string', 'max:500'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
             'is_highlight' => ['nullable', 'boolean'],
         ]);
 
         return [
             ...$data,
-            'sort_order' => (int) ($data['sort_order'] ?? 0),
             'is_active' => $request->boolean('is_active'),
             'is_highlight' => $request->boolean('is_highlight'),
         ];

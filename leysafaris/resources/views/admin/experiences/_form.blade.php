@@ -11,8 +11,15 @@
         <div class="admin-form__group"><label for="duration_hours">Duration (hours)</label><input type="number" id="duration_hours" name="duration_hours" min="1" value="{{ old('duration_hours', $experience->duration_hours ?? '') }}"></div>
         <div class="admin-form__group"><label for="starting_price">Starting Price</label><input type="number" id="starting_price" name="starting_price" step="0.01" min="0" value="{{ old('starting_price', $experience->starting_price ?? '') }}"></div>
         <div class="admin-form__group"><label for="currency">Currency</label><input type="text" id="currency" name="currency" maxlength="3" value="{{ old('currency', $experience->currency ?? 'USD') }}"></div>
-        <div class="admin-form__group"><label for="image">Image Path</label><input type="text" id="image" name="image" value="{{ old('image', $experience->image ?? '') }}"></div>
-        <div class="admin-form__group"><label for="sort_order">Sort Order</label><input type="number" id="sort_order" name="sort_order" min="0" value="{{ old('sort_order', $experience->sort_order ?? 0) }}"></div>
+        <div class="admin-form__group admin-form__group--full">
+            @include('admin.partials.image-field', [
+                'name' => 'image',
+                'label' => 'Image',
+                'value' => old('image', $experience->image ?? ''),
+                'folder' => 'experiences',
+                'required' => false,
+            ])
+        </div>
         <div class="admin-form__group admin-form__group--full"><label for="excerpt">Excerpt</label><textarea id="excerpt" name="excerpt">{{ old('excerpt', $experience->excerpt ?? '') }}</textarea></div>
         <div class="admin-form__group admin-form__group--full"><label for="description">Description</label><textarea id="description" name="description" rows="5">{{ old('description', $experience->description ?? '') }}</textarea></div>
         <div class="admin-form__group admin-form__checkbox"><input type="hidden" name="is_published" value="0"><input type="checkbox" id="is_published" name="is_published" value="1" @checked(old('is_published', $experience->is_published ?? true))><label for="is_published">Published</label></div>

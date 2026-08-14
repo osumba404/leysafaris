@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Rules\PublicImagePath;
+use App\Support\SettingDefinitions;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -23,31 +25,35 @@ class SettingController extends Controller
 
     public function index(): View
     {
-        $settingRecords = Setting::orderBy('group')->orderBy('key')->get();
-        $grouped = $settingRecords->groupBy('group');
+        $settings = Setting::query()
+            ->orderBy('group')
+            ->orderBy('key')
+            ->get()
+            ->reject(fn (Setting $setting) => SettingDefinitions::isHidden($setting->key));
 
-        return view('admin.settings.index', compact('grouped'));
+        return view('admin.settings.index', compact('settings'));
     }
 
-    public function update(Request $request): RedirectResponse
+    public function update(Request $request, Setting $setting): RedirectResponse
     {
-        $validated = $request->validate([
-            'settings' => ['required', 'array'],
-            'settings.*.key' => ['required', 'string', 'max:255'],
-            'settings.*.value' => ['nullable'],
-            'settings.*.group' => ['nullable', 'string', 'max:100'],
-        ]);
-
-        foreach ($validated['settings'] as $item) {
-            Setting::set(
-                $item['key'],
-                $this->parseValue($item['key'], $item['value'] ?? null),
-                $item['group'] ?? 'general'
-            );
+        if (SettingDefinitions::isHidden($setting->key)) {
+            abort(404);
         }
 
+        $rules = ['value' => ['nullable', 'string']];
+
+        if (SettingDefinitions::type($setting->key) === 'image') {
+            $rules['value'] = ['nullable', new PublicImagePath];
+        }
+
+        $validated = $request->validate($rules);
+
+        $setting->update([
+            'value' => $this->parseValue($setting->key, $validated['value'] ?? null),
+        ]);
+
         return redirect()->route('admin.settings.index')
-            ->with('success', 'Settings updated successfully.');
+            ->with('success', SettingDefinitions::label($setting->key).' updated.');
     }
 
     private function parseValue(string $key, mixed $raw): mixed

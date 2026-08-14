@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Rules\PublicImagePath;
 use App\Models\HeroSlide;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,22 +23,15 @@ class HeroSlideController extends Controller
         return view('admin.hero-slides.index', compact('slides'));
     }
 
-    public function create(): View
-    {
-        return view('admin.hero-slides.create');
-    }
-
     public function store(Request $request): RedirectResponse
     {
-        HeroSlide::create($this->validated($request));
+        $data = $this->validated($request);
+        $data['sort_order'] = (HeroSlide::max('sort_order') ?? -1) + 1;
+
+        HeroSlide::create($data);
 
         return redirect()->route('admin.hero-slides.index')
             ->with('success', 'Hero slide created.');
-    }
-
-    public function edit(HeroSlide $heroSlide): View
-    {
-        return view('admin.hero-slides.edit', compact('heroSlide'));
     }
 
     public function update(Request $request, HeroSlide $heroSlide): RedirectResponse
@@ -62,14 +56,12 @@ class HeroSlideController extends Controller
     private function validated(Request $request): array
     {
         return $request->validate([
-            'image' => ['required', 'string', 'max:500'],
+            'image' => ['required', new PublicImagePath],
             'eyebrow' => ['nullable', 'string', 'max:255'],
             'title' => ['required', 'string', 'max:255'],
             'subtitle' => ['nullable', 'string', 'max:1000'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
         ]) + [
-            'sort_order' => (int) $request->input('sort_order', 0),
             'is_active' => $request->boolean('is_active'),
         ];
     }

@@ -22,22 +22,15 @@ class FooterLinkController extends Controller
         return view('admin.footer-links.index', compact('links'));
     }
 
-    public function create(): View
-    {
-        return view('admin.footer-links.create');
-    }
-
     public function store(Request $request): RedirectResponse
     {
-        FooterLink::create($this->validated($request));
+        $data = $this->validated($request);
+        $data['sort_order'] = (FooterLink::where('group', $data['group'])->max('sort_order') ?? -1) + 1;
+
+        FooterLink::create($data);
 
         return redirect()->route('admin.footer-links.index')
             ->with('success', 'Footer link created.');
-    }
-
-    public function edit(FooterLink $footerLink): View
-    {
-        return view('admin.footer-links.edit', compact('footerLink'));
     }
 
     public function update(Request $request, FooterLink $footerLink): RedirectResponse
@@ -66,13 +59,11 @@ class FooterLinkController extends Controller
             'label' => ['required', 'string', 'max:120'],
             'route_name' => ['nullable', 'string', 'max:120'],
             'url' => ['nullable', 'string', 'max:500'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
         ]);
 
         return [
             ...$data,
-            'sort_order' => (int) ($data['sort_order'] ?? 0),
             'is_active' => $request->boolean('is_active'),
         ];
     }

@@ -9,10 +9,12 @@ use App\Http\Controllers\Admin\DestinationController as AdminDestinationControll
 use App\Http\Controllers\Admin\EnquiryController as AdminEnquiryController;
 use App\Http\Controllers\Admin\FooterLinkController as AdminFooterLinkController;
 use App\Http\Controllers\Admin\HeroSlideController as AdminHeroSlideController;
+use App\Http\Controllers\Admin\ImageUploadController as AdminImageUploadController;
 use App\Http\Controllers\Admin\NavItemController as AdminNavItemController;
 use App\Http\Controllers\Admin\ExperienceController as AdminExperienceController;
 use App\Http\Controllers\Admin\PackageController as AdminPackageController;
 use App\Http\Controllers\Admin\QuoteController as AdminQuoteController;
+use App\Http\Controllers\Admin\ReorderController as AdminReorderController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\TestimonialController as AdminTestimonialController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -93,10 +95,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('blog-posts', AdminBlogPostController::class);
     Route::resource('annual-events', AdminAnnualEventController::class);
 
-    Route::resource('hero-slides', AdminHeroSlideController::class)->except(['show']);
-    Route::resource('nav-items', AdminNavItemController::class)->except(['show']);
-    Route::resource('footer-links', AdminFooterLinkController::class)->except(['show']);
+    Route::post('uploads/image', [AdminImageUploadController::class, 'store'])->name('uploads.image');
+    Route::post('reorder/{resource}', AdminReorderController::class)->name('reorder');
+
+    Route::resource('hero-slides', AdminHeroSlideController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('nav-items', AdminNavItemController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('footer-links', AdminFooterLinkController::class)->only(['index', 'store', 'update', 'destroy']);
 
     Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
-    Route::put('settings', [AdminSettingController::class, 'update'])->name('settings.update');
+    Route::put('settings/{setting}', [AdminSettingController::class, 'update'])->name('settings.update');
 });

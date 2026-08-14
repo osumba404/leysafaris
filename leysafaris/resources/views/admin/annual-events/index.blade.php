@@ -4,7 +4,7 @@
 <div class="admin-card">
     <div class="admin-card__header">
         <h2 class="admin-card__title">Annual Events</h2>
-        <a href="{{ route('admin.annual-events.create') }}" class="admin-btn admin-btn--primary"><i data-lucide="plus"></i> New Event</a>
+        <a href="{{ route('admin.annual-events.create') }}" class="admin-btn admin-btn--primary admin-btn--sm"><i data-lucide="plus"></i> Add new</a>
     </div>
     <div class="admin-table-wrap">
         <table class="admin-table">
@@ -17,9 +17,11 @@
                     <td>{{ $event->package?->title ?? '-' }}</td>
                     <td>{{ $event->is_published ? 'Yes' : 'No' }}</td>
                     <td>
-                        <a href="{{ route('admin.annual-events.show', $event) }}" class="admin-btn admin-btn--secondary admin-btn--sm">View</a>
-                        <a href="{{ route('admin.annual-events.edit', $event) }}" class="admin-btn admin-btn--secondary admin-btn--sm">Edit</a>
-                        <form action="{{ route('admin.annual-events.destroy', $event) }}" method="POST" style="display:inline;" onsubmit="return confirm('Delete?')">@csrf @method('DELETE')<button type="submit" class="admin-btn admin-btn--danger admin-btn--sm">Delete</button></form>
+                        @include('admin.partials.table-actions', [
+                            'viewUrl' => route('admin.annual-events.show', $event),
+                            'editUrl' => route('admin.annual-events.edit', $event),
+                            'deleteUrl' => route('admin.annual-events.destroy', $event),
+                        ])
                     </td>
                 </tr>
                 @empty<tr><td colspan="5">No events.</td></tr>@endforelse

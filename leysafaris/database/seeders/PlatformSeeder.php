@@ -924,7 +924,6 @@ class PlatformSeeder extends Seeder
         Setting::set('logo_name', 'Leyla Safari', 'general');
         Setting::set('logo_tag', 'Tours', 'general');
         Setting::set('site_logo', '', 'general');
-        Setting::set('site_favicon', '', 'general');
         Setting::set('footer_tagline', 'Authentic Kenyan safaris, crafted with care from the heart of Nairobi.', 'general');
         Setting::set('website_url', 'leylasafaritours.com', 'general');
         Setting::set('newsletter_heading', 'Newsletter', 'general');

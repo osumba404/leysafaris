@@ -21,7 +21,7 @@ class TestimonialController extends Controller
         $testimonials = Testimonial::with('package')
             ->orderBy('sort_order')
             ->orderByDesc('created_at')
-            ->paginate(20);
+            ->get();
 
         return view('admin.testimonials.index', compact('testimonials'));
     }
@@ -37,7 +37,9 @@ class TestimonialController extends Controller
     {
         $validated = $this->validateTestimonial($request);
 
-        Testimonial::create($validated);
+        Testimonial::create($validated + [
+            'sort_order' => (Testimonial::max('sort_order') ?? -1) + 1,
+        ]);
 
         return redirect()->route('admin.testimonials.index')
             ->with('success', 'Testimonial created successfully.');
@@ -87,7 +89,6 @@ class TestimonialController extends Controller
             'source_url' => ['nullable', 'url', 'max:500'],
             'is_approved' => ['boolean'],
             'is_featured' => ['boolean'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
     }
 }

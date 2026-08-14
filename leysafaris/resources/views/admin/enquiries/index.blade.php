@@ -33,8 +33,12 @@
                     <td>{{ $enquiry->assignedTo?->name ?? '-' }}</td>
                     <td>{{ $enquiry->created_at->format('M j, Y') }}</td>
                     <td>
-                        <a href="{{ route('admin.enquiries.edit', $enquiry) }}" class="admin-btn admin-btn--secondary admin-btn--sm">Edit</a>
-                        <a href="{{ route('admin.quotes.create', ['enquiry_id' => $enquiry->id]) }}" class="admin-btn admin-btn--primary admin-btn--sm">Quote</a>
+                        @include('admin.partials.table-actions', [
+                            'editUrl' => route('admin.enquiries.edit', $enquiry),
+                            'extraUrl' => route('admin.quotes.create', ['enquiry_id' => $enquiry->id]),
+                            'extraIcon' => 'receipt',
+                            'extraTitle' => 'Create quote',
+                        ])
                     </td>
                 </tr>
                 @empty<tr><td colspan="7">No enquiries.</td></tr>@endforelse

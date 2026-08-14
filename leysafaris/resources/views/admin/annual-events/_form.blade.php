@@ -13,7 +13,15 @@
         <div class="admin-form__group"><label for="early_bird_price">Early Bird Price</label><input type="number" id="early_bird_price" name="early_bird_price" step="0.01" min="0" value="{{ old('early_bird_price', $annualEvent->early_bird_price ?? '') }}"></div>
         <div class="admin-form__group"><label for="regular_price">Regular Price</label><input type="number" id="regular_price" name="regular_price" step="0.01" min="0" value="{{ old('regular_price', $annualEvent->regular_price ?? '') }}"></div>
         <div class="admin-form__group"><label for="currency">Currency</label><input type="text" id="currency" name="currency" maxlength="3" value="{{ old('currency', $annualEvent->currency ?? 'USD') }}"></div>
-        <div class="admin-form__group"><label for="hero_image">Hero Image</label><input type="text" id="hero_image" name="hero_image" value="{{ old('hero_image', $annualEvent->hero_image ?? '') }}"></div>
+        <div class="admin-form__group admin-form__group--full">
+            @include('admin.partials.image-field', [
+                'name' => 'hero_image',
+                'label' => 'Hero image',
+                'value' => old('hero_image', $annualEvent->hero_image ?? ''),
+                'folder' => 'events',
+                'required' => false,
+            ])
+        </div>
         <div class="admin-form__group admin-form__group--full"><label for="excerpt">Excerpt</label><textarea id="excerpt" name="excerpt">{{ old('excerpt', $annualEvent->excerpt ?? '') }}</textarea></div>
         <div class="admin-form__group admin-form__group--full"><label for="description">Description</label><textarea id="description" name="description" rows="5">{{ old('description', $annualEvent->description ?? '') }}</textarea></div>
         <div class="admin-form__group admin-form__checkbox"><input type="hidden" name="is_published" value="0"><input type="checkbox" id="is_published" name="is_published" value="1" @checked(old('is_published', $annualEvent->is_published ?? true))><label for="is_published">Published</label></div>

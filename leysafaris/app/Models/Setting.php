@@ -45,4 +45,9 @@ class Setting extends Model
             ->mapWithKeys(fn (self $setting) => [$setting->key => $setting->value])
             ->all();
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'key';
+    }
 }

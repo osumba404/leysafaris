@@ -9,9 +9,16 @@
         <div class="admin-form__group"><label for="slug">Slug</label><input type="text" id="slug" name="slug" value="{{ old('slug', $destination->slug ?? '') }}"></div>
         <div class="admin-form__group"><label for="country">Country</label><input type="text" id="country" name="country" value="{{ old('country', $destination->country ?? 'Kenya') }}"></div>
         <div class="admin-form__group"><label for="region">Region</label><input type="text" id="region" name="region" value="{{ old('region', $destination->region ?? '') }}"></div>
-        <div class="admin-form__group"><label for="hero_image">Hero Image</label><input type="text" id="hero_image" name="hero_image" value="{{ old('hero_image', $destination->hero_image ?? '') }}" placeholder="images/pond_view.jpg"></div>
+        <div class="admin-form__group admin-form__group--full">
+            @include('admin.partials.image-field', [
+                'name' => 'hero_image',
+                'label' => 'Hero image',
+                'value' => old('hero_image', $destination->hero_image ?? ''),
+                'folder' => 'destinations',
+                'required' => false,
+            ])
+        </div>
         <div class="admin-form__group"><label for="best_time">Best Time</label><input type="text" id="best_time" name="best_time" value="{{ old('best_time', $destination->best_time ?? '') }}"></div>
-        <div class="admin-form__group"><label for="sort_order">Sort Order</label><input type="number" id="sort_order" name="sort_order" min="0" value="{{ old('sort_order', $destination->sort_order ?? 0) }}"></div>
         <div class="admin-form__group admin-form__group--full"><label for="excerpt">Excerpt</label><textarea id="excerpt" name="excerpt">{{ old('excerpt', $destination->excerpt ?? '') }}</textarea></div>
         <div class="admin-form__group admin-form__group--full"><label for="description">Description</label><textarea id="description" name="description" rows="6">{{ old('description', $destination->description ?? '') }}</textarea></div>
         <div class="admin-form__group admin-form__group--full"><label for="signature_wildlife">Signature Wildlife</label><textarea id="signature_wildlife" name="signature_wildlife">{{ old('signature_wildlife', $destination->signature_wildlife ?? '') }}</textarea></div>

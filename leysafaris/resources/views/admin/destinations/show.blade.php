@@ -4,9 +4,9 @@
 <div class="admin-card">
     <div class="admin-card__header">
         <h2 class="admin-card__title">{{ $destination->name }}</h2>
-        <div>
-            <a href="{{ route('destinations.show', $destination->slug) }}" class="admin-btn admin-btn--secondary admin-btn--sm" target="_blank">View Public</a>
-            <a href="{{ route('admin.destinations.edit', $destination) }}" class="admin-btn admin-btn--primary admin-btn--sm">Edit</a>
+        <div class="admin-table__actions">
+            <a href="{{ route('destinations.show', $destination->slug) }}" class="admin-btn admin-btn--icon" target="_blank" title="View public site" aria-label="View public site"><i data-lucide="external-link"></i></a>
+            <a href="{{ route('admin.destinations.edit', $destination) }}" class="admin-btn admin-btn--icon" title="Edit" aria-label="Edit"><i data-lucide="pencil"></i></a>
         </div>
     </div>
     @if($destination->hero_image)<img src="{{ asset($destination->hero_image) }}" alt="" style="max-width:300px;border-radius:8px;margin-bottom:1rem;">@endif
@@ -23,5 +23,5 @@
         <ul>@foreach($destination->packages as $p)<li><a href="{{ route('admin.packages.show', $p) }}">{{ $p->title }}</a></li>@endforeach</ul>
     @endif
 </div>
-<form action="{{ route('admin.destinations.destroy', $destination) }}" method="POST" onsubmit="return confirm('Delete?')">@csrf @method('DELETE')<button type="submit" class="admin-btn admin-btn--danger">Delete</button></form>
+<form action="{{ route('admin.destinations.destroy', $destination) }}" method="POST" class="admin-inline-form" onsubmit="return confirm('Delete?')">@csrf @method('DELETE')<button type="submit" class="admin-btn admin-btn--icon admin-btn--icon-danger" title="Delete" aria-label="Delete"><i data-lucide="trash-2"></i></button></form>
 @endsection

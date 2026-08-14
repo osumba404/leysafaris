@@ -53,13 +53,14 @@
                 @endforeach
             </select>
         </div>
-        <div class="admin-form__group">
-            <label for="sort_order">Sort Order</label>
-            <input type="number" id="sort_order" name="sort_order" min="0" value="{{ old('sort_order', $package->sort_order ?? 0) }}">
-        </div>
-        <div class="admin-form__group">
-            <label for="hero_image">Hero Image Path</label>
-            <input type="text" id="hero_image" name="hero_image" value="{{ old('hero_image', $package->hero_image ?? '') }}" placeholder="images/savannah_sunset_tree.jpg">
+        <div class="admin-form__group admin-form__group--full">
+            @include('admin.partials.image-field', [
+                'name' => 'hero_image',
+                'label' => 'Hero image',
+                'value' => old('hero_image', $package->hero_image ?? ''),
+                'folder' => 'packages',
+                'required' => false,
+            ])
         </div>
         <div class="admin-form__group admin-form__group--full">
             <label for="short_description">Short Description</label>

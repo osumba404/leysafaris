@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Rules\PublicImagePath;
 use App\Http\Controllers\Controller;
 use App\Models\Experience;
 use Illuminate\Http\RedirectResponse;
@@ -21,7 +22,7 @@ class ExperienceController extends Controller
         $experiences = Experience::withCount('packages')
             ->orderBy('sort_order')
             ->orderBy('name')
-            ->paginate(20);
+            ->get();
 
         return view('admin.experiences.index', compact('experiences'));
     }
@@ -36,7 +37,9 @@ class ExperienceController extends Controller
         $validated = $this->validateExperience($request);
         $validated['slug'] = $this->resolveSlug($validated['name'], $validated['slug'] ?? null);
 
-        Experience::create($validated);
+        Experience::create($validated + [
+            'sort_order' => (Experience::max('sort_order') ?? -1) + 1,
+        ]);
 
         return redirect()->route('admin.experiences.index')
             ->with('success', 'Experience created successfully.');
@@ -93,12 +96,11 @@ class ExperienceController extends Controller
             'type' => ['nullable', 'string', 'max:100'],
             'excerpt' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
-            'image' => ['nullable', 'string', 'max:500'],
+            'image' => ['nullable', new PublicImagePath],
             'duration_hours' => ['nullable', 'integer', 'min:1'],
             'starting_price' => ['nullable', 'numeric', 'min:0'],
             'currency' => ['nullable', 'string', 'size:3'],
             'is_published' => ['boolean'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
     }
 

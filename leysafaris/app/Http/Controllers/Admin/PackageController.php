@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Rules\PublicImagePath;
 use App\Http\Controllers\Controller;
 use App\Models\Destination;
 use App\Models\Experience;
@@ -24,7 +25,7 @@ class PackageController extends Controller
             ->withCount('packageDays')
             ->orderBy('sort_order')
             ->orderByDesc('created_at')
-            ->paginate(20);
+            ->get();
 
         return view('admin.packages.index', compact('packages'));
     }
@@ -43,7 +44,9 @@ class PackageController extends Controller
 
         $validated['slug'] = $this->resolveSlug($validated['title'], $validated['slug'] ?? null);
 
-        $package = Package::create($validated);
+        $package = Package::create($validated + [
+            'sort_order' => (Package::max('sort_order') ?? -1) + 1,
+        ]);
 
         $this->syncRelations($package, $request);
         $this->syncDays($package, $request->input('days', []));
@@ -126,17 +129,16 @@ class PackageController extends Controller
             'exclusions' => ['nullable', 'array'],
             'exclusions.*' => ['string', 'max:500'],
             'gallery' => ['nullable', 'array'],
-            'gallery.*' => ['string', 'max:500'],
-            'hero_image' => ['nullable', 'string', 'max:500'],
+            'gallery.*' => ['nullable', new PublicImagePath],
+            'hero_image' => ['nullable', new PublicImagePath],
             'pricing_notes' => ['nullable', 'string'],
             'practical_info' => ['nullable', 'string'],
-            'route_map_image' => ['nullable', 'string', 'max:500'],
+            'route_map_image' => ['nullable', new PublicImagePath],
             'seo_title' => ['nullable', 'string', 'max:255'],
             'seo_description' => ['nullable', 'string'],
             'is_featured' => ['boolean'],
             'is_template' => ['boolean'],
             'status' => ['required', 'string', 'in:draft,published,archived'],
-            'sort_order' => ['nullable', 'integer', 'min:0'],
             'destination_ids' => ['nullable', 'array'],
             'destination_ids.*' => ['exists:destinations,id'],
             'experience_ids' => ['nullable', 'array'],
@@ -157,8 +159,7 @@ class PackageController extends Controller
             'days.*.activities.*' => ['string', 'max:255'],
             'days.*.travel_notes' => ['nullable', 'string'],
             'days.*.wildlife_highlights' => ['nullable', 'string'],
-            'days.*.image' => ['nullable', 'string', 'max:500'],
-            'days.*.sort_order' => ['nullable', 'integer', 'min:0'],
+            'days.*.image' => ['nullable', new PublicImagePath],
         ]);
     }
 

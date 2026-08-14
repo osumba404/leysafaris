@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Rules\PublicImagePath;
 use App\Http\Controllers\Controller;
 use App\Models\AnnualEvent;
 use App\Models\Package;
@@ -102,7 +103,7 @@ class AnnualEventController extends Controller
             'early_bird_price' => ['nullable', 'numeric', 'min:0'],
             'regular_price' => ['nullable', 'numeric', 'min:0'],
             'currency' => ['nullable', 'string', 'size:3'],
-            'hero_image' => ['nullable', 'string', 'max:500'],
+            'hero_image' => ['nullable', new PublicImagePath],
             'is_published' => ['boolean'],
         ]);
     }

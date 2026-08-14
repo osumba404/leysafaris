@@ -7,9 +7,9 @@
     <div class="admin-card">
         <div class="admin-card__header">
             <h2 class="admin-card__title">{{ $package->title }}</h2>
-            <div>
-                <a href="{{ route('packages.show', $package->slug) }}" class="admin-btn admin-btn--secondary admin-btn--sm" target="_blank">View Public</a>
-                <a href="{{ route('admin.packages.edit', $package) }}" class="admin-btn admin-btn--primary admin-btn--sm">Edit</a>
+            <div class="admin-table__actions">
+                <a href="{{ route('packages.show', $package->slug) }}" class="admin-btn admin-btn--icon" target="_blank" title="View public site" aria-label="View public site"><i data-lucide="external-link"></i></a>
+                <a href="{{ route('admin.packages.edit', $package) }}" class="admin-btn admin-btn--icon" title="Edit" aria-label="Edit"><i data-lucide="pencil"></i></a>
             </div>
         </div>
 
@@ -38,8 +38,8 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.packages.destroy', $package) }}" method="POST" onsubmit="return confirm('Delete this package?')">
+    <form action="{{ route('admin.packages.destroy', $package) }}" method="POST" class="admin-inline-form" onsubmit="return confirm('Delete this package?')">
         @csrf @method('DELETE')
-        <button type="submit" class="admin-btn admin-btn--danger">Delete Package</button>
+        <button type="submit" class="admin-btn admin-btn--icon admin-btn--icon-danger" title="Delete" aria-label="Delete"><i data-lucide="trash-2"></i></button>
     </form>
 @endsection
