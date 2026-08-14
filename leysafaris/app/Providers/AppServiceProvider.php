@@ -60,9 +60,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer(['layouts.admin'], function ($view) {
-            if (! array_key_exists('settings', $view->getData())) {
-                $view->with('settings', Setting::allGrouped());
-            }
+            $view->with('siteSettings', Setting::allGrouped());
         });
     }
 }

@@ -23,10 +23,10 @@ class SettingController extends Controller
 
     public function index(): View
     {
-        $settings = Setting::orderBy('group')->orderBy('key')->get();
-        $grouped = $settings->groupBy('group');
+        $settingRecords = Setting::orderBy('group')->orderBy('key')->get();
+        $grouped = $settingRecords->groupBy('group');
 
-        return view('admin.settings.index', compact('grouped', 'settings'));
+        return view('admin.settings.index', compact('grouped'));
     }
 
     public function update(Request $request): RedirectResponse

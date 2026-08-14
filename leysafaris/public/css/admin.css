@@ -11,7 +11,88 @@
   --admin-danger: #A0522D;
   --admin-success: #4A6741;
   --admin-sidebar-width: 260px;
+  color-scheme: light;
 }
+
+[data-theme="dark"] {
+  --admin-sidebar: #121612;
+  --admin-sidebar-hover: #1e3a1c;
+  --admin-accent: #d4ba7a;
+  --admin-bg: #1c211b;
+  --admin-surface: #2e362c;
+  --admin-border: #3d4639;
+  --admin-text: #ece6da;
+  --admin-muted: #b5ad9f;
+  --admin-danger: #c47a5a;
+  --admin-success: #6d8f66;
+  color-scheme: dark;
+}
+
+[data-theme="dark"] .admin-day-block {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .admin-topbar {
+  background: var(--admin-surface);
+  border-bottom-color: var(--admin-border);
+}
+
+[data-theme="dark"] .admin-card,
+[data-theme="dark"] .admin-table-wrap,
+[data-theme="dark"] .admin-stat {
+  background: var(--admin-surface);
+  border-color: var(--admin-border);
+}
+
+[data-theme="dark"] .admin-form input,
+[data-theme="dark"] .admin-form select,
+[data-theme="dark"] .admin-form textarea {
+  background: #252b24;
+  border-color: var(--admin-border);
+  color: var(--admin-text);
+}
+
+[data-theme="dark"] .admin-table th {
+  background: #252b24;
+}
+
+[data-theme="dark"] .admin-table tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.admin-topbar__actions .theme-toggle {
+  flex-shrink: 0;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-surface);
+  color: var(--admin-text);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.theme-toggle:hover {
+  border-color: var(--admin-accent);
+  color: var(--admin-accent);
+}
+
+.theme-toggle__icon {
+  width: 18px;
+  height: 18px;
+}
+
+.theme-toggle__icon--to-light { display: none; }
+
+[data-theme="dark"] .theme-toggle__icon--to-dark { display: none; }
+[data-theme="dark"] .theme-toggle__icon--to-light { display: block; }
 
 *,
 *::before,

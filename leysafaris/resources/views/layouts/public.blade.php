@@ -23,6 +23,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <script src="{{ asset('js/theme.js') }}"></script>
     @include('partials.seo-head')
 
     <link rel="icon" href="{{ $faviconUrl }}" sizes="any">
@@ -80,7 +82,12 @@
 
             <nav class="nav" id="nav" aria-label="Main navigation">
                 <ul class="nav__list">
+                    @php $themeToggleInserted = false; @endphp
                     @forelse ($navItems as $item)
+                        @if (! $themeToggleInserted && $item->route_name === 'contact')
+                            <li class="nav__item--theme">@include('partials.theme-toggle')</li>
+                            @php $themeToggleInserted = true; @endphp
+                        @endif
                         <li>
                             <a href="{{ $item->href() }}"
                                class="nav__link @if($item->isCurrent()) is-active @endif @if($item->is_highlight) nav__link--accent @endif">
@@ -90,8 +97,14 @@
                     @empty
                         <li><a href="{{ route('packages.index') }}" class="nav__link @if(request()->routeIs('packages.*')) is-active @endif">Safaris</a></li>
                         <li><a href="{{ route('destinations.index') }}" class="nav__link @if(request()->routeIs('destinations.*')) is-active @endif">Destinations</a></li>
+                        <li><a href="{{ route('travel-quiz.show') }}" class="nav__link @if(request()->routeIs('travel-quiz.*')) is-active @endif">Travel Quiz</a></li>
+                        <li class="nav__item--theme">@include('partials.theme-toggle')</li>
                         <li><a href="{{ route('contact') }}" class="nav__link nav__link--accent @if(request()->routeIs('contact')) is-active @endif">Contact</a></li>
+                        @php $themeToggleInserted = true; @endphp
                     @endforelse
+                    @if (! $themeToggleInserted)
+                        <li class="nav__item--theme">@include('partials.theme-toggle')</li>
+                    @endif
                     @auth
                         @if (auth()->user()->isAdmin())
                             <li><a href="{{ route('admin.dashboard') }}" class="nav__link">Admin</a></li>

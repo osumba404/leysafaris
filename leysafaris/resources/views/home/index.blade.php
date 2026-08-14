@@ -84,7 +84,7 @@
             @endif
         </div>
         <div class="container hero__layout">
-            <div class="hero__content">
+            <div class="hero__content theme-fixed">
                 <p class="hero__eyebrow" data-hero-eyebrow>{{ $firstSlide->eyebrow }}</p>
                 <h1 id="hero-heading" class="hero__title" data-hero-title>
                     {!! nl2br(e($firstSlide->title)) !!}
@@ -123,7 +123,7 @@
         </div>
     </section>
 
-    <div class="trust-strip" role="region" aria-label="Guest review ratings">
+    <div class="trust-strip theme-fixed" role="region" aria-label="Guest review ratings">
         <div class="container trust-strip__inner">
             <div class="trust-strip__badge">
                 <i data-lucide="award"></i>
@@ -204,7 +204,7 @@
     </section>
 
     @if ($featuredPackages->isNotEmpty())
-        <section class="section safaris" id="safaris" aria-labelledby="safaris-heading">
+        <section class="section safaris theme-fixed" id="safaris" aria-labelledby="safaris-heading">
             <div class="container">
                 <div class="section-header section-header--light">
                     <span class="section-header__label">Popular Itineraries</span>

@@ -1,17 +1,19 @@
 @php
     use App\Support\SiteSettings;
 
-    $settings = $settings ?? [];
-    $adminSiteName = SiteSettings::string($settings, 'site_name', 'Leyla Safari Tours');
+    $siteSettings = $siteSettings ?? [];
+    $adminSiteName = SiteSettings::string($siteSettings, 'site_name', 'Leyla Safari Tours');
 @endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <script src="{{ asset('js/theme.js') }}"></script>
     <title>@yield('title', 'Admin') - {{ $adminSiteName }}</title>
 
-    @if ($favicon = SiteSettings::faviconUrl($settings))
+    @if ($favicon = SiteSettings::faviconUrl($siteSettings))
         <link rel="icon" href="{{ $favicon }}" sizes="any">
     @endif
 
@@ -28,12 +30,12 @@
         <aside class="admin-sidebar">
             <div class="admin-sidebar__brand">
                 <a href="{{ route('admin.dashboard') }}">
-                    @if ($logoUrl = SiteSettings::logoUrl($settings))
+                    @if ($logoUrl = SiteSettings::logoUrl($siteSettings))
                         <img src="{{ $logoUrl }}" alt="" class="admin-sidebar__logo" width="28" height="28">
                     @else
                         <i data-lucide="compass"></i>
                     @endif
-                    {{ SiteSettings::string($settings, 'logo_name', 'Leyla Safari') }} <span>Admin</span>
+                    {{ SiteSettings::string($siteSettings, 'logo_name', 'Leyla Safari') }} <span>Admin</span>
                 </a>
             </div>
 
@@ -94,6 +96,7 @@
             <header class="admin-topbar">
                 <h1 class="admin-topbar__title">@yield('page_title', 'Dashboard')</h1>
                 <div class="admin-topbar__actions">
+                    @include('partials.theme-toggle')
                     <span>{{ auth()->user()->name ?? 'Admin' }}</span>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
@@ -128,6 +131,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            if (window.LeylaTheme) window.LeylaTheme.initToggle();
             if (typeof lucide !== 'undefined') lucide.createIcons();
         });
     </script>

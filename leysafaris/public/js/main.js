@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (window.LeylaTheme) {
+    window.LeylaTheme.initToggle();
+  }
+
   if (typeof lucide !== 'undefined') {
     lucide.createIcons();
   }
