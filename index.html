@@ -16,15 +16,60 @@
 
   <title>Leyla Safari Tours | Authentic Kenyan Safari Experiences</title>
 
-  <link rel="preload" as="image" href="images/savannah_sunset_tree.webp" type="image/webp">
+  <link rel="preconnect" href="https://images.pexels.com" crossorigin>
+  <link rel="preload" as="image" href="https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg?auto=compress&cs=tinysrgb&w=1920">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/safari-parallax.css">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+  <script src="js/safari-parallax.js" defer></script>
   <script src="js/main.js" defer></script>
 </head>
 <body>
+
+  <!-- Full-page 3D parallax safari world -->
+  <div class="safari-world" id="safari-world" aria-hidden="true">
+    <div class="safari-world__scene">
+      <div class="safari-world__layer safari-world__layer--sky" data-depth="0.08">
+        <div class="safari-world__layer-inner">
+          <img src="https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg?auto=compress&cs=tinysrgb&w=2400" alt="" loading="eager" decoding="async" onerror="this.onerror=null;this.src='images/savannah_sunset_tree.jpg';">
+        </div>
+      </div>
+      <div class="safari-world__layer safari-world__layer--plains" data-depth="0.18">
+        <div class="safari-world__layer-inner">
+          <img src="https://images.pexels.com/photos/247376/pexels-photo-247376.jpeg?auto=compress&cs=tinysrgb&w=2400" alt="" loading="eager" decoding="async" onerror="this.onerror=null;this.src='images/hot_air_baloon_and_zebras.jpg';">
+        </div>
+      </div>
+      <div class="safari-world__layer safari-world__layer--wildlife" data-depth="0.32">
+        <div class="safari-world__layer-inner">
+          <img src="https://images.pexels.com/photos/33045/lion-wild-africa-african.jpg?auto=compress&cs=tinysrgb&w=2400" alt="" loading="eager" decoding="async" onerror="this.onerror=null;this.src='images/blacknwhite_safari_banner.jpg';">
+        </div>
+      </div>
+      <div class="safari-world__layer safari-world__layer--acacia" data-depth="0.48">
+        <div class="safari-world__layer-inner">
+          <img src="https://images.pexels.com/photos/631317/pexels-photo-631317.jpeg?auto=compress&cs=tinysrgb&w=2400" alt="" loading="eager" decoding="async" onerror="this.onerror=null;this.src='images/savannah_sunset_tree.jpg';">
+        </div>
+      </div>
+      <div class="safari-world__layer safari-world__layer--foreground" data-depth="0.62">
+        <div class="safari-world__layer-inner">
+          <img src="https://images.pexels.com/photos/1179229/pexels-photo-1179229.jpeg?auto=compress&cs=tinysrgb&w=2400" alt="" loading="eager" decoding="async" onerror="this.onerror=null;this.src='images/sunset_raised_campsite_view_in_desert.jpg';">
+        </div>
+      </div>
+      <div class="safari-world__atmosphere"></div>
+      <div class="safari-world__vignette"></div>
+      <div class="safari-world__grain"></div>
+      <div class="safari-world__dust">
+        <span style="left:8%;--dur:22s;--delay:0s;--drift:60px"></span>
+        <span style="left:22%;--dur:19s;--delay:3s;--drift:-40px"></span>
+        <span style="left:38%;--dur:24s;--delay:1s;--drift:80px"></span>
+        <span style="left:55%;--dur:17s;--delay:5s;--drift:-55px"></span>
+        <span style="left:71%;--dur:21s;--delay:2s;--drift:45px"></span>
+        <span style="left:88%;--dur:26s;--delay:4s;--drift:-70px"></span>
+      </div>
+    </div>
+  </div>
 
   <!-- Trust bar removed - contact details in footer -->
 
@@ -63,17 +108,17 @@
     <!-- Hero -->
     <section class="hero" aria-labelledby="hero-heading">
       <div class="hero__media">
-        <picture>
-          <source srcset="images/savannah_sunset_tree.webp" type="image/webp">
-          <img
-            src="images/savannah_sunset_tree.jpg"
-            alt="Golden sunset over the Kenyan savannah with acacia trees"
-            width="1920"
-            height="1080"
-            fetchpriority="high"
-            decoding="async"
-          >
-        </picture>
+        <video
+          class="hero__video"
+          autoplay
+          muted
+          loop
+          playsinline
+          poster="images/savannah_sunset_tree.jpg"
+          aria-hidden="true"
+        >
+          <source src="video/2026-09-09_14-48-06_Lumina.mp4" type="video/mp4">
+        </video>
         <div class="hero__overlay"></div>
       </div>
       <div class="container hero__content">

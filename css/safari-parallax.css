@@ -1,0 +1,273 @@
+/* ==========================================================================
+   Safari World — full-page 3D parallax background
+   ========================================================================== */
+
+:root {
+  --safari-world-z: 0;
+  --page-z: 2;
+}
+
+html,
+body {
+  background-color: var(--color-forest);
+}
+
+body.safari-parallax-active {
+  background-color: #1a1208;
+}
+
+.safari-world {
+  position: fixed;
+  inset: 0;
+  z-index: var(--safari-world-z);
+  overflow: hidden;
+  pointer-events: none;
+  background: #1a1208;
+  perspective: 1400px;
+  perspective-origin: 50% 42%;
+}
+
+.safari-world__scene {
+  position: absolute;
+  inset: -20%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.safari-world__layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-origin: center center;
+}
+
+.safari-world__layer-inner {
+  position: absolute;
+  inset: -10%;
+  overflow: hidden;
+  will-change: transform;
+  animation: safariKenBurns 40s ease-in-out infinite alternate;
+}
+
+.safari-world__layer-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+.safari-world__layer--sky {
+  --layer-z: -400px;
+  --layer-scale: 1.2;
+}
+
+.safari-world__layer--sky .safari-world__layer-inner {
+  animation-duration: 48s;
+}
+
+.safari-world__layer--sky .safari-world__layer-inner img {
+  filter: saturate(1.1) brightness(0.95);
+}
+
+.safari-world__layer--plains {
+  --layer-z: -280px;
+  --layer-scale: 1.16;
+}
+
+.safari-world__layer--plains .safari-world__layer-inner {
+  animation-direction: alternate-reverse;
+  animation-duration: 38s;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 22%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 22%, black 100%);
+}
+
+.safari-world__layer--wildlife {
+  --layer-z: -160px;
+  --layer-scale: 1.12;
+}
+
+.safari-world__layer--wildlife .safari-world__layer-inner {
+  animation-duration: 32s;
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.5) 30%, black 60%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.5) 30%, black 60%, black 100%);
+}
+
+.safari-world__layer--wildlife .safari-world__layer-inner img {
+  object-position: center 60%;
+}
+
+.safari-world__layer--acacia {
+  --layer-z: -60px;
+  --layer-scale: 1.08;
+}
+
+.safari-world__layer--acacia .safari-world__layer-inner {
+  animation-direction: alternate-reverse;
+  animation-duration: 26s;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 45%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 45%, black 100%);
+}
+
+.safari-world__layer--acacia .safari-world__layer-inner img {
+  object-position: center 70%;
+}
+
+.safari-world__layer--foreground {
+  --layer-z: 40px;
+  --layer-scale: 1.05;
+}
+
+.safari-world__layer--foreground .safari-world__layer-inner {
+  opacity: 0.6;
+  mask-image: linear-gradient(to bottom, transparent 50%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 50%, black 100%);
+}
+
+.safari-world__layer--foreground .safari-world__layer-inner img {
+  object-position: center 80%;
+  filter: blur(1px) saturate(1.15);
+}
+
+.safari-world__atmosphere {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 100%, rgba(210, 105, 30, 0.35) 0%, transparent 65%),
+    linear-gradient(
+      180deg,
+      rgba(30, 58, 28, 0.15) 0%,
+      rgba(44, 36, 24, 0.08) 35%,
+      rgba(30, 58, 28, 0.45) 100%
+    );
+  mix-blend-mode: multiply;
+}
+
+.safari-world__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 35%, rgba(12, 8, 4, 0.72) 100%);
+}
+
+.safari-world__grain {
+  position: absolute;
+  inset: -50%;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  animation: safariGrain 8s steps(6) infinite;
+}
+
+.safari-world__dust {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.safari-world__dust span {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(245, 220, 160, 0.45);
+  box-shadow: 0 0 8px rgba(245, 220, 160, 0.35);
+  animation: safariDustDrift var(--dur, 18s) linear infinite;
+  animation-delay: var(--delay, 0s);
+  opacity: 0;
+}
+
+@keyframes safariKenBurns {
+  0% { transform: scale(1) translate3d(0, 0, 0); }
+  100% { transform: scale(1.08) translate3d(-1.5%, -1%, 0); }
+}
+
+@keyframes safariGrain {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-2%, -1%); }
+  50% { transform: translate(1%, 2%); }
+  75% { transform: translate(-1%, 1%); }
+}
+
+@keyframes safariDustDrift {
+  0% { transform: translate3d(0, 100vh, 0); opacity: 0; }
+  8% { opacity: 0.7; }
+  92% { opacity: 0.4; }
+  100% { transform: translate3d(var(--drift, 40px), -10vh, 0); opacity: 0; }
+}
+
+/* Page content sits above the world */
+.header,
+main,
+.footer {
+  position: relative;
+  z-index: var(--page-z);
+}
+
+/* Glass sections — parallax peeks through */
+body.safari-parallax-active .why-us {
+  background: rgba(250, 247, 240, 0.86);
+  backdrop-filter: blur(14px) saturate(1.05);
+  -webkit-backdrop-filter: blur(14px) saturate(1.05);
+}
+
+body.safari-parallax-active .safaris {
+  background: linear-gradient(
+    160deg,
+    rgba(30, 58, 28, 0.92) 0%,
+    rgba(45, 74, 43, 0.88) 100%
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+body.safari-parallax-active .itineraries {
+  background: rgba(245, 240, 225, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+body.safari-parallax-active .destinations {
+  background: rgba(62, 44, 28, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+body.safari-parallax-active .reviews {
+  background: rgba(250, 247, 240, 0.86);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+body.safari-parallax-active .inquiry {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 240, 225, 0.9) 0%,
+    rgba(250, 247, 240, 0.88) 100%
+  );
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+body.safari-parallax-active .footer {
+  background: rgba(44, 36, 24, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+body.safari-parallax-active .header {
+  background: rgba(250, 247, 240, 0.78);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .safari-world__layer-inner {
+    animation: none;
+  }
+
+  .safari-world__grain,
+  .safari-world__dust {
+    display: none;
+  }
+}

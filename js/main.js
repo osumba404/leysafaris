@@ -3,10 +3,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initMobileNav();
   initHeaderScroll();
+  initHeroVideo();
   initAccordions();
   initInquiryForm();
   initSmoothScroll();
 });
+
+function initHeroVideo() {
+  const video = document.querySelector('.hero__video');
+  if (!video) return;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    video.pause();
+    video.removeAttribute('autoplay');
+    return;
+  }
+
+  video.play().catch(() => {
+    video.controls = false;
+  });
+}
 
 function initMobileNav() {
   const toggle = document.getElementById('nav-toggle');
