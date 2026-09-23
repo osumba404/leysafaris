@@ -13,10 +13,6 @@
             <input type="text" id="title" name="title" value="{{ old('title', $package->title ?? '') }}" required>
         </div>
         <div class="admin-form__group">
-            <label for="slug">Slug</label>
-            <input type="text" id="slug" name="slug" value="{{ old('slug', $package->slug ?? '') }}" placeholder="Auto-generated if empty">
-        </div>
-        <div class="admin-form__group">
             <label for="tagline">Tagline</label>
             <input type="text" id="tagline" name="tagline" value="{{ old('tagline', $package->tagline ?? '') }}">
         </div>
@@ -71,16 +67,31 @@
             <textarea id="long_description" name="long_description" rows="6">{{ old('long_description', $package->long_description ?? '') }}</textarea>
         </div>
         <div class="admin-form__group admin-form__group--full">
-            <label for="highlights_text">Highlights (one per line)</label>
-            <textarea id="highlights_text" rows="4" placeholder="Hot air balloon safari">{{ old('highlights_text', isset($package) && $package->highlights ? implode("\n", $package->highlights) : '') }}</textarea>
+            @include('admin.packages._list_fields', [
+                'name' => 'highlights',
+                'label' => 'Highlights',
+                'placeholder' => 'Hot air balloon safari',
+                'addLabel' => 'Add highlight',
+                'items' => isset($package) ? ($package->highlights ?? []) : [],
+            ])
         </div>
         <div class="admin-form__group admin-form__group--full">
-            <label for="inclusions_text">Inclusions (one per line)</label>
-            <textarea id="inclusions_text" rows="4">{{ old('inclusions_text', isset($package) && $package->inclusions ? implode("\n", $package->inclusions) : '') }}</textarea>
+            @include('admin.packages._list_fields', [
+                'name' => 'inclusions',
+                'label' => 'Inclusions',
+                'placeholder' => 'All park fees included',
+                'addLabel' => 'Add inclusion',
+                'items' => isset($package) ? ($package->inclusions ?? []) : [],
+            ])
         </div>
         <div class="admin-form__group admin-form__group--full">
-            <label for="exclusions_text">Exclusions (one per line)</label>
-            <textarea id="exclusions_text" rows="4">{{ old('exclusions_text', isset($package) && $package->exclusions ? implode("\n", $package->exclusions) : '') }}</textarea>
+            @include('admin.packages._list_fields', [
+                'name' => 'exclusions',
+                'label' => 'Exclusions',
+                'placeholder' => 'International flights',
+                'addLabel' => 'Add exclusion',
+                'items' => isset($package) ? ($package->exclusions ?? []) : [],
+            ])
         </div>
         <div class="admin-form__group admin-form__group--full">
             <label>Destinations</label>
@@ -150,19 +161,34 @@ document.addEventListener('DOMContentLoaded', function () {
         dayIndex++;
     });
 
-    const form = document.getElementById('package-form');
-    form?.addEventListener('submit', function () {
-        ['highlights', 'inclusions', 'exclusions'].forEach(function (field) {
-            const el = document.getElementById(field + '_text');
-            if (!el) return;
-            el.value.split('\n').map(s => s.trim()).filter(Boolean).forEach(function (line) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = field + '[]';
-                input.value = line;
-                form.appendChild(input);
-            });
-            el.disabled = true;
+    document.querySelectorAll('.admin-list-field').forEach(function (field) {
+        const items = field.querySelector('.admin-list-field__items');
+        const addBtn = field.querySelector('.admin-list-field__add');
+        const placeholder = field.querySelector('input[type="text"]')?.placeholder || 'Enter item';
+
+        addBtn?.addEventListener('click', function () {
+            const row = document.createElement('div');
+            row.className = 'admin-list-field__row';
+            row.innerHTML =
+                '<input type="text" name="' + field.dataset.listField + '[]" placeholder="' + placeholder + '">' +
+                '<button type="button" class="admin-btn admin-btn--secondary admin-btn--sm admin-list-field__remove" aria-label="Remove line">' +
+                '<i data-lucide="minus"></i></button>';
+            items.appendChild(row);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            row.querySelector('input')?.focus();
+        });
+
+        field.addEventListener('click', function (event) {
+            const removeBtn = event.target.closest('.admin-list-field__remove');
+            if (!removeBtn) return;
+
+            const rows = field.querySelectorAll('.admin-list-field__row');
+            const row = removeBtn.closest('.admin-list-field__row');
+            if (rows.length <= 1) {
+                row.querySelector('input').value = '';
+                return;
+            }
+            row.remove();
         });
     });
 });

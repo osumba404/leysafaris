@@ -18,8 +18,13 @@
                 'required' => false,
             ])
         </div>
-        <div class="admin-form__group admin-form__group--full"><label for="excerpt">Excerpt</label><textarea id="excerpt" name="excerpt">{{ old('excerpt', $blogPost->excerpt ?? '') }}</textarea></div>
-        <div class="admin-form__group admin-form__group--full"><label for="content">Content</label><textarea id="content" name="content" rows="12">{{ old('content', $blogPost->content ?? '') }}</textarea></div>
+        <div class="admin-form__group admin-form__group--full"><label for="excerpt">Excerpt</label><textarea id="excerpt" name="excerpt" rows="3" placeholder="Short summary shown on listing cards and search results">{{ old('excerpt', $blogPost->excerpt ?? '') }}</textarea></div>
+        @include('admin.partials.rich-text-editor', [
+            'name' => 'content',
+            'label' => 'Article content',
+            'value' => $blogPost->content ?? '',
+            'folder' => 'blog',
+        ])
         <div class="admin-form__group"><label for="seo_title">SEO Title</label><input type="text" id="seo_title" name="seo_title" value="{{ old('seo_title', $blogPost->seo_title ?? '') }}"></div>
         <div class="admin-form__group admin-form__group--full"><label for="seo_description">SEO Description</label><textarea id="seo_description" name="seo_description">{{ old('seo_description', $blogPost->seo_description ?? '') }}</textarea></div>
         <div class="admin-form__actions admin-form__group--full"><button type="submit" class="admin-btn admin-btn--primary">{{ isset($blogPost) ? 'Update' : 'Create' }}</button></div>

@@ -81,7 +81,9 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [RegisterController::class, 'register']);
 
     Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+        ->middleware('throttle:5,1')
+        ->name('password.email');
     Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 });
@@ -107,6 +109,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('annual-events', AdminAnnualEventController::class);
 
     Route::post('uploads/image', [AdminImageUploadController::class, 'store'])->name('uploads.image');
+    Route::post('uploads/video', [AdminImageUploadController::class, 'storeVideo'])->name('uploads.video');
     Route::post('reorder/{resource}', AdminReorderController::class)->name('reorder');
 
     Route::resource('hero-slides', AdminHeroSlideController::class)->only(['index', 'store', 'update', 'destroy']);

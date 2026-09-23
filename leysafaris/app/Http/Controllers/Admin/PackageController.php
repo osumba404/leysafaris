@@ -42,7 +42,7 @@ class PackageController extends Controller
     {
         $validated = $this->validatePackage($request);
 
-        $validated['slug'] = $this->resolveSlug($validated['title'], $validated['slug'] ?? null);
+        $validated['slug'] = $this->resolveSlug($validated['title']);
 
         $package = Package::create($validated + [
             'sort_order' => (Package::max('sort_order') ?? -1) + 1,
@@ -74,12 +74,7 @@ class PackageController extends Controller
     public function update(Request $request, Package $package): RedirectResponse
     {
         $validated = $this->validatePackage($request, $package->id);
-
-        if (! empty($validated['slug'])) {
-            $validated['slug'] = $this->resolveSlug($validated['title'], $validated['slug'], $package->id);
-        } else {
-            unset($validated['slug']);
-        }
+        unset($validated['slug']);
 
         $package->update($validated);
 
@@ -100,16 +95,8 @@ class PackageController extends Controller
 
     private function validatePackage(Request $request, ?int $ignoreId = null): array
     {
-        $slugRule = ['nullable', 'string', 'max:255'];
-        if ($ignoreId) {
-            $slugRule[] = 'unique:packages,slug,'.$ignoreId;
-        } else {
-            $slugRule[] = 'unique:packages,slug';
-        }
-
-        return $request->validate([
+        $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'slug' => $slugRule,
             'tagline' => ['nullable', 'string', 'max:255'],
             'short_description' => ['nullable', 'string'],
             'long_description' => ['nullable', 'string'],
@@ -161,11 +148,25 @@ class PackageController extends Controller
             'days.*.wildlife_highlights' => ['nullable', 'string'],
             'days.*.image' => ['nullable', new PublicImagePath],
         ]);
+
+        $validated['highlights'] = $this->normalizeList($validated['highlights'] ?? []);
+        $validated['inclusions'] = $this->normalizeList($validated['inclusions'] ?? []);
+        $validated['exclusions'] = $this->normalizeList($validated['exclusions'] ?? []);
+
+        return $validated;
     }
 
-    private function resolveSlug(string $title, ?string $slug, ?int $ignoreId = null): string
+    private function normalizeList(array $items): array
     {
-        $base = Str::slug($slug ?: $title);
+        return array_values(array_filter(array_map(
+            fn ($item) => is_string($item) ? trim($item) : '',
+            $items
+        )));
+    }
+
+    private function resolveSlug(string $title, ?int $ignoreId = null): string
+    {
+        $base = Str::slug($title);
         $candidate = $base;
         $counter = 1;
 

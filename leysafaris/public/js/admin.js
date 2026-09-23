@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initAdminImageFields();
+  initAdminVideoFields();
+  initAdminImageGalleries();
   initAdminModals();
   initAdminSortable();
 });
@@ -61,6 +63,177 @@ function initAdminImageFields() {
   });
 }
 
+function initAdminVideoFields() {
+  const csrf = document.querySelector('meta[name="csrf-token"]')?.content;
+
+  document.querySelectorAll('[data-video-field]').forEach((field) => {
+    const pathInput = field.querySelector('[data-video-path]');
+    const fileInput = field.querySelector('[data-video-file]');
+    const previewWrap = field.querySelector('[data-video-preview]');
+    const previewPlayer = field.querySelector('[data-video-preview-player]');
+    const pathLabel = field.querySelector('[data-video-path-label]');
+    const status = field.querySelector('[data-video-status]');
+    const uploadUrl = field.dataset.uploadUrl;
+    const folder = field.dataset.folder || 'heroes';
+
+    if (!pathInput || !fileInput || !uploadUrl || fileInput.dataset.bound === '1') return;
+    fileInput.dataset.bound = '1';
+
+    fileInput.addEventListener('change', async () => {
+      const file = fileInput.files?.[0];
+      if (!file) return;
+
+      status.textContent = 'Uploading…';
+      status.className = 'admin-video-field__status is-uploading';
+
+      const body = new FormData();
+      body.append('video', file);
+      body.append('folder', folder);
+
+      try {
+        const response = await fetch(uploadUrl, {
+          method: 'POST',
+          headers: csrf ? { 'X-CSRF-TOKEN': csrf } : {},
+          body,
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          const firstError = data.errors ? Object.values(data.errors).flat()[0] : null;
+          throw new Error(firstError || data.message || 'Upload failed');
+        }
+
+        pathInput.value = data.path;
+        if (previewPlayer) {
+          previewPlayer.src = data.url;
+          previewPlayer.hidden = false;
+        }
+        if (previewWrap) previewWrap.hidden = false;
+        if (pathLabel) pathLabel.textContent = data.path;
+        status.textContent = 'Upload complete';
+        status.className = 'admin-video-field__status is-success';
+        fileInput.value = '';
+      } catch (error) {
+        status.textContent = error.message || 'Upload failed. Try again.';
+        status.className = 'admin-video-field__status is-error';
+      }
+    });
+  });
+}
+
+function initAdminImageGalleries() {
+  const csrf = document.querySelector('meta[name="csrf-token"]')?.content;
+
+  document.querySelectorAll('[data-image-gallery]').forEach((gallery) => {
+    const items = gallery.querySelector('[data-gallery-items]');
+    const template = gallery.querySelector('[data-gallery-row-template]');
+    const uploadUrl = gallery.dataset.uploadUrl;
+    const folder = gallery.dataset.folder || 'uploads';
+    let rowCounter = items?.querySelectorAll('[data-image-gallery-row]').length || 0;
+
+    gallery.querySelector('[data-gallery-add]')?.addEventListener('click', () => {
+      if (!template || !items) return;
+
+      const html = template.innerHTML.replace(/__INDEX__/g, String(rowCounter++));
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = html.trim();
+      const row = wrapper.firstElementChild;
+      items.appendChild(row);
+      bindGalleryRow(gallery, row, uploadUrl, folder, csrf);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      row.querySelector('[data-image-file]')?.click();
+    });
+
+    gallery.querySelectorAll('[data-image-gallery-row]').forEach((row) => {
+      bindGalleryRow(gallery, row, uploadUrl, folder, csrf);
+    });
+
+    gallery.addEventListener('click', (event) => {
+      const removeBtn = event.target.closest('[data-gallery-remove]');
+      if (!removeBtn) return;
+
+      const row = removeBtn.closest('[data-image-gallery-row]');
+      const rows = gallery.querySelectorAll('[data-image-gallery-row]');
+      if (rows.length <= 1) {
+        clearGalleryRow(row);
+        return;
+      }
+      row.remove();
+    });
+  });
+}
+
+function clearGalleryRow(row) {
+  const pathInput = row.querySelector('[data-image-path]');
+  const previewWrap = row.querySelector('[data-image-preview]');
+  const previewImg = row.querySelector('[data-image-preview-img]');
+  const pathLabel = row.querySelector('[data-image-path-label]');
+  const status = row.querySelector('[data-image-status]');
+  const fileInput = row.querySelector('[data-image-file]');
+
+  if (pathInput) pathInput.value = '';
+  if (previewImg) {
+    previewImg.src = '';
+    previewImg.hidden = true;
+  }
+  if (previewWrap) previewWrap.hidden = true;
+  if (pathLabel) pathLabel.textContent = '';
+  if (status) status.textContent = '';
+  if (fileInput) fileInput.value = '';
+}
+
+function bindGalleryRow(gallery, row, uploadUrl, folder, csrf) {
+  const pathInput = row.querySelector('[data-image-path]');
+  const fileInput = row.querySelector('[data-image-file]');
+  const previewWrap = row.querySelector('[data-image-preview]');
+  const previewImg = row.querySelector('[data-image-preview-img]');
+  const pathLabel = row.querySelector('[data-image-path-label]');
+  const status = row.querySelector('[data-image-status]');
+
+  if (!pathInput || !fileInput || !uploadUrl || fileInput.dataset.bound === '1') return;
+  fileInput.dataset.bound = '1';
+
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files?.[0];
+    if (!file) return;
+
+    status.textContent = 'Uploading…';
+    status.className = 'admin-image-gallery__status is-uploading';
+
+    const body = new FormData();
+    body.append('image', file);
+    body.append('folder', folder);
+
+    try {
+      const response = await fetch(uploadUrl, {
+        method: 'POST',
+        headers: csrf ? { 'X-CSRF-TOKEN': csrf } : {},
+        body,
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        const firstError = data.errors ? Object.values(data.errors).flat()[0] : null;
+        throw new Error(firstError || data.message || 'Upload failed');
+      }
+
+      pathInput.value = data.path;
+      if (previewImg) {
+        previewImg.src = data.url;
+        previewImg.hidden = false;
+      }
+      if (previewWrap) previewWrap.hidden = false;
+      if (pathLabel) pathLabel.textContent = data.path;
+      status.textContent = 'Upload complete';
+      status.className = 'admin-image-gallery__status is-success';
+      fileInput.value = '';
+    } catch (error) {
+      status.textContent = error.message || 'Upload failed. Try again.';
+      status.className = 'admin-image-gallery__status is-error';
+    }
+  });
+}
+
 function initAdminModals() {
   document.querySelectorAll('[data-admin-modal]').forEach((modal) => {
     const id = modal.id;
@@ -116,20 +289,55 @@ function openAdminModal(id, data = {}) {
     const previewWrap = form.querySelector('[data-image-preview]');
     const previewImg = form.querySelector('[data-image-preview-img]');
     const pathLabel = form.querySelector('[data-image-path-label]');
-    if (pathInput && data.image) {
-      pathInput.value = data.image;
-      if (previewImg) {
-        previewImg.src = data._imageUrl || '';
-        previewImg.hidden = !previewImg.src;
+    const mediaTypeSelect = form.querySelector('[data-hero-media-type]');
+    if (mediaTypeSelect && data.media_type) {
+      mediaTypeSelect.value = data.media_type;
+      mediaTypeSelect.dispatchEvent(new Event('change'));
+    }
+
+    const videoPathInput = form.querySelector('[data-video-path]');
+    const videoPreviewWrap = form.querySelector('[data-video-preview]');
+    const videoPreviewPlayer = form.querySelector('[data-video-preview-player]');
+    const videoPathLabel = form.querySelector('[data-video-path-label]');
+    if (videoPathInput && data.video_path) {
+      videoPathInput.value = data.video_path;
+      if (videoPreviewPlayer) {
+        videoPreviewPlayer.src = data._videoUrl || '';
+        videoPreviewPlayer.hidden = !videoPreviewPlayer.src;
       }
-      if (previewWrap) previewWrap.hidden = false;
-      if (pathLabel) pathLabel.textContent = data.image;
-    } else if (pathInput) {
+      if (videoPreviewWrap) videoPreviewWrap.hidden = false;
+      if (videoPathLabel) videoPathLabel.textContent = data.video_path;
+    } else if (videoPathInput) {
+      videoPathInput.value = '';
+      if (videoPreviewWrap) videoPreviewWrap.hidden = true;
+      if (videoPreviewPlayer) {
+        videoPreviewPlayer.src = '';
+        videoPreviewPlayer.hidden = true;
+      }
+      if (videoPathLabel) videoPathLabel.textContent = '';
+    }
+
+    const videoUrlInput = form.querySelector('[data-hero-video-url]');
+    if (videoUrlInput) {
+      videoUrlInput.value = data.video_url || '';
+    }
+
+    form.querySelectorAll('[data-image-path]').forEach((input) => {
+      input.value = data.image || data.value || '';
+    });
+    form.querySelectorAll('[data-image-preview]').forEach((wrap) => {
+      wrap.hidden = !(data.image || data._imageUrl);
+    });
+    form.querySelectorAll('[data-image-preview-img]').forEach((img) => {
+      img.src = data._imageUrl || '';
+      img.hidden = !img.src;
+    });
+    form.querySelectorAll('[data-image-path-label]').forEach((label) => {
+      label.textContent = data.image || data.value || '';
+    });
+
+    if (pathInput && !data.image && !data._imageUrl) {
       pathInput.value = data.value || '';
-      if (previewImg) {
-        previewImg.src = data._imageUrl || '';
-        previewImg.hidden = !previewImg.src;
-      }
       if (previewWrap) previewWrap.hidden = !data._imageUrl;
       if (pathLabel) pathLabel.textContent = data.value || '';
     }

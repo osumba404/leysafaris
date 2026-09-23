@@ -15,7 +15,7 @@
         <div class="admin-detail-item"><dt>Author</dt><dd>{{ $blogPost->author?->name ?? '-' }}</dd></div>
         <div class="admin-detail-item"><dt>Published</dt><dd>{{ $blogPost->published_at?->format('M j, Y g:i A') ?? '-' }}</dd></div>
         <div class="admin-detail-item admin-form__group--full"><dt>Excerpt</dt><dd>{{ $blogPost->excerpt ?? '-' }}</dd></div>
-        <div class="admin-detail-item admin-form__group--full"><dt>Content</dt><dd>{!! nl2br(e($blogPost->content)) !!}</dd></div>
+        <div class="admin-detail-item admin-form__group--full"><dt>Content</dt><dd class="blog-content">{!! \App\Support\RichContent::render($blogPost->content) !!}</dd></div>
     </dl>
 </div>
 <form action="{{ route('admin.blog-posts.destroy', $blogPost) }}" method="POST" class="admin-inline-form" onsubmit="return confirm('Delete?')">@csrf @method('DELETE')<button type="submit" class="admin-btn admin-btn--icon admin-btn--icon-danger" title="Delete" aria-label="Delete"><i data-lucide="trash-2"></i></button></form>

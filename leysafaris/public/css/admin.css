@@ -542,6 +542,42 @@ a {
   margin: 0;
 }
 
+.admin-list-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-list-field > label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.admin-list-field__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-list-field__row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-list-field__row input {
+  flex: 1;
+}
+
+.admin-list-field__remove {
+  flex-shrink: 0;
+  padding: 0.45rem 0.55rem;
+}
+
+.admin-list-field__add {
+  align-self: flex-start;
+}
+
 .admin-day-block {
   border: 1px solid var(--admin-border);
   border-radius: 8px;
@@ -557,6 +593,142 @@ a {
 }
 
 /* Image upload fields */
+.admin-image-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-image-gallery__label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.admin-image-gallery__hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--admin-muted);
+}
+
+.admin-image-gallery__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-image-gallery__row {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.75rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  background: rgba(245, 240, 225, 0.25);
+}
+
+.admin-image-gallery__preview img {
+  display: block;
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--admin-border);
+}
+
+.admin-image-gallery__path {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  color: var(--admin-muted);
+  word-break: break-all;
+}
+
+.admin-image-gallery__status {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+}
+
+.admin-image-gallery__status.is-uploading {
+  color: var(--admin-muted);
+}
+
+.admin-image-gallery__status.is-success {
+  color: #4a6741;
+}
+
+.admin-image-gallery__status.is-error {
+  color: #a0522d;
+}
+
+.admin-image-gallery__add {
+  align-self: flex-start;
+}
+
+.admin-image-gallery__remove {
+  margin-top: 0.15rem;
+}
+
+.hero-media-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hero-media-field__panel[hidden] {
+  display: none !important;
+}
+
+.admin-video-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-video-field__label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.admin-video-field__preview video {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  max-height: 180px;
+  border-radius: 8px;
+  border: 1px solid var(--admin-border);
+  background: #000;
+}
+
+.admin-video-field__path {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  color: var(--admin-muted);
+  word-break: break-all;
+}
+
+.admin-video-field__hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  color: var(--admin-muted);
+}
+
+.admin-video-field__status {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+}
+
+.admin-video-field__status.is-uploading {
+  color: var(--admin-muted);
+}
+
+.admin-video-field__status.is-success {
+  color: var(--admin-success);
+}
+
+.admin-video-field__status.is-error {
+  color: var(--admin-danger);
+}
+
 .admin-image-field {
   display: flex;
   flex-direction: column;
@@ -751,6 +923,57 @@ tr.is-dragging {
 
 .admin-sort-status.is-error {
   color: var(--admin-danger);
+}
+
+.admin-rich-editor-wrap {
+  gap: 0.5rem;
+}
+
+.admin-rich-editor__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-rich-editor__label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.admin-rich-editor__stats {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--admin-muted);
+}
+
+.admin-rich-editor {
+  border: 1.5px solid var(--admin-border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.admin-rich-editor .ck-editor__editable {
+  min-height: 420px;
+  max-height: 70vh;
+}
+
+.admin-rich-editor__source {
+  width: 100%;
+  min-height: 420px;
+}
+
+.admin-rich-editor__hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--admin-muted);
+  line-height: 1.5;
+}
+
+[data-theme="dark"] .admin-rich-editor {
+  background: var(--admin-surface);
 }
 
 @media (max-width: 900px) {

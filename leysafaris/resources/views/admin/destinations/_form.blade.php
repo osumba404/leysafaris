@@ -6,16 +6,22 @@
     <form class="admin-form admin-form--grid" action="{{ isset($destination) ? route('admin.destinations.update', $destination) : route('admin.destinations.store') }}" method="POST">
         @csrf @if(isset($destination)) @method('PUT') @endif
         <div class="admin-form__group"><label for="name">Name *</label><input type="text" id="name" name="name" value="{{ old('name', $destination->name ?? '') }}" required></div>
-        <div class="admin-form__group"><label for="slug">Slug</label><input type="text" id="slug" name="slug" value="{{ old('slug', $destination->slug ?? '') }}"></div>
         <div class="admin-form__group"><label for="country">Country</label><input type="text" id="country" name="country" value="{{ old('country', $destination->country ?? 'Kenya') }}"></div>
         <div class="admin-form__group"><label for="region">Region</label><input type="text" id="region" name="region" value="{{ old('region', $destination->region ?? '') }}"></div>
         <div class="admin-form__group admin-form__group--full">
-            @include('admin.partials.image-field', [
-                'name' => 'hero_image',
-                'label' => 'Hero image',
-                'value' => old('hero_image', $destination->hero_image ?? ''),
+            @php
+                $destinationImages = isset($destination)
+                    ? array_values(array_unique(array_filter(array_merge(
+                        [$destination->hero_image ?? null],
+                        $destination->gallery ?? []
+                    ))))
+                    : [];
+            @endphp
+            @include('admin.partials.image-gallery-field', [
+                'name' => 'gallery',
+                'label' => 'Destination images',
                 'folder' => 'destinations',
-                'required' => false,
+                'values' => $destinationImages,
             ])
         </div>
         <div class="admin-form__group"><label for="best_time">Best Time</label><input type="text" id="best_time" name="best_time" value="{{ old('best_time', $destination->best_time ?? '') }}"></div>

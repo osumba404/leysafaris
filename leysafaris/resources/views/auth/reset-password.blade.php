@@ -21,15 +21,17 @@
                     <input type="email" id="email" name="email" value="{{ old('email', $email) }}" required autofocus autocomplete="email" placeholder="you@example.com">
                 </div>
 
-                <div class="form-group form-group--full">
-                    <label for="password">New Password</label>
-                    <input type="password" id="password" name="password" required autocomplete="new-password" placeholder="••••••••">
-                </div>
+                <x-password-input
+                    id="password"
+                    label="New Password"
+                    autocomplete="new-password"
+                />
 
-                <div class="form-group form-group--full">
-                    <label for="password_confirmation">Confirm New Password</label>
-                    <input type="password" id="password_confirmation" name="password_confirmation" required autocomplete="new-password" placeholder="••••••••">
-                </div>
+                <x-password-input
+                    id="password_confirmation"
+                    label="Confirm New Password"
+                    autocomplete="new-password"
+                />
 
                 <button type="submit" class="btn btn--primary btn--full">
                     <i data-lucide="key-round"></i> Reset Password

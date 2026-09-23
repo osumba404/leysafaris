@@ -29,15 +29,17 @@
                     <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" autocomplete="tel" placeholder="+254...">
                 </div>
 
-                <div class="form-group form-group--full">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required autocomplete="new-password" placeholder="••••••••">
-                </div>
+                <x-password-input
+                    id="password"
+                    label="Password"
+                    autocomplete="new-password"
+                />
 
-                <div class="form-group form-group--full">
-                    <label for="password_confirmation">Confirm Password</label>
-                    <input type="password" id="password_confirmation" name="password_confirmation" required autocomplete="new-password" placeholder="••••••••">
-                </div>
+                <x-password-input
+                    id="password_confirmation"
+                    label="Confirm Password"
+                    autocomplete="new-password"
+                />
 
                 <button type="submit" class="btn btn--primary btn--full">
                     <i data-lucide="user-plus"></i> Create Account

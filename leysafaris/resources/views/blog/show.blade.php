@@ -55,8 +55,8 @@
                 <p style="font-size: 1.15rem; color: var(--color-text-muted); margin-bottom: 2rem; line-height: 1.7;">{{ $post->excerpt }}</p>
             @endif
 
-            <div class="blog-content" style="line-height: 1.8; font-size: 1.05rem;">
-                {!! nl2br(e($post->content)) !!}
+            <div class="blog-content">
+                {!! \App\Support\RichContent::render($post->content) !!}
             </div>
         </div>
     </article>

@@ -35,7 +35,7 @@ class DestinationController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $this->validateDestination($request);
-        $validated['slug'] = $this->resolveSlug($validated['name'], $validated['slug'] ?? null);
+        $validated['slug'] = $this->resolveSlug($validated['name']);
 
         Destination::create($validated + [
             'sort_order' => (Destination::max('sort_order') ?? -1) + 1,
@@ -60,12 +60,7 @@ class DestinationController extends Controller
     public function update(Request $request, Destination $destination): RedirectResponse
     {
         $validated = $this->validateDestination($request, $destination->id);
-
-        if (! empty($validated['slug'])) {
-            $validated['slug'] = $this->resolveSlug($validated['name'], $validated['slug'], $destination->id);
-        } else {
-            unset($validated['slug']);
-        }
+        unset($validated['slug']);
 
         $destination->update($validated);
 
@@ -83,25 +78,16 @@ class DestinationController extends Controller
 
     private function validateDestination(Request $request, ?int $ignoreId = null): array
     {
-        $slugRule = ['nullable', 'string', 'max:255'];
-        if ($ignoreId) {
-            $slugRule[] = 'unique:destinations,slug,'.$ignoreId;
-        } else {
-            $slugRule[] = 'unique:destinations,slug';
-        }
-
-        return $request->validate([
+        $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'slug' => $slugRule,
             'country' => ['nullable', 'string', 'max:100'],
             'region' => ['nullable', 'string', 'max:255'],
             'excerpt' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
             'best_time' => ['nullable', 'string', 'max:255'],
             'signature_wildlife' => ['nullable', 'string'],
-            'hero_image' => ['nullable', new PublicImagePath],
             'gallery' => ['nullable', 'array'],
-            'gallery.*' => ['string', 'max:500'],
+            'gallery.*' => ['nullable', new PublicImagePath],
             'facts' => ['nullable', 'array'],
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
@@ -110,11 +96,25 @@ class DestinationController extends Controller
             'is_featured' => ['boolean'],
             'is_published' => ['boolean'],
         ]);
+
+        $gallery = $this->normalizeGallery($validated['gallery'] ?? []);
+        $validated['gallery'] = $gallery;
+        $validated['hero_image'] = $gallery[0] ?? null;
+
+        return $validated;
     }
 
-    private function resolveSlug(string $name, ?string $slug, ?int $ignoreId = null): string
+    private function normalizeGallery(array $items): array
     {
-        $base = Str::slug($slug ?: $name);
+        return array_values(array_filter(array_map(
+            fn ($item) => is_string($item) ? trim($item) : '',
+            $items
+        )));
+    }
+
+    private function resolveSlug(string $name, ?int $ignoreId = null): string
+    {
+        $base = Str::slug($name);
         $candidate = $base;
         $counter = 1;
 

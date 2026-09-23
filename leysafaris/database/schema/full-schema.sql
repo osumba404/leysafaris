@@ -1,5 +1,5 @@
 -- Leyla Safari Tours — full MySQL schema (idempotent)
--- Generated: 2026-08-14 14:16:38
+-- Generated: 2026-09-23 19:53:41
 -- Source: database/migrations (via php artisan schema:export-sql)
 --
 -- Safe to re-run on production:
@@ -284,7 +284,7 @@ CREATE TABLE IF NOT EXISTS `footer_links` (
 
 CREATE TABLE IF NOT EXISTS `hero_slides` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `image` VARCHAR(255) NOT NULL,
+  `image` VARCHAR(255) NULL,
   `eyebrow` VARCHAR(255) NULL,
   `title` VARCHAR(255) NOT NULL,
   `subtitle` TEXT NULL,
@@ -292,6 +292,9 @@ CREATE TABLE IF NOT EXISTS `hero_slides` (
   `is_active` TINYINT(1) NOT NULL DEFAULT 1,
   `created_at` TIMESTAMP NULL,
   `updated_at` TIMESTAMP NULL,
+  `media_type` VARCHAR(255) NOT NULL DEFAULT 'image',
+  `video_path` VARCHAR(255) NULL,
+  `video_url` VARCHAR(255) NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -625,7 +628,7 @@ CALL sync_column('footer_links', 'sort_order', '`sort_order` INT UNSIGNED NOT NU
 CALL sync_column('footer_links', 'is_active', '`is_active` TINYINT(1) NOT NULL DEFAULT 1');
 CALL sync_column('footer_links', 'created_at', '`created_at` TIMESTAMP NULL');
 CALL sync_column('footer_links', 'updated_at', '`updated_at` TIMESTAMP NULL');
-CALL sync_column('hero_slides', 'image', '`image` VARCHAR(255) NOT NULL');
+CALL sync_column('hero_slides', 'image', '`image` VARCHAR(255) NULL');
 CALL sync_column('hero_slides', 'eyebrow', '`eyebrow` VARCHAR(255) NULL');
 CALL sync_column('hero_slides', 'title', '`title` VARCHAR(255) NOT NULL');
 CALL sync_column('hero_slides', 'subtitle', '`subtitle` TEXT NULL');
@@ -633,6 +636,9 @@ CALL sync_column('hero_slides', 'sort_order', '`sort_order` INT UNSIGNED NOT NUL
 CALL sync_column('hero_slides', 'is_active', '`is_active` TINYINT(1) NOT NULL DEFAULT 1');
 CALL sync_column('hero_slides', 'created_at', '`created_at` TIMESTAMP NULL');
 CALL sync_column('hero_slides', 'updated_at', '`updated_at` TIMESTAMP NULL');
+CALL sync_column('hero_slides', 'media_type', '`media_type` VARCHAR(255) NOT NULL DEFAULT ''image''');
+CALL sync_column('hero_slides', 'video_path', '`video_path` VARCHAR(255) NULL');
+CALL sync_column('hero_slides', 'video_url', '`video_url` VARCHAR(255) NULL');
 CALL sync_column('job_batches', 'id', '`id` VARCHAR(255) NOT NULL');
 CALL sync_column('job_batches', 'name', '`name` VARCHAR(255) NOT NULL');
 CALL sync_column('job_batches', 'total_jobs', '`total_jobs` INT NOT NULL');

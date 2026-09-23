@@ -4,24 +4,34 @@
 <div class="admin-card">
     <div class="admin-card__header">
         <h2 class="admin-card__title">Homepage Hero Slides</h2>
-        <button type="button" class="admin-btn admin-btn--primary admin-btn--sm" data-modal-open="hero-slide-modal" onclick="openAdminModal('hero-slide-modal', { _title: 'Add Hero Slide', _action: '{{ route('admin.hero-slides.store') }}' })">
+        <button type="button" class="admin-btn admin-btn--primary admin-btn--sm" data-modal-open="hero-slide-modal" onclick="openAdminModal('hero-slide-modal', { _title: 'Add Hero Slide', _action: '{{ route('admin.hero-slides.store') }}', media_type: 'image' })">
             <i data-lucide="plus"></i> Add new
         </button>
     </div>
     <p class="admin-sort-status" data-sort-status></p>
     <div class="admin-table-wrap">
         <table class="admin-table">
-            <thead><tr><th aria-label="Reorder"></th><th>Preview</th><th>Title</th><th>Active</th><th>Actions</th></tr></thead>
+            <thead><tr><th aria-label="Reorder"></th><th>Preview</th><th>Title</th><th>Media</th><th>Active</th><th>Actions</th></tr></thead>
             <tbody data-sortable="{{ route('admin.reorder', 'hero-slides') }}">
                 @forelse ($slides as $slide)
                     <tr data-sort-id="{{ $slide->id }}">
                         @include('admin.partials.sort-handle')
                         <td>
-                            @if ($slide->image)
+                            @if ($slide->isVideo() && $slide->videoSrc())
+                                <video src="{{ $slide->videoSrc() }}" muted playsinline style="width:72px;height:48px;object-fit:cover;border-radius:6px;"></video>
+                            @elseif ($slide->isEmbed())
+                                @php $thumb = \App\Support\HeroMedia::embedThumbnail($slide->video_url); @endphp
+                                @if ($thumb)
+                                    <img src="{{ $thumb }}" alt="" style="width:72px;height:48px;object-fit:cover;border-radius:6px;">
+                                @else
+                                    <span class="admin-badge">Video link</span>
+                                @endif
+                            @elseif ($slide->image)
                                 <img src="{{ asset($slide->image) }}" alt="" style="width:72px;height:48px;object-fit:cover;border-radius:6px;">
                             @endif
                         </td>
                         <td>{{ $slide->title }}</td>
+                        <td>{{ ucfirst($slide->media_type ?? 'image') }}</td>
                         <td>{{ $slide->is_active ? 'Yes' : 'No' }}</td>
                         <td>
                             @php
@@ -29,8 +39,12 @@
                                     '_title' => 'Edit Hero Slide',
                                     '_action' => route('admin.hero-slides.update', $slide),
                                     '_method' => 'PUT',
+                                    'media_type' => $slide->media_type ?? 'image',
                                     'image' => $slide->image,
                                     '_imageUrl' => $slide->image ? asset($slide->image) : '',
+                                    'video_path' => $slide->video_path,
+                                    '_videoUrl' => $slide->videoSrc(),
+                                    'video_url' => $slide->video_url,
                                     'eyebrow' => $slide->eyebrow,
                                     'title' => $slide->title,
                                     'subtitle' => $slide->subtitle,
@@ -46,7 +60,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5">No slides yet. Click <strong>Add new</strong> to create your homepage carousel.</td></tr>
+                    <tr><td colspan="6">No slides yet. Click <strong>Add new</strong> to create your homepage carousel.</td></tr>
                 @endforelse
             </tbody>
         </table>
@@ -63,7 +77,12 @@
         <form class="admin-form admin-form--grid" data-crud-form action="{{ route('admin.hero-slides.store') }}" method="POST">
             @csrf
             <div class="admin-form__group admin-form__group--full">
-                @include('admin.partials.image-field', ['name' => 'image', 'label' => 'Slide image', 'folder' => 'heroes', 'required' => true])
+                @include('admin.partials.hero-media-field', [
+                    'mediaType' => 'image',
+                    'image' => '',
+                    'videoPath' => '',
+                    'videoUrl' => '',
+                ])
             </div>
             <div class="admin-form__group"><label for="hero-eyebrow">Eyebrow</label><input type="text" id="hero-eyebrow" name="eyebrow"></div>
             <div class="admin-form__group admin-form__group--full"><label for="hero-title">Title *</label><input type="text" id="hero-title" name="title" required></div>

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Rules\PublicImagePath;
 use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
+use App\Rules\PublicImagePath;
+use App\Support\RichContent;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -96,7 +97,7 @@ class BlogPostController extends Controller
             $slugRule[] = 'unique:blog_posts,slug';
         }
 
-        return $request->validate([
+        $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'slug' => $slugRule,
             'excerpt' => ['nullable', 'string'],
@@ -107,6 +108,10 @@ class BlogPostController extends Controller
             'seo_title' => ['nullable', 'string', 'max:255'],
             'seo_description' => ['nullable', 'string'],
         ]);
+
+        $validated['content'] = RichContent::sanitize($validated['content'] ?? null);
+
+        return $validated;
     }
 
     private function resolveSlug(string $title, ?string $slug, ?int $ignoreId = null): string

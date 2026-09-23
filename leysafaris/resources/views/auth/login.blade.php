@@ -19,13 +19,17 @@
                     <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="email" placeholder="you@example.com">
                 </div>
 
-                <div class="form-group form-group--full">
-                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.35rem;">
-                        <label for="password" style="margin: 0;">Password</label>
-                        <a href="{{ route('password.request') }}" style="font-size: 0.85rem; color: var(--color-savanna); font-weight: 500;">Forgot password?</a>
-                    </div>
-                    <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="••••••••">
-                </div>
+                <x-password-input
+                    id="password"
+                    autocomplete="current-password"
+                >
+                    <x-slot:labelSlot>
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.35rem;">
+                            <label for="password" style="margin: 0;">Password</label>
+                            <a href="{{ route('password.request') }}" style="font-size: 0.85rem; color: var(--color-savanna); font-weight: 500;">Forgot password?</a>
+                        </div>
+                    </x-slot:labelSlot>
+                </x-password-input>
 
                 <div class="form-group form-group--full" style="display: flex; align-items: center; gap: 0.5rem;">
                     <input type="checkbox" id="remember" name="remember" value="1" @checked(old('remember'))>

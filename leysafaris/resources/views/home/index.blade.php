@@ -64,13 +64,37 @@
                      data-eyebrow="{{ $slide->eyebrow }}"
                      data-title="{{ $slide->title }}"
                      data-subtitle="{{ $slide->subtitle }}">
-                    <x-optimized-img
-                        src="{{ $slide->image }}"
-                        alt="{{ $slide->title }} - {{ $settings['site_name'] ?? 'Leyla Safari Tours' }}"
-                        :width="1920"
-                        :height="1080"
-                        :priority="$index === 0"
-                    />
+                    @if ($slide->isVideo() && $slide->videoSrc())
+                        <video
+                            class="hero-slider__video"
+                            @if($index === 0) autoplay @endif
+                            muted
+                            loop
+                            playsinline
+                            @if($slide->image) poster="{{ asset($slide->image) }}" @endif
+                            aria-hidden="true"
+                        >
+                            <source src="{{ $slide->videoSrc() }}" type="video/mp4">
+                        </video>
+                    @elseif ($slide->isEmbed() && $slide->embedSrc())
+                        <div class="hero-slider__embed">
+                            <iframe
+                                src="{{ $slide->embedSrc() }}"
+                                title="{{ $slide->title }}"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allowfullscreen
+                            ></iframe>
+                        </div>
+                    @elseif ($slide->image)
+                        <x-optimized-img
+                            src="{{ $slide->image }}"
+                            alt="{{ $slide->title }} - {{ $settings['site_name'] ?? 'Leyla Safari Tours' }}"
+                            :width="1920"
+                            :height="1080"
+                            :priority="$index === 0"
+                        />
+                    @endif
                 </div>
             @endforeach
             <div class="hero__overlay hero__overlay--artistic"></div>

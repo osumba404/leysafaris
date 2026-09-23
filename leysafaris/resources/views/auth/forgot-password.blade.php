@@ -16,7 +16,10 @@
 
                 <div class="form-group form-group--full">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="email" placeholder="you@example.com">
+                    <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="email" placeholder="you@example.com" @class(['is-invalid' => $errors->has('email')])>
+                    @error('email')
+                        <span style="font-size: 0.85rem; color: var(--color-terracotta);">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <button type="submit" class="btn btn--primary btn--full">

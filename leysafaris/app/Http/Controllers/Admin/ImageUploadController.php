@@ -40,4 +40,30 @@ class ImageUploadController extends Controller
             'url' => PublicImage::url($path),
         ]);
     }
+
+    public function storeVideo(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'video' => ['required', 'file', 'mimes:mp4,webm,mov,m4v', 'max:51200'],
+            'folder' => ['nullable', 'string', 'max:40', 'regex:/^[a-z0-9_-]+$/'],
+        ]);
+
+        $folder = $validated['folder'] ?? 'heroes';
+        $directory = public_path('images/'.$folder);
+
+        if (! is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $file = $request->file('video');
+        $filename = Str::uuid()->toString().'.'.$file->getClientOriginalExtension();
+        $file->move($directory, $filename);
+
+        $path = 'images/'.$folder.'/'.$filename;
+
+        return response()->json([
+            'path' => $path,
+            'url' => asset($path),
+        ]);
+    }
 }
