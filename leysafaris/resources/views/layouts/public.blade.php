@@ -35,6 +35,7 @@
     <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 
     <link rel="stylesheet" href="{{ AssetUrl::versionedRoute('assets.style', 'css/style.css') }}">
+    <link rel="stylesheet" href="{{ AssetUrl::versionedRoute('assets.motion', 'css/motion.css') }}">
     @stack('styles')
 
     <style>
@@ -71,6 +72,7 @@
     </style>
 
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+    <script src="{{ AssetUrl::versionedRoute('assets.motion-js', 'js/motion.js') }}" defer></script>
     <script src="{{ AssetUrl::versionedRoute('assets.main', 'js/main.js') }}" defer></script>
     @stack('scripts')
 </head>

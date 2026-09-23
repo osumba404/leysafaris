@@ -1,0 +1,185 @@
+/* ==========================================================================
+   Site motion — scroll reveals & micro-interactions
+   ========================================================================== */
+
+main#main-content,
+body > main {
+  animation: motion-page-in 0.45s ease 0.04s both;
+}
+
+@keyframes motion-page-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.motion-hero-in {
+  animation: motion-hero-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+@keyframes motion-hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.motion-flash-in {
+  animation: motion-flash-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes motion-flash-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.motion-reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--motion-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.motion-reveal--soft {
+  transform: translateY(18px);
+}
+
+.motion-reveal--scale {
+  transform: scale(0.97);
+}
+
+.motion-reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Card polish */
+.safari-card,
+.feature-card,
+.blog-card,
+.destination-card,
+.inspire-card,
+.dest-mosaic__item,
+.review-widget {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease;
+}
+
+.dest-mosaic__item img,
+.destination-card__image img,
+.blog-card__image img {
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dest-mosaic__item:hover img,
+.destination-card:hover .destination-card__image img,
+.blog-card:hover .blog-card__image img {
+  transform: scale(1.06);
+}
+
+.trip-type-chip {
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.trip-type-chip:hover {
+  transform: translateY(-2px);
+}
+
+.btn {
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.wa-float {
+  animation: motion-float-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both;
+}
+
+@keyframes motion-float-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.header {
+  transition:
+    box-shadow 0.35s ease,
+    background 0.35s ease,
+    backdrop-filter 0.35s ease;
+}
+
+.nav--open {
+  animation: motion-nav-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes motion-nav-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+html.motion-reduced .motion-reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main#main-content,
+  .motion-hero-in,
+  .motion-flash-in,
+  .wa-float {
+    animation: none;
+  }
+
+  .motion-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .btn:hover,
+  .trip-type-chip:hover {
+    transform: none;
+  }
+}

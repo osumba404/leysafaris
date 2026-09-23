@@ -44,8 +44,10 @@ Route::get('/deploy/run', [DeployController::class, 'run'])
     ->name('deploy.run');
 
 Route::get('/assets/css/style.css', [AssetController::class, 'styleCss'])->name('assets.style');
+Route::get('/assets/css/motion.css', [AssetController::class, 'motionCss'])->name('assets.motion');
 Route::get('/assets/js/theme.js', [AssetController::class, 'themeJs'])->name('assets.theme');
 Route::get('/assets/js/main.js', [AssetController::class, 'mainJs'])->name('assets.main');
+Route::get('/assets/js/motion.js', [AssetController::class, 'motionJs'])->name('assets.motion-js');
 Route::get('/assets/js/admin.js', [AssetController::class, 'adminJs'])->name('assets.admin');
 Route::get('/assets/css/admin.css', [AdminAssetController::class, 'adminCss'])->name('admin.css');
 Route::get('/images/{path}', [AssetController::class, 'image'])->where('path', '.*')->name('assets.image');

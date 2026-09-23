@@ -22,6 +22,16 @@ class AssetController extends Controller
         return $this->serve('js/main.js', 'application/javascript');
     }
 
+    public function motionCss(): BinaryFileResponse
+    {
+        return $this->serve('css/motion.css', 'text/css');
+    }
+
+    public function motionJs(): BinaryFileResponse
+    {
+        return $this->serve('js/motion.js', 'application/javascript');
+    }
+
     public function adminJs(): BinaryFileResponse
     {
         return $this->serve('js/admin.js', 'application/javascript');
