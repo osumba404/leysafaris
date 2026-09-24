@@ -1930,6 +1930,11 @@ body::before {
   pointer-events: none;
 }
 
+.hero-slider__video::cue,
+.hero__video::cue {
+  display: none;
+}
+
 .hero-slider__embed {
   position: absolute;
   inset: 0;
@@ -1945,8 +1950,9 @@ body::before {
   min-width: 100%;
   min-height: 100%;
   height: 56.25vw;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1.4);
   border: 0;
+  pointer-events: none;
 }
 
 .hero-slider__dots {

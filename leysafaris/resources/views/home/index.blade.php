@@ -67,23 +67,32 @@
                     @if ($slide->isVideo() && $slide->videoSrc())
                         <video
                             class="hero-slider__video"
-                            @if($index === 0) autoplay @endif
+                            autoplay
                             muted
+                            defaultmuted
                             loop
                             playsinline
+                            preload="auto"
+                            disablepictureinpicture
+                            disableremoteplayback
                             @if($slide->image) poster="{{ asset($slide->image) }}" @endif
                             aria-hidden="true"
                         >
                             <source src="{{ $slide->videoSrc() }}" type="video/mp4">
                         </video>
                     @elseif ($slide->isEmbed() && $slide->embedSrc())
+                        @php $youtubeId = \App\Support\HeroMedia::extractYouTubeId($slide->video_url); @endphp
                         <div class="hero-slider__embed">
                             <iframe
-                                src="{{ $slide->embedSrc() }}"
+                                id="hero-embed-{{ $index }}"
+                                @if($index === 0) src="{{ $slide->embedSrc() }}" @endif
+                                data-embed-src="{{ $slide->embedSrc() }}"
+                                @if($youtubeId) data-youtube-id="{{ $youtubeId }}" @endif
                                 title="{{ $slide->title }}"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 referrerpolicy="strict-origin-when-cross-origin"
-                                allowfullscreen
+                                loading="eager"
+                                tabindex="-1"
                             ></iframe>
                         </div>
                     @elseif ($slide->image)

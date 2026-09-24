@@ -13,15 +13,31 @@ function initHeroVideo() {
   const video = document.querySelector('.hero__video');
   if (!video) return;
 
+  video.controls = false;
+  video.muted = true;
+  video.defaultMuted = true;
+  video.volume = 0;
+
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     video.pause();
     video.removeAttribute('autoplay');
     return;
   }
 
-  video.play().catch(() => {
-    video.controls = false;
+  video.removeAttribute('loop');
+  video.addEventListener('timeupdate', () => {
+    const { duration, currentTime } = video;
+    if (!Number.isFinite(duration) || duration <= 0) return;
+    if (currentTime >= duration - 0.15) {
+      video.currentTime = 0.001;
+    }
   });
+  video.addEventListener('ended', () => {
+    video.currentTime = 0;
+    video.play().catch(() => {});
+  });
+
+  video.play().catch(() => {});
 }
 
 function initMobileNav() {

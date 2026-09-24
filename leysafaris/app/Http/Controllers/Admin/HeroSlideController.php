@@ -105,6 +105,7 @@ class HeroSlideController extends Controller
             $validated['video_url'] = null;
         } else {
             $validated['video_path'] = null;
+            $validated['video_url'] = HeroMedia::normalizeStoredVideoUrl($validated['video_url'] ?? null);
         }
 
         return $validated;
