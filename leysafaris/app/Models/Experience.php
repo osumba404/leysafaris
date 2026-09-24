@@ -41,4 +41,21 @@ class Experience extends Model
     {
         return $query->where('is_published', true);
     }
+
+    public function scopeSearch(Builder $query, ?string $term): Builder
+    {
+        $term = trim((string) $term);
+        if ($term === '') {
+            return $query;
+        }
+
+        $like = '%'.$term.'%';
+
+        return $query->where(function (Builder $builder) use ($like) {
+            $builder->where('name', 'like', $like)
+                ->orWhere('type', 'like', $like)
+                ->orWhere('excerpt', 'like', $like)
+                ->orWhere('description', 'like', $like);
+        });
+    }
 }

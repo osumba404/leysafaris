@@ -14,6 +14,13 @@
                 <p class="section-header__desc">From the Maasai Mara to the northern frontier - discover the parks and reserves that define Kenya's wild heart.</p>
             </div>
 
+            @include('partials.page-search', [
+                'action' => route('destinations.index'),
+                'id' => 'destination-search',
+                'label' => 'Search destinations',
+                'placeholder' => 'Search by name, region, or wildlife…',
+            ])
+
             <div class="destination-grid">
                 @forelse ($destinations as $destination)
                     <a href="{{ route('destinations.show', $destination->slug) }}" class="destination-card">
@@ -37,7 +44,13 @@
                         </div>
                     </a>
                 @empty
-                    <p style="grid-column: 1 / -1; text-align: center; color: var(--color-text-muted);">Destinations coming soon.</p>
+                    <p style="grid-column: 1 / -1; text-align: center; color: var(--color-text-muted);">
+                        @if ($search ?? false)
+                            No destinations match “{{ $search }}”. <a href="{{ route('destinations.index') }}">Clear search</a>
+                        @else
+                            Destinations coming soon.
+                        @endif
+                    </p>
                 @endforelse
             </div>
 

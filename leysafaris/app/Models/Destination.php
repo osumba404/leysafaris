@@ -56,4 +56,24 @@ class Destination extends Model
     {
         return $query->where('is_featured', true);
     }
+
+    public function scopeSearch(Builder $query, ?string $term): Builder
+    {
+        $term = trim((string) $term);
+        if ($term === '') {
+            return $query;
+        }
+
+        $like = '%'.$term.'%';
+
+        return $query->where(function (Builder $builder) use ($like) {
+            $builder->where('name', 'like', $like)
+                ->orWhere('region', 'like', $like)
+                ->orWhere('country', 'like', $like)
+                ->orWhere('excerpt', 'like', $like)
+                ->orWhere('description', 'like', $like)
+                ->orWhere('best_time', 'like', $like)
+                ->orWhere('signature_wildlife', 'like', $like);
+        });
+    }
 }

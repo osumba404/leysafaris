@@ -3,19 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class BlogController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $search = $request->string('q')->trim()->toString();
+
         $posts = BlogPost::published()
+            ->search($search)
             ->with('author')
             ->orderByDesc('published_at')
             ->orderByDesc('created_at')
-            ->paginate(12);
+            ->paginate(12)
+            ->withQueryString();
 
-        return view('blog.index', compact('posts'));
+        return view('blog.index', compact('posts', 'search'));
     }
 
     public function show(string $slug): View

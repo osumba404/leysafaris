@@ -20,6 +20,7 @@
     '.package-cta',
     '.review-widget',
     '.filter-bar',
+    '.page-search',
     '.hero-proposal',
     '.newsletter-block',
     '.trip-type-chips',

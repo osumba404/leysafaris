@@ -13,6 +13,13 @@
                 <p class="section-header__desc">Travel tips, wildlife insights, and safari inspiration from our team on the ground.</p>
             </div>
 
+            @include('partials.page-search', [
+                'action' => route('blog.index'),
+                'id' => 'journal-search',
+                'label' => 'Search journal posts',
+                'placeholder' => 'Search stories and travel tips…',
+            ])
+
             <div class="blog-grid">
                 @forelse ($posts as $post)
                     <article class="blog-card">
@@ -42,7 +49,13 @@
                         </a>
                     </article>
                 @empty
-                    <p style="grid-column: 1 / -1; text-align: center; color: var(--color-text-muted);">No journal posts yet. Check back soon!</p>
+                    <p style="grid-column: 1 / -1; text-align: center; color: var(--color-text-muted);">
+                        @if ($search ?? false)
+                            No journal posts match “{{ $search }}”. <a href="{{ route('blog.index') }}">Clear search</a>
+                        @else
+                            No journal posts yet. Check back soon!
+                        @endif
+                    </p>
                 @endforelse
             </div>
 

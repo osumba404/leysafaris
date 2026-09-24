@@ -4,19 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Destination;
 use App\Models\Package;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class DestinationController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $search = $request->string('q')->trim()->toString();
+
         $destinations = Destination::published()
+            ->search($search)
             ->withCount(['packages' => fn ($q) => $q->published()])
             ->orderBy('sort_order')
             ->orderBy('name')
-            ->paginate(12);
+            ->paginate(12)
+            ->withQueryString();
 
-        return view('destinations.index', compact('destinations'));
+        return view('destinations.index', compact('destinations', 'search'));
     }
 
     public function show(string $slug): View

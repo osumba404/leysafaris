@@ -118,17 +118,10 @@
         </div>
         <div class="container hero__layout">
             <div class="hero__content theme-fixed">
-                <p class="hero__eyebrow" data-hero-eyebrow>{{ $firstSlide->eyebrow }}</p>
                 <h1 id="hero-heading" class="hero__title" data-hero-title>
                     {!! nl2br(e($firstSlide->title)) !!}
                 </h1>
                 <p class="hero__subtitle" data-hero-subtitle>{{ $firstSlide->subtitle }}</p>
-                <ul class="value-pills" aria-label="Why travellers choose us">
-                    <li><i data-lucide="check-circle"></i> 100% custom itineraries</li>
-                    <li><i data-lucide="star"></i> {{ $settings['google_rating'] ?? '4.9' }}/5 guest reviews</li>
-                    <li><i data-lucide="shield-check"></i> Transparent pricing</li>
-                    <li><i data-lucide="phone"></i> Expert advice, your way</li>
-                </ul>
             </div>
 
             <aside class="hero-proposal" aria-labelledby="hero-proposal-heading">
@@ -155,32 +148,6 @@
             </aside>
         </div>
     </section>
-
-    <div class="trust-strip theme-fixed" role="region" aria-label="Guest review ratings">
-        <div class="container trust-strip__inner">
-            <div class="trust-strip__badge">
-                <i data-lucide="award"></i>
-                <div>
-                    <strong>TripAdvisor</strong>
-                    <span>{{ $settings['tripadvisor_rating'] ?? '4.8' }}/5 · {{ $settings['tripadvisor_review_count'] ?? '89' }}+ reviews</span>
-                </div>
-            </div>
-            <div class="trust-strip__badge">
-                <i data-lucide="star"></i>
-                <div>
-                    <strong>Google Reviews</strong>
-                    <span>{{ $settings['google_rating'] ?? '4.9' }}/5 · {{ $settings['google_review_count'] ?? '127' }}+ reviews</span>
-                </div>
-            </div>
-            <div class="trust-strip__badge">
-                <i data-lucide="map-pin"></i>
-                <div>
-                    <strong>Nairobi Based</strong>
-                    <span>Local experts since 2026</span>
-                </div>
-            </div>
-        </div>
-    </div>
 
     @php
         $pressMentions = $settings['press_mentions'] ?? [];

@@ -13,6 +13,13 @@
                 <p class="section-header__desc">Hot air balloons, bush walks, cultural visits, and more - elevate your safari with curated experiences.</p>
             </div>
 
+            @include('partials.page-search', [
+                'action' => route('experiences.index'),
+                'id' => 'experience-search',
+                'label' => 'Search experiences',
+                'placeholder' => 'Search by activity or type…',
+            ])
+
             <div class="experience-grid">
                 @forelse ($experiences as $experience)
                     <article class="feature-card" style="padding: 0; overflow: hidden;">
@@ -36,7 +43,13 @@
                         </div>
                     </article>
                 @empty
-                    <p style="grid-column: 1 / -1; text-align: center; color: var(--color-text-muted);">Experiences coming soon.</p>
+                    <p style="grid-column: 1 / -1; text-align: center; color: var(--color-text-muted);">
+                        @if ($search ?? false)
+                            No experiences match “{{ $search }}”. <a href="{{ route('experiences.index') }}">Clear search</a>
+                        @else
+                            Experiences coming soon.
+                        @endif
+                    </p>
                 @endforelse
             </div>
 
